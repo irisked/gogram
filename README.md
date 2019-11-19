@@ -10,14 +10,12 @@ Telegram bot framework.
   )
 	bot := gogram.New("<token>")
 	bot.OnMessage(func (ctx *gogram.Context) {
-		upd := ctx.Update()
 		ctx.Reply(args.Text("test response"))
 	})
 	bot.OnEditedMessage(func (ctx *gogram.Context) {
 		ctx.Reply(args.Text("test edited response"))
 	})
 	bot.OnSticker(func (ctx *gogram.Context) {
-		upd := ctx.Update()
 		kb := inline.NewKeyboard(
 			inline.NewButton("test", inline.Callback("test-callback", "1")),
 			inline.NewButton("test2", inline.Callback("test", "1")),
@@ -29,15 +27,12 @@ Telegram bot framework.
 		ctx.Reply(args.Markdown("```test```"))
 	})
 	bot.OnCallbackQuery(func (ctx *gogram.Context) {
-		upd := ctx.Update()
 		ctx.Reply(args.Markdown("```test-generic```"))
 	})
 	bot.OnCallback("test-callback", func (ctx *gogram.Context) {
-		upd := ctx.Update()
 		ctx.Reply(args.Markdown("```test-callback```"))
 	})
 	bot.OnCallback("test-callback1", func (ctx *gogram.Context) {
-		upd := ctx.Update()
 		ctx.Reply(args.Markdown("```test-callback1```"))
 	})
 	bot.StartPolling()
