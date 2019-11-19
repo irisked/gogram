@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // Thumb returns struct for setting optional Thumb field.
@@ -20,38 +20,38 @@ func attachment(name string) string {
 
 // thumbOptionSetter is an interface for setting cacheTime option.
 type thumbOptionSetter interface {
-	params.AudioConfigOption
-	params.DocumentConfigOption
-	params.VideoConfigOption
-	params.AnimationConfigOption
-	params.VideoNoteConfigOption
+	args.AudioConfigOption
+	args.DocumentConfigOption
+	args.VideoConfigOption
+	args.AnimationConfigOption
+	args.VideoNoteConfigOption
 }
 
 type thumbOption struct {
 	file *os.File
 }
 
-func (to *thumbOption) ApplyAudioConfigOption(parameter *params.AudioConfig) {
+func (to *thumbOption) ApplyAudioConfigOption(parameter *args.AudioConfig) {
 	parameter.Thumb = attachment(to.file.Name())
 	parameter.ThumbFile = to.file
 }
 
-func (to *thumbOption) ApplyDocumentConfigOption(parameter *params.DocumentConfig) {
+func (to *thumbOption) ApplyDocumentConfigOption(parameter *args.DocumentConfig) {
 	parameter.Thumb = attachment(to.file.Name())
 	parameter.ThumbFile = to.file
 }
 
-func (to *thumbOption) ApplyVideoConfigOption(parameter *params.VideoConfig) {
+func (to *thumbOption) ApplyVideoConfigOption(parameter *args.VideoConfig) {
 	parameter.Thumb = attachment(to.file.Name())
 	parameter.ThumbFile = to.file
 }
 
-func (to *thumbOption) ApplyAnimationConfigOption(parameter *params.AnimationConfig) {
+func (to *thumbOption) ApplyAnimationConfigOption(parameter *args.AnimationConfig) {
 	parameter.Thumb = attachment(to.file.Name())
 	parameter.ThumbFile = to.file
 }
 
-func (to *thumbOption) ApplyVideoNoteConfigOption(parameter *params.VideoNoteConfig) {
+func (to *thumbOption) ApplyVideoNoteConfigOption(parameter *args.VideoNoteConfig) {
 	parameter.Thumb = attachment(to.file.Name())
 	parameter.ThumbFile = to.file
 }

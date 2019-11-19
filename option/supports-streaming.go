@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // SupportsStreaming returns struct for setting optional SupportsStreaming field.
@@ -13,13 +13,13 @@ func SupportsStreaming() interface {
 
 // supportsStreamingOptionSetter is an interface for setting duration option.
 type supportsStreamingOptionSetter interface {
-	params.VideoConfigOption
+	args.VideoConfigOption
 }
 
 type supportsStreamingOption struct {
 	support bool
 }
 
-func (sso *supportsStreamingOption) ApplyVideoConfigOption(parameter *params.VideoConfig) {
+func (sso *supportsStreamingOption) ApplyVideoConfigOption(parameter *args.VideoConfig) {
 	parameter.SupportsStreaming = sso.support
 }

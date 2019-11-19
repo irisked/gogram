@@ -32,16 +32,16 @@ func URL(url string) func(*Button) {
 }
 
 // Callback sets CallbackData and defaults everything other.
-func Callback(data string, params ...string) func(*Button) {
+func Callback(data string, args ...string) func(*Button) {
 	return func(btn *Button) {
 		var builder strings.Builder
 		builder.WriteString(data)
 		builder.WriteString(":")
-		length := len(params)
+		length := len(args)
 		isLast := func (index, length int) bool {
 			return index == length
 		}
-		for index, element := range params {
+		for index, element := range args {
 			builder.WriteString(element)
 			if !isLast(index, length - 1) {
 				builder.WriteString(",")

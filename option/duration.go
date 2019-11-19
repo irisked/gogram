@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // Duration returns struct for setting optional Duration field.
@@ -13,33 +13,33 @@ func Duration(time int) interface {
 
 // durationOptionSetter is an interface for setting duration option.
 type durationOptionSetter interface {
-	params.AudioConfigOption
-	params.VideoConfigOption
-	params.AnimationConfigOption
-	params.VoiceConfigOption
-	params.VideoNoteConfigOption
+	args.AudioConfigOption
+	args.VideoConfigOption
+	args.AnimationConfigOption
+	args.VoiceConfigOption
+	args.VideoNoteConfigOption
 }
 
 type durationOption struct {
 	time int
 }
 
-func (d *durationOption) ApplyAudioConfigOption(parameter *params.AudioConfig) {
+func (d *durationOption) ApplyAudioConfigOption(parameter *args.AudioConfig) {
 	parameter.Duration = d.time
 }
 
-func (d *durationOption) ApplyVideoConfigOption(parameter *params.VideoConfig) {
+func (d *durationOption) ApplyVideoConfigOption(parameter *args.VideoConfig) {
 	parameter.Duration = d.time
 }
 
-func (d *durationOption) ApplyAnimationConfigOption(parameter *params.AnimationConfig) {
+func (d *durationOption) ApplyAnimationConfigOption(parameter *args.AnimationConfig) {
 	parameter.Duration = d.time
 }
 
-func (d *durationOption) ApplyVoiceConfigOption(parameter *params.VoiceConfig) {
+func (d *durationOption) ApplyVoiceConfigOption(parameter *args.VoiceConfig) {
 	parameter.Duration = d.time
 }
 
-func (d *durationOption) ApplyVideoNoteConfigOption(parameter *params.VideoNoteConfig) {
+func (d *durationOption) ApplyVideoNoteConfigOption(parameter *args.VideoNoteConfig) {
 	parameter.Duration = d.time
 }

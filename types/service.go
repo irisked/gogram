@@ -2,7 +2,7 @@ package types
 
 import (
 	"strings"
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // ChatAction it's a type of action to broadcast.
@@ -142,11 +142,11 @@ func (cq *CallbackQuery) Path() string {
 }
 
 // MessageID returns id of message.
-func (cq *CallbackQuery) MessageID() *params.MessageID {
+func (cq *CallbackQuery) MessageID() *args.MessageID {
 	if cq.IsFromInlineMessage() {
-		return params.InlineMessageID(cq.InlineMessageID)
+		return args.InlineMessageID(cq.InlineMessageID)
 	}
-	return params.ChatMessage(cq.Message.MessageID, cq.Message.Chat.ID)
+	return args.ChatMessage(cq.Message.MessageID, cq.Message.Chat.ID)
 }
 
 // InlineQuery is a Query from domain for an inline method.

@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // Performer returns struct for setting optional Performer field.
@@ -13,13 +13,13 @@ func Performer(performer string) interface {
 
 // performerOptionSetter is an interface for setting performer option.
 type performerOptionSetter interface {
-	params.AudioConfigOption
+	args.AudioConfigOption
 }
 
 type performerOption struct {
 	performer string
 }
 
-func (p *performerOption) ApplyAudioConfigOption(parameter *params.AudioConfig) {
+func (p *performerOption) ApplyAudioConfigOption(parameter *args.AudioConfig) {
 	parameter.Performer = p.performer
 }

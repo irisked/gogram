@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 )
 
 // SimpleCaption simple text.
@@ -21,12 +21,12 @@ func HTMLCaption(text string) interface{ captionSetter } {
 
 // captionSetter is an interface for setting caption option.
 type captionSetter interface {
-	params.PhotoConfigOption
-	params.AudioConfigOption
-	params.DocumentConfigOption
-	params.VideoConfigOption
-	params.AnimationConfigOption
-	params.VoiceConfigOption
+	args.PhotoConfigOption
+	args.AudioConfigOption
+	args.DocumentConfigOption
+	args.VideoConfigOption
+	args.AnimationConfigOption
+	args.VoiceConfigOption
 }
 
 type caption struct {
@@ -34,32 +34,32 @@ type caption struct {
 	parseMode string
 }
 
-func (c *caption) ApplyPhotoConfigOption(parameter *params.PhotoConfig) {
+func (c *caption) ApplyPhotoConfigOption(parameter *args.PhotoConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }
 
-func (c *caption) ApplyAudioConfigOption(parameter *params.AudioConfig) {
+func (c *caption) ApplyAudioConfigOption(parameter *args.AudioConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }
 
-func (c *caption) ApplyDocumentConfigOption(parameter *params.DocumentConfig) {
+func (c *caption) ApplyDocumentConfigOption(parameter *args.DocumentConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }
 
-func (c *caption) ApplyVideoConfigOption(parameter *params.VideoConfig) {
+func (c *caption) ApplyVideoConfigOption(parameter *args.VideoConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }
 
-func (c *caption) ApplyAnimationConfigOption(parameter *params.AnimationConfig) {
+func (c *caption) ApplyAnimationConfigOption(parameter *args.AnimationConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }
 
-func (c *caption) ApplyVoiceConfigOption(parameter *params.VoiceConfig) {
+func (c *caption) ApplyVoiceConfigOption(parameter *args.VoiceConfig) {
 	parameter.Caption = c.text
 	parameter.ParseMode = c.parseMode
 }

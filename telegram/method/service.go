@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 	"github.com/irisked/gogram/types"
 )
 
@@ -81,7 +81,7 @@ type SetWebhookOption interface {
 }
 
 // NewSetWebhook creates SetWebhook.
-func NewSetWebhook(url string, file *params.File, options ...SetWebhookOption) *SetWebhook {
+func NewSetWebhook(url string, file *args.File, options ...SetWebhookOption) *SetWebhook {
 	method := new(SetWebhook)
 	method.URL = url
 	if file != nil {

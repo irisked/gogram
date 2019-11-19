@@ -2,7 +2,7 @@ package telegram
 
 import (
 	"encoding/json"
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 	"github.com/irisked/gogram/telegram/internal/net"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/telegram/keyboard"
@@ -59,7 +59,7 @@ func (t *Telegram) GetUpdates(options ...method.GetUpdatesOption) ([]types.Updat
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (t *Telegram) SendMessage(chatID int64, text params.TextData, options ...method.SendMessageOption) (types.Message, error) {
+func (t *Telegram) SendMessage(chatID int64, text args.TextData, options ...method.SendMessageOption) (types.Message, error) {
 	m := method.NewSendMessage(chatID, text, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -88,7 +88,7 @@ func (t *Telegram) ForwardMessage(chatID, fromChatID, messageID int, options ...
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendphoto
-func (t *Telegram) SendPhoto(chatID int64, photo *params.PhotoConfig, options ...method.SendPhotoOption) (types.Message, error) {
+func (t *Telegram) SendPhoto(chatID int64, photo *args.PhotoConfig, options ...method.SendPhotoOption) (types.Message, error) {
 	m := method.NewSendPhoto(chatID, photo, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -103,7 +103,7 @@ func (t *Telegram) SendPhoto(chatID int64, photo *params.PhotoConfig, options ..
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendaudio
-func (t *Telegram) SendAudio(chatID int64, audio *params.AudioConfig, options ...method.SendAudioOption) (types.Message, error) {
+func (t *Telegram) SendAudio(chatID int64, audio *args.AudioConfig, options ...method.SendAudioOption) (types.Message, error) {
 	m := method.NewSendAudio(chatID, audio, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -118,7 +118,7 @@ func (t *Telegram) SendAudio(chatID int64, audio *params.AudioConfig, options ..
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#senddocument
-func (t *Telegram) SendDocument(chatID int64, document *params.DocumentConfig, options ...method.SendDocumentOption) (types.Message, error) {
+func (t *Telegram) SendDocument(chatID int64, document *args.DocumentConfig, options ...method.SendDocumentOption) (types.Message, error) {
 	m := method.NewSendDocument(chatID, document, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -133,7 +133,7 @@ func (t *Telegram) SendDocument(chatID int64, document *params.DocumentConfig, o
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideo
-func (t *Telegram) SendVideo(chatID int64, video *params.VideoConfig, options ...method.SendVideoOption) (types.Message, error) {
+func (t *Telegram) SendVideo(chatID int64, video *args.VideoConfig, options ...method.SendVideoOption) (types.Message, error) {
 	m := method.NewSendVideo(chatID, video, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -148,7 +148,7 @@ func (t *Telegram) SendVideo(chatID int64, video *params.VideoConfig, options ..
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendanimation
-func (t *Telegram) SendAnimation(chatID int64, animation *params.AnimationConfig, options ...method.SendAnimationOption) (types.Message, error) {
+func (t *Telegram) SendAnimation(chatID int64, animation *args.AnimationConfig, options ...method.SendAnimationOption) (types.Message, error) {
 	m := method.NewSendAnimation(chatID, animation, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -163,7 +163,7 @@ func (t *Telegram) SendAnimation(chatID int64, animation *params.AnimationConfig
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvoice
-func (t *Telegram) SendVoice(chatID int64, voice *params.VoiceConfig, options ...method.SendVoiceOption) (types.Message, error) {
+func (t *Telegram) SendVoice(chatID int64, voice *args.VoiceConfig, options ...method.SendVoiceOption) (types.Message, error) {
 	m := method.NewSendVoice(chatID, voice, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -178,7 +178,7 @@ func (t *Telegram) SendVoice(chatID int64, voice *params.VoiceConfig, options ..
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideonote
-func (t *Telegram) SendVideoNote(chatID int64, videoNote *params.VideoNoteConfig, options ...method.SendVideoNoteOption) (types.Message, error) {
+func (t *Telegram) SendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, options ...method.SendVideoNoteOption) (types.Message, error) {
 	m := method.NewSendVideoNote(chatID, videoNote, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -193,7 +193,7 @@ func (t *Telegram) SendVideoNote(chatID int64, videoNote *params.VideoNoteConfig
 //
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
 // TODO: parse response to array.
-func (t *Telegram) SendMediaGroup(chatID int64, mediaGroup []params.MediaGroupConfig, options ...method.SendMediaGroupOption) (types.Message, error) {
+func (t *Telegram) SendMediaGroup(chatID int64, mediaGroup []args.MediaGroupConfig, options ...method.SendMediaGroupOption) (types.Message, error) {
 	m := method.NewSendMediaGroup(chatID, mediaGroup, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -506,7 +506,7 @@ func (t *Telegram) AnswerCallbackQuery(id string, options ...method.AnswerCallba
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (t *Telegram) EditMessageText(messageID *params.MessageID, text params.TextData, options ...method.EditMessageTextOption) (*types.Message, error) {
+func (t *Telegram) EditMessageText(messageID *args.MessageID, text args.TextData, options ...method.EditMessageTextOption) (*types.Message, error) {
 	m := method.NewEditMessageText(messageID, text, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -521,7 +521,7 @@ func (t *Telegram) EditMessageText(messageID *params.MessageID, text params.Text
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (t *Telegram) EditMessageCaption(messageID *params.MessageID, caption params.TextData, options ...method.EditMessageCaptionOption) (*types.Message, error) {
+func (t *Telegram) EditMessageCaption(messageID *args.MessageID, caption args.TextData, options ...method.EditMessageCaptionOption) (*types.Message, error) {
 	m := method.NewEditMessageCaption(messageID, caption, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -536,7 +536,7 @@ func (t *Telegram) EditMessageCaption(messageID *params.MessageID, caption param
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
-func (t *Telegram) EditMessageMedia(messageID *params.MessageID, media params.InputMediaConfig, options ...method.EditMessageMediaOption) (*types.Message, error) {
+func (t *Telegram) EditMessageMedia(messageID *args.MessageID, media args.InputMediaConfig, options ...method.EditMessageMediaOption) (*types.Message, error) {
 	m := method.NewEditMessageMedia(messageID, media, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -547,7 +547,7 @@ func (t *Telegram) EditMessageMedia(messageID *params.MessageID, media params.In
 // Returns pointer to the message, if message was sent by the bot or nil-pointer.
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
-func (t *Telegram) EditMessageReplyMarkup(messageID *params.MessageID, kb keyboard.Keyboard) (*types.Message, error) {
+func (t *Telegram) EditMessageReplyMarkup(messageID *args.MessageID, kb keyboard.Keyboard) (*types.Message, error) {
 	m := method.NewEditMessageReplyMarkup(messageID, kb)
 	message := types.Message{}
 	err := t.process(m, &message)

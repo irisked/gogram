@@ -3,7 +3,7 @@ package method
 import (
 	"os"
 
-	"github.com/irisked/gogram/params"
+	"github.com/irisked/gogram/args"
 	"github.com/irisked/gogram/telegram/keyboard"
 )
 
@@ -49,7 +49,7 @@ func (m *SendPhoto) IsMultipart() bool {
 }
 
 // NewSendPhoto creates SendPhoto.
-func NewSendPhoto(chatID int64, photo *params.PhotoConfig, options ...SendPhotoOption) *SendPhoto {
+func NewSendPhoto(chatID int64, photo *args.PhotoConfig, options ...SendPhotoOption) *SendPhoto {
 	method := new(SendPhoto)
 	method.ChatID = chatID
 	method.Photo = photo.Reference
@@ -96,7 +96,7 @@ func (m *SendAudio) IsMultipart() bool {
 }
 
 // NewSendAudio creates SendAudio.
-func NewSendAudio(chatID int64, audio *params.AudioConfig, options ...SendAudioOption) *SendAudio {
+func NewSendAudio(chatID int64, audio *args.AudioConfig, options ...SendAudioOption) *SendAudio {
 	method := new(SendAudio)
 	method.ChatID = chatID
 	method.File = audio.Local
@@ -145,7 +145,7 @@ func (m *SendDocument) IsMultipart() bool {
 }
 
 // NewSendDocument creates SendDocument.
-func NewSendDocument(chatID int64, document *params.DocumentConfig, options ...SendDocumentOption) *SendDocument {
+func NewSendDocument(chatID int64, document *args.DocumentConfig, options ...SendDocumentOption) *SendDocument {
 	method := new(SendDocument)
 	method.ChatID = chatID
 	method.File = document.Local
@@ -195,7 +195,7 @@ func (m *SendVideo) IsMultipart() bool {
 }
 
 // NewSendVideo creates SendVideo.
-func NewSendVideo(chatID int64, video *params.VideoConfig, options ...SendVideoOption) *SendVideo {
+func NewSendVideo(chatID int64, video *args.VideoConfig, options ...SendVideoOption) *SendVideo {
 	method := new(SendVideo)
 	method.ChatID = chatID
 	method.File = video.Local
@@ -248,7 +248,7 @@ func (m *SendAnimation) IsMultipart() bool {
 }
 
 // NewSendAnimation creates SendAnimation.
-func NewSendAnimation(chatID int64, animation *params.AnimationConfig, options ...SendAnimationOption) *SendAnimation {
+func NewSendAnimation(chatID int64, animation *args.AnimationConfig, options ...SendAnimationOption) *SendAnimation {
 	method := new(SendAnimation)
 	method.ChatID = chatID
 	method.File = animation.Local
@@ -296,7 +296,7 @@ func (m *SendVoice) IsMultipart() bool {
 }
 
 // NewSendVoice creates SendVoice.
-func NewSendVoice(chatID int64, voice *params.VoiceConfig, options ...SendVoiceOption) *SendVoice {
+func NewSendVoice(chatID int64, voice *args.VoiceConfig, options ...SendVoiceOption) *SendVoice {
 	method := new(SendVoice)
 	method.ChatID = chatID
 	method.File = voice.Local
@@ -341,7 +341,7 @@ func (m *SendVideoNote) IsMultipart() bool {
 }
 
 // NewSendVideoNote creates SendVideoNote.
-func NewSendVideoNote(chatID int64, videoNote *params.VideoNoteConfig, options ...SendVideoNoteOption) *SendVideoNote {
+func NewSendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, options ...SendVideoNoteOption) *SendVideoNote {
 	method := new(SendVideoNote)
 	method.ChatID = chatID
 	method.File = videoNote.Local
@@ -383,7 +383,7 @@ func (m *SendMediaGroup) IsMultipart() bool {
 }
 
 // NewSendMediaGroup creates SendMediaGroup.
-func NewSendMediaGroup(chatID int64, medias []params.MediaGroupConfig, options ...SendMediaGroupOption) *SendMediaGroup {
+func NewSendMediaGroup(chatID int64, medias []args.MediaGroupConfig, options ...SendMediaGroupOption) *SendMediaGroup {
 	method := new(SendMediaGroup)
 	method.ChatID = chatID
 	for _, media := range medias {
@@ -430,7 +430,7 @@ func (m *EditMessageMedia) IsMultipart() bool {
 }
 
 // NewEditMessageMedia creates EditMessageMedia.
-func NewEditMessageMedia(message *params.MessageID, media params.InputMediaConfig, options ...EditMessageMediaOption) *EditMessageMedia {
+func NewEditMessageMedia(message *args.MessageID, media args.InputMediaConfig, options ...EditMessageMediaOption) *EditMessageMedia {
 	method := new(EditMessageMedia)
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID
