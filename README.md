@@ -11,10 +11,10 @@ Telegram bot framework.
 	bot := gogram.New("<token>")
 	bot.OnMessage(func (ctx *gogram.Context) {
 		upd := ctx.Update()
-		ctx.Reply(params.Text("test response"))
+		ctx.Reply(args.Text("test response"))
 	})
 	bot.OnEditedMessage(func (ctx *gogram.Context) {
-		ctx.Reply(params.Text("test edited response"))
+		ctx.Reply(args.Text("test edited response"))
 	})
 	bot.OnSticker(func (ctx *gogram.Context) {
 		upd := ctx.Update()
@@ -23,22 +23,22 @@ Telegram bot framework.
 			inline.NewButton("test2", inline.Callback("test", "1")),
 			inline.NewButton("test2", inline.Callback("test-callback1", "1")),
 		)
-		ctx.Reply(params.Text("stiker response"), option.Keyboard(kb))
+		ctx.Reply(args.Text("stiker response"), option.Keyboard(kb))
 	})
 	bot.OnCommand("test", func (ctx *gogram.Context) {
-		ctx.Reply(params.Markdown("```test```"))
+		ctx.Reply(args.Markdown("```test```"))
 	})
 	bot.OnCallbackQuery(func (ctx *gogram.Context) {
 		upd := ctx.Update()
-		ctx.Reply(params.Markdown("```test-generic```"))
+		ctx.Reply(args.Markdown("```test-generic```"))
 	})
 	bot.OnCallback("test-callback", func (ctx *gogram.Context) {
 		upd := ctx.Update()
-		ctx.Reply(params.Markdown("```test-callback```"))
+		ctx.Reply(args.Markdown("```test-callback```"))
 	})
 	bot.OnCallback("test-callback1", func (ctx *gogram.Context) {
 		upd := ctx.Update()
-		ctx.Reply(params.Markdown("```test-callback1```"))
+		ctx.Reply(args.Markdown("```test-callback1```"))
 	})
 	bot.StartPolling()
 ```
