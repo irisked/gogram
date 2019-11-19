@@ -2,7 +2,7 @@ package method
 
 import (
 	"github.com/irisked/gogram/params"
-	"github.com/irisked/gogram/types/markup/keyboard"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // SendMessage contains information about sendMessage telegram api method.
@@ -23,7 +23,7 @@ type SendMessageOption interface {
 }
 
 // NewSendMessage creates SendMessage.
-func NewSendMessage(chatID int64, text *params.Text, options ...SendMessageOption) *SendMessage {
+func NewSendMessage(chatID int64, text params.TextData, options ...SendMessageOption) *SendMessage {
 	method := new(SendMessage)
 	method.ChatID = chatID
 	method.Text = text.Text
@@ -57,7 +57,7 @@ type EditMessageTextOption interface {
 }
 
 // NewEditMessageText creates EditMessageText.
-func NewEditMessageText(message *params.MessageID, text params.Text, options ...EditMessageTextOption) *EditMessageText {
+func NewEditMessageText(message *params.MessageID, text params.TextData, options ...EditMessageTextOption) *EditMessageText {
 	method := new(EditMessageText)
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID
@@ -123,7 +123,7 @@ func (r *EditMessageCaption) Method() string {
 }
 
 // NewEditMessageCaption creates EditMessageCaption
-func NewEditMessageCaption(message *params.MessageID, text params.Text, options ...EditMessageCaptionOption) *EditMessageCaption {
+func NewEditMessageCaption(message *params.MessageID, text params.TextData, options ...EditMessageCaptionOption) *EditMessageCaption {
 	method := new(EditMessageCaption)
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID

@@ -5,8 +5,8 @@ import (
 	"github.com/irisked/gogram/params"
 	"github.com/irisked/gogram/telegram/internal/net"
 	"github.com/irisked/gogram/telegram/method"
+	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/types"
-	"github.com/irisked/gogram/types/markup/keyboard"
 	"os"
 )
 
@@ -59,7 +59,7 @@ func (t *Telegram) GetUpdates(options ...method.GetUpdatesOption) ([]types.Updat
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (t *Telegram) SendMessage(chatID int64, text *params.Text, options ...method.SendMessageOption) (types.Message, error) {
+func (t *Telegram) SendMessage(chatID int64, text params.TextData, options ...method.SendMessageOption) (types.Message, error) {
 	m := method.NewSendMessage(chatID, text, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -506,7 +506,7 @@ func (t *Telegram) AnswerCallbackQuery(id string, options ...method.AnswerCallba
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (t *Telegram) EditMessageText(messageID *params.MessageID, text params.Text, options ...method.EditMessageTextOption) (*types.Message, error) {
+func (t *Telegram) EditMessageText(messageID *params.MessageID, text params.TextData, options ...method.EditMessageTextOption) (*types.Message, error) {
 	m := method.NewEditMessageText(messageID, text, options...)
 	message := types.Message{}
 	err := t.process(m, &message)
@@ -521,7 +521,7 @@ func (t *Telegram) EditMessageText(messageID *params.MessageID, text params.Text
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (t *Telegram) EditMessageCaption(messageID *params.MessageID, caption params.Text, options ...method.EditMessageCaptionOption) (*types.Message, error) {
+func (t *Telegram) EditMessageCaption(messageID *params.MessageID, caption params.TextData, options ...method.EditMessageCaptionOption) (*types.Message, error) {
 	m := method.NewEditMessageCaption(messageID, caption, options...)
 	message := types.Message{}
 	err := t.process(m, &message)

@@ -91,6 +91,7 @@ func (c *Client) buildMultipartRequest(method method.TelegramMethod) (*http.Requ
 
 func (c *Client) buildJSONRequest(method method.TelegramMethod) (*http.Request, error) {
 	buffer, contentType, err := ToJSON(method)
+	fmt.Println(buffer)
 	if err != nil {
 		return nil, err
 	}

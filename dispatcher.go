@@ -9,13 +9,16 @@ import (
 
 // Dispatcher interface
 type Dispatcher interface {
-	On(types.UpdateType, Handler)
+	OnPath(string, Handler)
+	OnUpdate(types.UpdateType, Handler)
 	OnCallbackQuery(Handler)
+	OnCallback(string, Handler)
 	OnInlineQuery(Handler)
 	OnShippingQuery(Handler)
 	OnPreCheckoutQuery(Handler)
 	OnChosenInlineResult(Handler)
 	OnMessage(Handler)
+	OnEditedMessage(Handler)
 	OnText(Handler)
 	OnAudio(Handler)
 	OnDocument(Handler)
@@ -51,116 +54,128 @@ func NewDispatcher() Dispatcher {
 	return c
 }
 
-func(c *dispatcher) On(ut types.UpdateType, handler Handler) {
-	c.storage.Insert(defaultPath(ut), handler)
+func(c *dispatcher) OnUpdate(ut types.UpdateType, handler Handler) {
+	c.OnPath(defaultPath(ut), handler)
+}
+
+func(c *dispatcher) OnPath(path string, handler Handler) {
+	c.storage.Insert(path, handler)
 }
 
 func(c *dispatcher) OnCallbackQuery(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingCallbackQuery), handler)
+	c.OnPath(defaultPath(types.IncomingCallbackQuery), handler)
+}
+
+func(c *dispatcher) OnCallback(path string, handler Handler) {
+	c.OnPath(defaultStringPath(types.IncomingCallbackQuery.String(), path), handler)
 }
 
 func(c *dispatcher) OnInlineQuery(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingInlineQuery), handler)
+	c.OnPath(defaultPath(types.IncomingInlineQuery), handler)
 }
 
 func(c *dispatcher) OnShippingQuery(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingShippingQuery), handler)
+	c.OnPath(defaultPath(types.IncomingShippingQuery), handler)
 }
 
 func(c *dispatcher) OnPreCheckoutQuery(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingPreCheckoutQuery), handler)
+	c.OnPath(defaultPath(types.IncomingPreCheckoutQuery), handler)
 }
 
 func(c *dispatcher) OnChosenInlineResult(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingChosenInlineResult), handler)
+	c.OnPath(defaultPath(types.IncomingChosenInlineResult), handler)
 }
 
 func (c *dispatcher) OnMessage(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage), handler)
+}
+
+func (c *dispatcher) OnEditedMessage(handler Handler) {
+	c.OnPath(defaultPath(types.IncomingEditedMessage), handler)
 }
 
 func (c *dispatcher) OnText(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.TextMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.TextMessage), handler)
 }
 
 func (c *dispatcher) OnAudio(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.AudioMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.AudioMessage), handler)
 }
 
 func (c *dispatcher) OnDocument(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.DocumentMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.DocumentMessage), handler)
 }
 
 func (c *dispatcher) OnAnimation(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.AnimationMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.AnimationMessage), handler)
 }
 
 func (c *dispatcher) OnPhoto(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.PhotoMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.PhotoMessage), handler)
 }
 
 func (c *dispatcher) OnSticker(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.StickerMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.StickerMessage), handler)
 }
 
 func (c *dispatcher) OnVideo(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.VideoMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.VideoMessage), handler)
 }
 
 func (c *dispatcher) OnVideoNote(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.VideoNoteMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.VideoNoteMessage), handler)
 }
 
 func (c *dispatcher) OnVoice(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.VoiceMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.VoiceMessage), handler)
 }
 
 func (c *dispatcher) OnContact(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.ContactMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.ContactMessage), handler)
 }
 
 func (c *dispatcher) OnLocation(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.LocationMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.LocationMessage), handler)
 }
 
 func (c *dispatcher) OnVenue(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.VenueMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.VenueMessage), handler)
 }
 
 func (c *dispatcher) OnNewChatMembers(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.NewChatMembersMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.NewChatMembersMessage), handler)
 }
 
 func (c *dispatcher) OnLeftChatMember(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.LeftChatMemberMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.LeftChatMemberMessage), handler)
 }
 
 func (c *dispatcher) OnNewChatPhoto(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.NewChatPhotoMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.NewChatPhotoMessage), handler)
 }
 
 func (c *dispatcher) OnDeleteChatPhoto(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.DeleteChatPhotoMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.DeleteChatPhotoMessage), handler)
 }
 
 func (c *dispatcher) OnInvoice(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.InvoiceMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.InvoiceMessage), handler)
 }
 
 func (c *dispatcher) OnSuccessfulPayment(handler Handler) {
-	c.storage.Insert(defaultPath(types.IncomingMessage, types.SuccessfulPaymentMessage), handler)
+	c.OnPath(defaultPath(types.IncomingMessage, types.SuccessfulPaymentMessage), handler)
 }
 
 func (c *dispatcher) OnCommand(command string, handler Handler) {
-	c.storage.Insert(defaultStringPath(types.CommandMessage.String(), command), handler)
+	c.OnPath(defaultStringPath(types.IncomingMessage.String(), types.CommandMessage.String(), command), handler)
 }
 
 func (c *dispatcher) OnStart(handler Handler) {
-	c.storage.Insert(defaultStringPath(types.CommandMessage.String(), "/start"), handler)
+	c.OnCommand("start", handler)
 }
 
 func (c *dispatcher) OnHelp(handler Handler) {
-	c.storage.Insert(defaultStringPath(types.CommandMessage.String(), "/help"), handler)
+	c.OnCommand("help", handler)
 }
 
 func (c *dispatcher) Handle(ctx *Context) {

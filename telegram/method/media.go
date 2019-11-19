@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/irisked/gogram/params"
-	"github.com/irisked/gogram/types/markup/keyboard"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // GetFile contains information about getFile telegram api method.

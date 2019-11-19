@@ -3,7 +3,7 @@ package reply
 // Button represents one button of the reply keyboard
 // Optional fields are mutually exclusive.
 type Button struct {
-	Text           string
+	Text           string  `json:"text"`
 	MethodContact  bool `json:"method_contact,omitempty"`  // Optional
 	MethodLocation bool `json:"method_location,omitempty"` // Optional
 }

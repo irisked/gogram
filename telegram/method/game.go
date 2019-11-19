@@ -2,7 +2,7 @@ package method
 
 import (
 	"github.com/irisked/gogram/params"
-	"github.com/irisked/gogram/types/markup/keyboard"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // GetGameHighScores contains information about getGameHighScores telegram api method.

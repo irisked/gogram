@@ -1,5 +1,9 @@
 package inline
 
+import (
+	"strings"
+)
+
 // Button represents one button of an inline keyboard
 // You must use exactly one of the optional fields
 type Button struct {
@@ -13,39 +17,42 @@ type Button struct {
 }
 
 // NewButton creates a button
-func NewButton(text string, option func(*Button)) *Button {
+func NewButton(text string, option func(*Button)) Button {
 	button := new(Button)
 	button.Text = text
 	option(button)
-	return button
+	return *button
 }
 
-// WithURL sets URL and defaults everything other.
-func WithURL(url string) func(*Button) {
+// URL sets URL and defaults everything other.
+func URL(url string) func(*Button) {
 	return func(btn *Button) {
 		btn.URL = url
-		btn.CallbackData = ""
-		btn.SwitchInlineQuery = ""
-		btn.SwitchInlineQueryCurrentChat = ""
-		btn.CallbackGame = ""
-		btn.Pay = false
 	}
 }
 
-// WithCallbackData sets CallbackData and defaults everything other.
-func WithCallbackData(data string) func(*Button) {
+// Callback sets CallbackData and defaults everything other.
+func Callback(data string, params ...string) func(*Button) {
 	return func(btn *Button) {
-		btn.CallbackData = data
-		btn.URL = ""
-		btn.SwitchInlineQuery = ""
-		btn.SwitchInlineQueryCurrentChat = ""
-		btn.CallbackGame = ""
-		btn.Pay = false
+		var builder strings.Builder
+		builder.WriteString(data)
+		builder.WriteString(":")
+		length := len(params)
+		isLast := func (index, length int) bool {
+			return index == length
+		}
+		for index, element := range params {
+			builder.WriteString(element)
+			if !isLast(index, length - 1) {
+				builder.WriteString(",")
+			}
+		}
+		btn.CallbackData = builder.String()
 	}
 }
 
-// WithSwitchInlineQuery sets SwitchInlineQuery and defaults everything other.
-func WithSwitchInlineQuery(query string) func(*Button) {
+// SwitchInlineQuery sets SwitchInlineQuery and defaults everything other.
+func SwitchInlineQuery(query string) func(*Button) {
 	return func(btn *Button) {
 		btn.SwitchInlineQuery = query
 		btn.URL = ""
@@ -56,20 +63,15 @@ func WithSwitchInlineQuery(query string) func(*Button) {
 	}
 }
 
-// WithSwitchInlineQueryCurrentChat sets SwitchInlineQueryCurrentChat and defaults everything other.
-func WithSwitchInlineQueryCurrentChat(query string) func(*Button) {
+// SwitchInlineQueryCurrentChat sets SwitchInlineQueryCurrentChat and defaults everything other.
+func SwitchInlineQueryCurrentChat(query string) func(*Button) {
 	return func(btn *Button) {
 		btn.SwitchInlineQueryCurrentChat = query
-		btn.URL = ""
-		btn.CallbackData = ""
-		btn.SwitchInlineQuery = ""
-		btn.CallbackGame = ""
-		btn.Pay = false
 	}
 }
 
-// WithCallbackGame sets CallbackGame and defaults everything other.
-func WithCallbackGame(cbgame string) func(*Button) {
+// CallbackGame sets CallbackGame and defaults everything other.
+func CallbackGame(cbgame string) func(*Button) {
 	return func(btn *Button) {
 		btn.CallbackGame = cbgame
 	}
@@ -78,11 +80,6 @@ func WithCallbackGame(cbgame string) func(*Button) {
 // Pay sets Pay and defaults everything other.
 func Pay() func(*Button) {
 	return func(btn *Button) {
-		btn.URL = ""
-		btn.CallbackData = ""
-		btn.SwitchInlineQuery = ""
-		btn.SwitchInlineQueryCurrentChat = ""
-		btn.CallbackGame = ""
 		btn.Pay = true
 	}
 }

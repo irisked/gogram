@@ -2,12 +2,12 @@ package option
 
 import (
 	"github.com/irisked/gogram/telegram/method"
-	"github.com/irisked/gogram/types/markup/keyboard"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // Keyboard returns struct for setting optional Keyboard field.
 func Keyboard(kb keyboard.Keyboard) interface {
-	// keyboardOptionSetter
+	keyboardOptionSetter
 } {
 	return &replyMarkupOption{kb}
 }

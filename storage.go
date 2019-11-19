@@ -4,6 +4,7 @@ package gogram
 type Storage interface {
 	Insert(string, Handler)
 	Find(string) (Handler, bool)
+	Map() map[string]Handler
 }
 
 type storage struct {
@@ -12,6 +13,10 @@ type storage struct {
 
 func (s *storage) Insert(path string, handler Handler) {
 	s.tree.Insert(path, handler)
+}
+
+func (s *storage) Map()  map[string]Handler {
+	return s.tree.ToMap()
 }
 
 func (s *storage) Find(path string) (Handler, bool) {

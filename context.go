@@ -2,9 +2,10 @@ package gogram
 
 import (
 	"os"
-	"github.com/irisked/gogram/types/markup/keyboard"
+
 	"github.com/irisked/gogram/params"
 	"github.com/irisked/gogram/telegram/method"
+	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/types"
 )
@@ -137,7 +138,7 @@ func (c *Context) From() *types.User {
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (c *Context) Reply(text *params.Text, options ...method.SendMessageOption) (types.Message, error) {
+func (c *Context) Reply(text params.TextData, options ...method.SendMessageOption) (types.Message, error) {
 	return c.tg.SendMessage(c.ChatID(), text, options...)
 }
 
@@ -448,7 +449,7 @@ func (c *Context) AnswerCallbackQuery(options ...method.AnswerCallbackQueryOptio
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 // 
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (c *Context) EditMessageText(text params.Text, options ...method.EditMessageTextOption) (*types.Message, error) {
+func (c *Context) EditMessageText(text params.TextData, options ...method.EditMessageTextOption) (*types.Message, error) {
 	return c.tg.EditMessageText(c.CallbackQuery().MessageID(), text, options...)
 }
 
@@ -460,7 +461,7 @@ func (c *Context) EditMessageText(text params.Text, options ...method.EditMessag
 // option.Keyboard(keyboard markup.Keyboard)
 // 
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (c *Context) EditMessageCaption(caption params.Text, options ...method.EditMessageCaptionOption) (*types.Message, error) {
+func (c *Context) EditMessageCaption(caption params.TextData, options ...method.EditMessageCaptionOption) (*types.Message, error) {
 	return c.tg.EditMessageCaption(c.CallbackQuery().MessageID(), caption, options...)
 }
 

@@ -1,6 +1,7 @@
 package types
 
 import (
+	"strings"
 	"github.com/irisked/gogram/params"
 )
 
@@ -77,6 +78,8 @@ func (u *Update) Path() string {
 		return "/" + ut.String() + u.ChannelPost.Path()
 	case IncomingEditedChannelPost:
 		return "/" + ut.String() + u.EditedChannelPost.Path()
+	case IncomingCallbackQuery:
+		return "/" + ut.String() + u.CallbackQuery.Path()
 	
 	default:
 		return ""
@@ -132,6 +135,10 @@ type CallbackQuery struct {
 // and false otherwise.
 func (cq *CallbackQuery) IsFromInlineMessage() bool {
 	return cq.InlineMessageID != ""
+}
+
+func (cq *CallbackQuery) Path() string {
+	return "/" + strings.Split(cq.Data, ":")[0]
 }
 
 // MessageID returns id of message.
