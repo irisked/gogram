@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/types"
+	"gogram/types"
 )
 
 // SendChatAction contains information about the sendChatAction telegram api method.

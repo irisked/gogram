@@ -2,11 +2,11 @@ package telegram
 
 import (
 	"encoding/json"
-	"github.com/irisked/gogram/args"
-	"github.com/irisked/gogram/telegram/internal/net"
-	"github.com/irisked/gogram/telegram/method"
-	"github.com/irisked/gogram/telegram/keyboard"
-	"github.com/irisked/gogram/types"
+	"gogram/args"
+	"gogram/telegram/internal/net"
+	"gogram/telegram/keyboard"
+	"gogram/telegram/method"
+	"gogram/types"
 	"os"
 )
 

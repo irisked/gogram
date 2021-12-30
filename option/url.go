@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/telegram/method"
+	"gogram/telegram/method"
 )
 
 // URL returns struct for setting optional URL field.

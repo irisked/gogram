@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/args"
+	"gogram/args"
 )
 
 // Duration returns struct for setting optional Duration field.

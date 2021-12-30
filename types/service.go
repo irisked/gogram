@@ -1,8 +1,8 @@
 package types
 
 import (
+	"gogram/args"
 	"strings"
-	"github.com/irisked/gogram/args"
 )
 
 // ChatAction it's a type of action to broadcast.
@@ -80,7 +80,7 @@ func (u *Update) Path() string {
 		return "/" + ut.String() + u.EditedChannelPost.Path()
 	case IncomingCallbackQuery:
 		return "/" + ut.String() + u.CallbackQuery.Path()
-	
+
 	default:
 		return ""
 	}

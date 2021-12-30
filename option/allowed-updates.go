@@ -1,8 +1,8 @@
 package option
 
 import (
-	"github.com/irisked/gogram/telegram/method"
-	"github.com/irisked/gogram/types"
+	"gogram/telegram/method"
+	"gogram/types"
 )
 
 // AllowedUpdates returns struct for setting optional AllowedUpdates field.

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/args"
+	"gogram/args"
 )
 
 // Thumb returns struct for setting optional Thumb field.

@@ -1,7 +1,7 @@
 package option
 
 import (
-	"github.com/irisked/gogram/telegram/method"
+	"gogram/telegram/method"
 )
 
 // DisableWebPagePreview returns struct for setting optional DisableWebPagePreview field.

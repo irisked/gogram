@@ -2,11 +2,11 @@ package gogram
 
 import (
 	"os"
-	"github.com/irisked/gogram/telegram/method"
-	"github.com/irisked/gogram/telegram/keyboard"
-	"github.com/irisked/gogram/telegram"
-	"github.com/irisked/gogram/types"
-	"github.com/irisked/gogram/args"
+	"gogram/telegram/method"
+	"gogram/telegram/keyboard"
+	"gogram/telegram"
+	"gogram/types"
+	"gogram/args"
 )
 
 // Context its gogram context.

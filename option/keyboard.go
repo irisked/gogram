@@ -1,8 +1,8 @@
 package option
 
 import (
-	"github.com/irisked/gogram/telegram/method"
-	"github.com/irisked/gogram/telegram/keyboard"
+	"gogram/telegram/keyboard"
+	"gogram/telegram/method"
 )
 
 // Keyboard returns struct for setting optional Keyboard field.

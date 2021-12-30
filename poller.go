@@ -2,9 +2,9 @@ package gogram
 
 import 	(
 	"time"
-	"github.com/irisked/gogram/option"
-	"github.com/irisked/gogram/types"
-	"github.com/irisked/gogram/telegram"
+	"gogram/option"
+	"gogram/types"
+	"gogram/telegram"
 )
 
 // Poller interface.
