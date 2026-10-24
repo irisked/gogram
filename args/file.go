@@ -12,12 +12,12 @@ func attachment(name string) string {
 
 // InputMediaConfig input media data.
 type InputMediaConfig interface {
-	GetInputMediaConfig() (string, map[string]*os.File)
+	InputMediaConfig() (string, map[string]*os.File)
 }
 
 // MediaGroupConfig input media data.
 type MediaGroupConfig interface {
-	GetMediaGroupConfig() (string, map[string]*os.File)
+	MediaGroupConfig() (string, map[string]*os.File)
 }
 
 // File file.
@@ -50,8 +50,8 @@ type PhotoConfig struct {
 	Type      string   `json:"type"`
 }
 
-// GetInputMediaConfig returns json-serialized string of PhotoConfig and attached files.
-func (pc *PhotoConfig) GetInputMediaConfig() (string, map[string]*os.File) {
+// InputMediaConfig returns json-serialized string of PhotoConfig and attached files.
+func (pc *PhotoConfig) InputMediaConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(pc)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -59,8 +59,8 @@ func (pc *PhotoConfig) GetInputMediaConfig() (string, map[string]*os.File) {
 	return stringified, files
 }
 
-// GetMediaGroupConfig returns json-serialized string of PhotoConfig and attached files.
-func (pc *PhotoConfig) GetMediaGroupConfig() (string, map[string]*os.File) {
+// MediaGroupConfig returns json-serialized string of PhotoConfig and attached files.
+func (pc *PhotoConfig) MediaGroupConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(pc)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -99,8 +99,8 @@ type AudioConfig struct {
 	Type      string   `json:"type"`
 }
 
-// GetInputMediaConfig returns json-serialized string of PhotoData.
-func (ad *AudioConfig) GetInputMediaConfig() (string, map[string]*os.File) {
+// InputMediaConfig returns json-serialized string of PhotoData.
+func (ad *AudioConfig) InputMediaConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(ad)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -137,8 +137,8 @@ type DocumentConfig struct {
 	Type      string   `json:"type"`
 }
 
-// GetInputMediaConfig returns json-serialized string of PhotoData.
-func (dd *DocumentConfig) GetInputMediaConfig() (string, map[string]*os.File) {
+// InputMediaConfig returns json-serialized string of PhotoData.
+func (dd *DocumentConfig) InputMediaConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(dd)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -179,8 +179,8 @@ type VideoConfig struct {
 	Type              string   `json:"type"`
 }
 
-// GetInputMediaConfig returns json-serialized string of PhotoData.
-func (vd *VideoConfig) GetInputMediaConfig() (string, map[string]*os.File) {
+// InputMediaConfig returns json-serialized string of PhotoData.
+func (vd *VideoConfig) InputMediaConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(vd)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -189,8 +189,8 @@ func (vd *VideoConfig) GetInputMediaConfig() (string, map[string]*os.File) {
 	return stringified, files
 }
 
-// GetMediaGroupConfig returns json-serialized string of PhotoData.
-func (vd *VideoConfig) GetMediaGroupConfig() (string, map[string]*os.File) {
+// MediaGroupConfig returns json-serialized string of PhotoData.
+func (vd *VideoConfig) MediaGroupConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(vd)
 	stringified := string(res)
 	files := make(map[string]*os.File)
@@ -230,8 +230,8 @@ type AnimationConfig struct {
 	Type      string   `json:"type"`
 }
 
-// GetInputMediaConfig returns json-serialized string of PhotoData.
-func (ad *AnimationConfig) GetInputMediaConfig() (string, map[string]*os.File) {
+// InputMediaConfig returns json-serialized string of PhotoData.
+func (ad *AnimationConfig) InputMediaConfig() (string, map[string]*os.File) {
 	res, _ := json.Marshal(ad)
 	stringified := string(res)
 	files := make(map[string]*os.File)

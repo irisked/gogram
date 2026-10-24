@@ -607,7 +607,7 @@ func NewSendMediaGroup(chatID int64, medias []args.MediaGroupConfig, opts ...Opt
 	method := new(SendMediaGroup)
 	method.ChatID = chatID
 	for _, media := range medias {
-		stringified, files := media.GetMediaGroupConfig()
+		stringified, files := media.MediaGroupConfig()
 		method.Media = append(method.Media, stringified)
 		if file, ok := files["file"]; ok {
 			method.Files = append(method.Files, file)
@@ -660,7 +660,7 @@ func NewEditMessageMedia(message *args.MessageID, media args.InputMediaConfig, o
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID
 	method.InlineMessageID = message.InlineMessageID
-	stringified, files := media.GetInputMediaConfig()
+	stringified, files := media.InputMediaConfig()
 	if file, ok := files["file"]; ok {
 		method.File = file
 	}
