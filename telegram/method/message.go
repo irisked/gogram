@@ -1,37 +1,46 @@
 package method
 
 import (
-	"github.com/irisked/gogram/args"
-	"github.com/irisked/gogram/telegram/keyboard"
+	"gogram/args"
+	"gogram/telegram/keyboard"
 )
+
+// Option is a generic functional option type
+type Option[T any] func(T)
+
+// EditOptions contains fields common to edit methods
+type EditOptions struct {
+	ChatID          int64  `json:"chat_id,omitempty" form:"chat_id,omitempty"`
+	MessageID       int    `json:"message_id,omitempty" form:"message_id,omitempty"`
+	InlineMessageID string `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
+}
+
+// Type aliases for convenience
+type SendMessageOpt = Option[*SendMessage]
+type ForwardMessageOpt = Option[*ForwardMessage]
+type EditMessageTextOpt = Option[*EditMessageText]
+type EditMessageCaptionOpt = Option[*EditMessageCaption]
+type EditMessageReplyMarkupOpt = Option[*EditMessageReplyMarkup]
 
 // SendMessage contains information about sendMessage telegram api method.
 type SendMessage struct {
-	ChatID                int64             `json:"chat_id"`
-	Text                  string            `json:"text"`
-	ParseMode             string            `json:"parse_mode,omitempty" `
-	DisableWebPagePreview bool              `json:"disable_web_page_preview,omitempty"`
-	DisableNotification   bool              `json:"disable_notification,omitempty"`
-	ReplyToMessageID      int               `json:"reply_to_message_id,omitempty"`
-	ReplyMarkup           keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ChatID int64  `json:"chat_id"`
+	Text   string `json:"text"`
+	SendOptions
 	SimpleMethod
 }
 
-// SendMessageOption its a functional options interface.
-type SendMessageOption interface {
-	ApplySendMessageOption(*SendMessage)
-}
-
 // NewSendMessage creates SendMessage.
-func NewSendMessage(chatID int64, text args.TextData, options ...SendMessageOption) *SendMessage {
-	method := new(SendMessage)
-	method.ChatID = chatID
-	method.Text = text.Text
-	method.ParseMode = text.ParseMode
-	for _, option := range options {
-		option.ApplySendMessageOption(method)
+func NewSendMessage(chatID int64, text args.TextData, opts ...Option[*SendMessage]) *SendMessage {
+	m := &SendMessage{
+		ChatID: chatID,
+		Text:   text.Text,
 	}
-	return method
+	m.ParseMode = text.ParseMode
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -41,33 +50,26 @@ func (r *SendMessage) Method() string {
 
 // EditMessageText contains information about editMessageText telegram api method.
 type EditMessageText struct {
-	ChatID                int64             `json:"chat_id,omitempty"`
-	MessageID             int               `json:"message_id,omitempty"`
-	InlineMessageID       string            `json:"inline_message_id,omitempty"`
-	Text                  string            `json:"text"`
-	ParseMode             string            `json:"parse_mode,omitempty" `
-	DisableWebPagePreview bool              `json:"disable_web_page_preview,omitempty"`
-	ReplyMarkup           keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ChatID          int64  `json:"chat_id,omitempty"`
+	MessageID       int    `json:"message_id,omitempty"`
+	InlineMessageID string `json:"inline_message_id,omitempty"`
+	Text            string `json:"text"`
+	EditOptions
 	SimpleMethod
 }
 
-// EditMessageTextOption its a functional options interface.
-type EditMessageTextOption interface {
-	ApplyEditMessageTextOption(*EditMessageText)
-}
-
 // NewEditMessageText creates EditMessageText.
-func NewEditMessageText(message *args.MessageID, text args.TextData, options ...EditMessageTextOption) *EditMessageText {
-	method := new(EditMessageText)
-	method.ChatID = message.ChatID
-	method.MessageID = message.MessageID
-	method.InlineMessageID = message.InlineMessageID
-	method.Text = text.Text
-	method.ParseMode = text.ParseMode
-	for _, option := range options {
-		option.ApplyEditMessageTextOption(method)
+func NewEditMessageText(message *args.MessageID, text args.TextData, opts ...Option[*EditMessageText]) *EditMessageText {
+	m := &EditMessageText{
+		ChatID:          message.ChatID,
+		MessageID:       message.MessageID,
+		InlineMessageID: message.InlineMessageID,
+		Text:            text.Text,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -84,21 +86,17 @@ type ForwardMessage struct {
 	SimpleMethod
 }
 
-// ForwardMessageOption its a functional options interface.
-type ForwardMessageOption interface {
-	ApplyForwardMessageOption(*ForwardMessage)
-}
-
 // NewForwardMessage creates ForwardMessage.
-func NewForwardMessage(chatID, fromChatID, messageID int, options ...ForwardMessageOption) *ForwardMessage {
-	method := new(ForwardMessage)
-	method.ChatID = chatID
-	method.FromChatID = fromChatID
-	method.MessageID = messageID
-	for _, option := range options {
-		option.ApplyForwardMessageOption(method)
+func NewForwardMessage(chatID, fromChatID, messageID int, opts ...Option[*ForwardMessage]) *ForwardMessage {
+	m := &ForwardMessage{
+		ChatID:     chatID,
+		FromChatID: fromChatID,
+		MessageID:  messageID,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -108,13 +106,27 @@ func (r *ForwardMessage) Method() string {
 
 // EditMessageCaption contains information about editMessageCaption telegram api method.
 type EditMessageCaption struct {
-	ChatID          int64             `json:"chat_id,omitempty"`
-	MessageID       int               `json:"message_id,omitempty"`
-	InlineMessageID string            `json:"inline_message_id,omitempty"`
-	Caption         string            `json:"caption"`
-	ParseMode       string            `json:"parse_mode,omitempty"`
-	ReplyMarkup     keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ChatID          int64  `json:"chat_id,omitempty"`
+	MessageID       int    `json:"message_id,omitempty"`
+	InlineMessageID string `json:"inline_message_id,omitempty"`
+	CaptionOptions
+	EditOptions
 	SimpleMethod
+}
+
+// NewEditMessageCaption creates EditMessageCaption
+func NewEditMessageCaption(message *args.MessageID, text args.TextData, opts ...Option[*EditMessageCaption]) *EditMessageCaption {
+	m := &EditMessageCaption{
+		ChatID:          message.ChatID,
+		MessageID:       message.MessageID,
+		InlineMessageID: message.InlineMessageID,
+	}
+	m.Caption = text.Text
+	m.ParseMode = text.ParseMode
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -122,31 +134,12 @@ func (r *EditMessageCaption) Method() string {
 	return "editMessageCaption"
 }
 
-// NewEditMessageCaption creates EditMessageCaption
-func NewEditMessageCaption(message *args.MessageID, text args.TextData, options ...EditMessageCaptionOption) *EditMessageCaption {
-	method := new(EditMessageCaption)
-	method.ChatID = message.ChatID
-	method.MessageID = message.MessageID
-	method.InlineMessageID = message.InlineMessageID
-	method.Caption = text.Text
-	method.ParseMode = text.ParseMode
-	for _, option := range options {
-		option.ApplyEditMessageCaptionOption(method)
-	}
-	return method
-}
-
-// EditMessageCaptionOption its a functional options interface.
-type EditMessageCaptionOption interface {
-	ApplyEditMessageCaptionOption(*EditMessageCaption)
-}
-
 // EditMessageReplyMarkup contains information about editMessageReplyMarkup telegram api method.
 type EditMessageReplyMarkup struct {
-	ChatID          int64             `json:"chat_id,omitempty"`
-	MessageID       int               `json:"message_id,omitempty"`
-	InlineMessageID string            `json:"inline_message_id,omitempty"`
-	ReplyMarkup     keyboard.Keyboard `json:"reply_markup"`
+	ChatID          int64  `json:"chat_id,omitempty"`
+	MessageID       int    `json:"message_id,omitempty"`
+	InlineMessageID string `json:"inline_message_id,omitempty"`
+	EditOptions
 	SimpleMethod
 }
 
@@ -156,13 +149,16 @@ func (r *EditMessageReplyMarkup) Method() string {
 }
 
 // NewEditMessageReplyMarkup creates EditMessageReplyMarkup.
-func NewEditMessageReplyMarkup(message *args.MessageID, keyboard keyboard.Keyboard) *EditMessageReplyMarkup {
-	method := new(EditMessageReplyMarkup)
-	method.ChatID = message.ChatID
-	method.MessageID = message.MessageID
-	method.InlineMessageID = message.InlineMessageID
-	method.ReplyMarkup = keyboard
-	return method
+func NewEditMessageReplyMarkup(message *args.MessageID, keyboard keyboard.Keyboard, opts ...Option[*EditMessageReplyMarkup]) *EditMessageReplyMarkup {
+	m := &EditMessageReplyMarkup{
+		ChatID:          message.ChatID,
+		MessageID:       message.MessageID,
+		InlineMessageID: message.InlineMessageID,
+	}
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // DeleteMessage contains information about deleteMessage telegram api method.
@@ -174,10 +170,11 @@ type DeleteMessage struct {
 
 // NewDeleteMessage creates SendMessage
 func NewDeleteMessage(chatID int64, messageID int) *DeleteMessage {
-	method := new(DeleteMessage)
-	method.ChatID = chatID
-	method.MessageID = messageID
-	return method
+	m := &DeleteMessage{
+		ChatID:    chatID,
+		MessageID: messageID,
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.

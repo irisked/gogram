@@ -1,8 +1,8 @@
 package method
 
 import (
-	"github.com/irisked/gogram/args"
-	"github.com/irisked/gogram/telegram/keyboard"
+	"gogram/args"
+	"gogram/telegram/keyboard"
 )
 
 // GetGameHighScores contains information about getGameHighScores telegram api method.
@@ -41,21 +41,16 @@ type SetGameScores struct {
 	SimpleMethod
 }
 
-// SetGameScoresOption interface for optional parameters.
-type SetGameScoresOption interface {
-	ApplySetGameScoresOption(*SetGameScores)
-}
-
 // NewSetGameScores creates SetGameScores.
-func NewSetGameScores(userID, score int, message args.MessageID, options ...SetGameScoresOption) *SetGameScores {
+func NewSetGameScores(userID, score int, message args.MessageID, fn ...func(*SetGameScores)) *SetGameScores {
 	method := new(SetGameScores)
 	method.UserID = userID
 	method.Score = score
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID
 	method.InlineMessageID = message.InlineMessageID
-	for _, opt := range options {
-		opt.ApplySetGameScoresOption(method)
+	for _, f := range fn {
+		f(method)
 	}
 	return method
 }
@@ -63,6 +58,16 @@ func NewSetGameScores(userID, score int, message args.MessageID, options ...SetG
 // Method returns telegram api method endpoint.
 func (m *SetGameScores) Method() string {
 	return "setGameScore"
+}
+
+// SetForce sets force
+func (m *SetGameScores) SetForce(v bool) {
+	m.Force = v
+}
+
+// SetDisableEditMessage sets disable_edit_message
+func (m *SetGameScores) SetDisableEditMessage(v bool) {
+	m.DisableEditMessage = v
 }
 
 // SendGame contains information about sendGame telegram api method.
@@ -75,18 +80,13 @@ type SendGame struct {
 	SimpleMethod
 }
 
-// SendGameOption interface for optional parameters.
-type SendGameOption interface {
-	ApplySendGameOption(*SendGame)
-}
-
 // NewSendGame creates SendGame.
-func NewSendGame(chatID int, name string, options ...SendGameOption) *SendGame {
+func NewSendGame(chatID int, name string, fn ...func(*SendGame)) *SendGame {
 	method := new(SendGame)
 	method.ChatID = chatID
 	method.GameShortName = name
-	for _, opt := range options {
-		opt.ApplySendGameOption(method)
+	for _, f := range fn {
+		f(method)
 	}
 	return method
 }
@@ -94,4 +94,19 @@ func NewSendGame(chatID int, name string, options ...SendGameOption) *SendGame {
 // Method returns telegram api method endpoint.
 func (r *SendGame) Method() string {
 	return "sendGame"
+}
+
+// SetDisableNotification sets disable_notification
+func (r *SendGame) SetDisableNotification(v bool) {
+	r.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (r *SendGame) SetReplyToMessageID(id int) {
+	r.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (r *SendGame) SetReplyMarkup(kb keyboard.Keyboard) {
+	r.ReplyMarkup = kb
 }

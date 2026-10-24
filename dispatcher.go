@@ -1,7 +1,7 @@
 package gogram
 
 import (
-	"github.com/irisked/gogram/types"
+	"gogram/types"
 	"fmt"
 	"strings"
 )

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/args"
-	"github.com/irisked/gogram/types"
+	"gogram/args"
+	"gogram/types"
 )
 
 // GetUpdates contains information about getUpdates telegram api method.
@@ -16,19 +16,29 @@ type GetUpdates struct {
 	SimpleMethod
 }
 
-// GetUpdatesOption interface for optional parameters.
-type GetUpdatesOption interface {
-	ApplyGetUpdatesOption(*GetUpdates)
+// SetOffset sets offset
+func (u *GetUpdates) SetOffset(v int) {
+	u.Offset = v
+}
+
+// SetLimit sets limit
+func (u *GetUpdates) SetLimit(v int) {
+	u.Limit = v
+}
+
+// SetTimeout sets timeout
+func (u *GetUpdates) SetTimeout(v int) {
+	u.Timeout = v
 }
 
 // NewGetUpdates creates GetUpdates.
-func NewGetUpdates(options ...GetUpdatesOption) *GetUpdates {
-	method := new(GetUpdates)
-	for _, option := range options {
-		option.ApplyGetUpdatesOption(method)
+func NewGetUpdates(opts ...Option[*GetUpdates]) *GetUpdates {
+	m := &GetUpdates{}
+	for _, o := range opts {
+		o(m)
 	}
-	fmt.Println(method)
-	return method
+	fmt.Println(m)
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -75,23 +85,19 @@ type SetWebhook struct {
 	AllowedUpdates []types.UpdateType `json:"allowed_updates,omitempty" form:"allowed_updates,omitempty"`
 }
 
-// SetWebhookOption interface for optional parameters.
-type SetWebhookOption interface {
-	ApplySetWebhookOption(*SetWebhook)
-}
-
 // NewSetWebhook creates SetWebhook.
-func NewSetWebhook(url string, file *args.File, options ...SetWebhookOption) *SetWebhook {
-	method := new(SetWebhook)
-	method.URL = url
+func NewSetWebhook(url string, file *args.File, fn ...func(*SetWebhook)) *SetWebhook {
+	m := &SetWebhook{
+		URL: url,
+	}
 	if file != nil {
-		method.File = file.Local
-		method.Certificate = file.Reference
+		m.File = file.Local
+		m.Certificate = file.Reference
 	}
-	for _, option := range options {
-		option.ApplySetWebhookOption(method)
+	for _, o := range fn {
+		o(m)
 	}
-	return method
+	return m
 }
 
 // IsMultipart returns true if method is multipart and false otherwise.

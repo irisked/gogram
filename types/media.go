@@ -97,3 +97,21 @@ type Voice struct {
 	MimeType string `json:"mime_type"` // optional
 	FileSize int    `json:"file_size"` // optional
 }
+
+// StickerSet contains information about a sticker set.
+type StickerSet struct {
+	Name          string     `json:"name"`
+	Title         string     `json:"title"`
+	IsAnimated    bool       `json:"is_animated"`
+	IsCustomEmoji bool       `json:"is_custom_emoji"`
+	StickerType   string     `json:"sticker_type"`
+	Stickers      []Sticker  `json:"stickers"`
+	Thumbnail     *PhotoSize `json:"thumbnail,omitempty"`
+}
+
+// InputPaidMedia contains information about input paid media.
+type InputPaidMedia struct {
+	Type  string `json:"type"`
+	Photo string `json:"photo,omitempty"`
+	Video string `json:"video,omitempty"`
+}

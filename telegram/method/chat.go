@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/types"
+	"gogram/types"
 )
 
 // SendChatAction contains information about the sendChatAction telegram api method.
@@ -51,11 +51,6 @@ type SetChatPhoto struct {
 	ChatID int64    `json:"chat_id" form:"chat_id"`
 	Photo  string   `json:"photo" form:"photo"`
 	MultipartMethod
-}
-
-// SetChatPhotoOption interface for optional parameters.
-type SetChatPhotoOption interface {
-	ApplySetChatPhotoOption(*SetChatPhoto)
 }
 
 // NewSetChatPhoto creates SetChatPhoto struct.
@@ -138,18 +133,13 @@ type PinChatMessage struct {
 	SimpleMethod
 }
 
-// PinChatMessageOption interface for optional parameters.
-type PinChatMessageOption interface {
-	ApplyPinChatMessageOption(*PinChatMessage)
-}
-
 // NewPinChatMessage creates PinChatMessage struct.
-func NewPinChatMessage(chatID int64, messageID int, options ...PinChatMessageOption) *PinChatMessage {
+func NewPinChatMessage(chatID int64, messageID int, opts ...Option[*PinChatMessage]) *PinChatMessage {
 	method := new(PinChatMessage)
 	method.ChatID = chatID
 	method.MessageID = messageID
-	for _, option := range options {
-		option.ApplyPinChatMessageOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
@@ -157,6 +147,11 @@ func NewPinChatMessage(chatID int64, messageID int, options ...PinChatMessageOpt
 // Method returns telegram api method endpoint.
 func (r *PinChatMessage) Method() string {
 	return "pinChatMessage"
+}
+
+// SetDisableNotification sets disable_notification
+func (r *PinChatMessage) SetDisableNotification(v bool) {
+	r.DisableNotification = v
 }
 
 // UnpinChatMessage contains information about unpinChatMessage telegram api method.

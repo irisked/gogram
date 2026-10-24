@@ -1,8 +1,8 @@
 package method
 
 import (
-	"github.com/irisked/gogram/types"
-	"github.com/irisked/gogram/telegram/keyboard"
+	"gogram/telegram/keyboard"
+	"gogram/types"
 )
 
 // SendContact contains information about sendContact telegram api method.
@@ -18,20 +18,15 @@ type SendContact struct {
 	SimpleMethod
 }
 
-// SendContactOption interface for optional parameters.
-type SendContactOption interface {
-	ApplySendContactOption(*SendContact)
-}
-
 // NewSendContact creates SendContact.
-func NewSendContact(chatID int64, contact types.Contact, options ...SendContactOption) *SendContact {
+func NewSendContact(chatID int64, contact types.Contact, opts ...Option[*SendContact]) *SendContact {
 	method := new(SendContact)
 	method.ChatID = chatID
 	method.PhoneNumber = contact.PhoneNumber
 	method.FirstName = contact.FirstName
 	method.LastName = contact.LastName
-	for _, option := range options {
-		option.ApplySendContactOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
@@ -39,6 +34,31 @@ func NewSendContact(chatID int64, contact types.Contact, options ...SendContactO
 // Method returns telegram api method endpoint.
 func (r *SendContact) Method() string {
 	return "sendContact"
+}
+
+// SetLastName sets last_name
+func (r *SendContact) SetLastName(s string) {
+	r.LastName = s
+}
+
+// SetVCard sets vcard
+func (r *SendContact) SetVCard(s string) {
+	r.VCard = s
+}
+
+// SetDisableNotification sets disable_notification
+func (r *SendContact) SetDisableNotification(v bool) {
+	r.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (r *SendContact) SetReplyToMessageID(id int) {
+	r.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (r *SendContact) SetReplyMarkup(kb keyboard.Keyboard) {
+	r.ReplyMarkup = kb
 }
 
 // SendLocation contains information about sendLocation telegram api method.
@@ -53,19 +73,14 @@ type SendLocation struct {
 	SimpleMethod
 }
 
-// SendLocationOption interface for optional parameters.
-type SendLocationOption interface {
-	ApplySendLocationOption(*SendLocation)
-}
-
 // NewSendLocation creates SendLocation.
-func NewSendLocation(chatID int64, location types.Location, options ...SendLocationOption) *SendLocation {
+func NewSendLocation(chatID int64, location types.Location, opts ...Option[*SendLocation]) *SendLocation {
 	method := new(SendLocation)
 	method.ChatID = chatID
 	method.Latitude = location.Latitude
 	method.Longitude = location.Longitude
-	for _, option := range options {
-		option.ApplySendLocationOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
@@ -73,6 +88,26 @@ func NewSendLocation(chatID int64, location types.Location, options ...SendLocat
 // Method returns telegram api method endpoint.
 func (r *SendLocation) Method() string {
 	return "sendLocation"
+}
+
+// SetLivePeriod sets live_period
+func (r *SendLocation) SetLivePeriod(v int) {
+	r.LivePeriod = v
+}
+
+// SetDisableNotification sets disable_notification
+func (r *SendLocation) SetDisableNotification(v bool) {
+	r.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (r *SendLocation) SetReplyToMessageID(id int) {
+	r.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (r *SendLocation) SetReplyMarkup(kb keyboard.Keyboard) {
+	r.ReplyMarkup = kb
 }
 
 // SendVenue contains information about sendVenue telegram api method.
@@ -90,21 +125,16 @@ type SendVenue struct {
 	SimpleMethod
 }
 
-// SendVenueOption interface for optional parameters.
-type SendVenueOption interface {
-	ApplySendVenueOption(*SendVenue)
-}
-
 // NewSendVenue creates SendVenue.
-func NewSendVenue(chatID int64, venue types.Venue, options ...SendVenueOption) *SendVenue {
+func NewSendVenue(chatID int64, venue types.Venue, opts ...Option[*SendVenue]) *SendVenue {
 	method := new(SendVenue)
 	method.ChatID = chatID
 	method.Latitude = venue.Location.Latitude
 	method.Longitude = venue.Location.Longitude
 	method.Title = venue.Title
 	method.Address = venue.Address
-	for _, option := range options {
-		option.ApplySendVenueOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
@@ -112,4 +142,29 @@ func NewSendVenue(chatID int64, venue types.Venue, options ...SendVenueOption) *
 // Method returns telegram api method endpoint.
 func (r *SendVenue) Method() string {
 	return "sendVenue"
+}
+
+// SetFoursquareID sets foursquare_id
+func (r *SendVenue) SetFoursquareID(s string) {
+	r.FoursquareID = s
+}
+
+// SetFoursquareType sets foursquare_type
+func (r *SendVenue) SetFoursquareType(s string) {
+	r.FoursquareType = s
+}
+
+// SetDisableNotification sets disable_notification
+func (r *SendVenue) SetDisableNotification(v bool) {
+	r.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (r *SendVenue) SetReplyToMessageID(id int) {
+	r.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (r *SendVenue) SetReplyMarkup(kb keyboard.Keyboard) {
+	r.ReplyMarkup = kb
 }

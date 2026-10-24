@@ -114,7 +114,7 @@ func (m *Message) Path() string {
 	if m.IsCommand() {
 		path = path + "/" + m.Command()
 	}
-	return path;
+	return path
 }
 
 // Type returns message sub type.
@@ -212,6 +212,11 @@ func (m *Message) CommandWithAt() string {
 	return m.Text[1:entity.Length]
 }
 
+// MessageID represents a message ID.
+type MessageID struct {
+	MessageID int `json:"message_id"`
+}
+
 // CommandArguments checks if the message was a command and if it was,
 // returns all text after the command name. If the Message was not a
 // command, it returns an empty string.
@@ -242,6 +247,14 @@ type MessageEntity struct {
 	Length int    `json:"length"`
 	URL    string `json:"url"`  // optional
 	User   *User  `json:"user"` // optional
+}
+
+// ForumTopic contains information about a forum topic.
+type ForumTopic struct {
+	MessageID       int    `json:"message_id"`
+	TopicName       string `json:"topic_name"`
+	IconColor       int    `json:"icon_color"`
+	IconCustomEmoji string `json:"icon_custom_emoji,omitempty"`
 }
 
 // ParseURL attempts to parse a URL contained within a MessageEntity.

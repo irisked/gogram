@@ -3,8 +3,8 @@ package method
 import (
 	"os"
 
-	"github.com/irisked/gogram/args"
-	"github.com/irisked/gogram/telegram/keyboard"
+	"gogram/args"
+	"gogram/telegram/keyboard"
 )
 
 // GetFile contains information about getFile telegram api method.
@@ -49,22 +49,42 @@ func (m *SendPhoto) IsMultipart() bool {
 }
 
 // NewSendPhoto creates SendPhoto.
-func NewSendPhoto(chatID int64, photo *args.PhotoConfig, options ...SendPhotoOption) *SendPhoto {
+func NewSendPhoto(chatID int64, photo *args.PhotoConfig, opts ...Option[*SendPhoto]) *SendPhoto {
 	method := new(SendPhoto)
 	method.ChatID = chatID
 	method.Photo = photo.Reference
 	method.File = photo.Local
 	method.Caption = photo.Caption
 	method.ParseMode = photo.ParseMode
-	for _, option := range options {
-		option.ApplySendPhotoOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendPhotoOption its a functional options interface.
-type SendPhotoOption interface {
-	ApplySendPhotoOption(*SendPhoto)
+// SetCaption sets caption
+func (m *SendPhoto) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetParseMode sets parse_mode
+func (m *SendPhoto) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendPhoto) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendPhoto) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendPhoto) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendAudio contains information about sendMessage telegram api method.
@@ -96,7 +116,7 @@ func (m *SendAudio) IsMultipart() bool {
 }
 
 // NewSendAudio creates SendAudio.
-func NewSendAudio(chatID int64, audio *args.AudioConfig, options ...SendAudioOption) *SendAudio {
+func NewSendAudio(chatID int64, audio *args.AudioConfig, opts ...Option[*SendAudio]) *SendAudio {
 	method := new(SendAudio)
 	method.ChatID = chatID
 	method.File = audio.Local
@@ -108,15 +128,55 @@ func NewSendAudio(chatID int64, audio *args.AudioConfig, options ...SendAudioOpt
 	method.Duration = audio.Duration
 	method.Performer = audio.Performer
 	method.Title = audio.Title
-	for _, opt := range options {
-		opt.ApplySendAudioOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendAudioOption its a functional options interface.
-type SendAudioOption interface {
-	ApplySendAudioOption(*SendAudio)
+// SetThumb sets thumb
+func (m *SendAudio) SetThumb(t string) {
+	m.Thumb = t
+}
+
+// SetCaption sets caption
+func (m *SendAudio) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetDuration sets duration
+func (m *SendAudio) SetDuration(d int) {
+	m.Duration = d
+}
+
+// SetPerformer sets performer
+func (m *SendAudio) SetPerformer(p string) {
+	m.Performer = p
+}
+
+// SetTitle sets title
+func (m *SendAudio) SetTitle(t string) {
+	m.Title = t
+}
+
+// SetParseMode sets parse_mode
+func (m *SendAudio) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendAudio) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendAudio) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendAudio) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendDocument contains information about sendDocument telegram api method.
@@ -145,7 +205,7 @@ func (m *SendDocument) IsMultipart() bool {
 }
 
 // NewSendDocument creates SendDocument.
-func NewSendDocument(chatID int64, document *args.DocumentConfig, options ...SendDocumentOption) *SendDocument {
+func NewSendDocument(chatID int64, document *args.DocumentConfig, opts ...Option[*SendDocument]) *SendDocument {
 	method := new(SendDocument)
 	method.ChatID = chatID
 	method.File = document.Local
@@ -154,15 +214,40 @@ func NewSendDocument(chatID int64, document *args.DocumentConfig, options ...Sen
 	method.Thumb = document.Thumb
 	method.Caption = document.Caption
 	method.ParseMode = document.ParseMode
-	for _, opt := range options {
-		opt.ApplySendDocumentOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendDocumentOption its a functional options interface.
-type SendDocumentOption interface {
-	ApplySendDocumentOption(*SendDocument)
+// SetThumb sets thumb
+func (m *SendDocument) SetThumb(t string) {
+	m.Thumb = t
+}
+
+// SetCaption sets caption
+func (m *SendDocument) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetParseMode sets parse_mode
+func (m *SendDocument) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendDocument) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendDocument) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendDocument) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendVideo contains information about sendVideo telegram api method.
@@ -195,7 +280,7 @@ func (m *SendVideo) IsMultipart() bool {
 }
 
 // NewSendVideo creates SendVideo.
-func NewSendVideo(chatID int64, video *args.VideoConfig, options ...SendVideoOption) *SendVideo {
+func NewSendVideo(chatID int64, video *args.VideoConfig, opts ...Option[*SendVideo]) *SendVideo {
 	method := new(SendVideo)
 	method.ChatID = chatID
 	method.File = video.Local
@@ -208,15 +293,60 @@ func NewSendVideo(chatID int64, video *args.VideoConfig, options ...SendVideoOpt
 	method.Height = video.Height
 	method.Width = video.Width
 	method.SupportsStreaming = video.SupportsStreaming
-	for _, opt := range options {
-		opt.ApplySendVideoOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendVideoOption its a functional options interface.
-type SendVideoOption interface {
-	ApplySendVideoOption(*SendVideo)
+// SetThumb sets thumb
+func (m *SendVideo) SetThumb(t string) {
+	m.Thumb = t
+}
+
+// SetCaption sets caption
+func (m *SendVideo) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetWidth sets width
+func (m *SendVideo) SetWidth(w int) {
+	m.Width = w
+}
+
+// SetHeight sets height
+func (m *SendVideo) SetHeight(h int) {
+	m.Height = h
+}
+
+// SetDuration sets duration
+func (m *SendVideo) SetDuration(d int) {
+	m.Duration = d
+}
+
+// SetSupportsStreaming sets supports_streaming
+func (m *SendVideo) SetSupportsStreaming(s bool) {
+	m.SupportsStreaming = s
+}
+
+// SetParseMode sets parse_mode
+func (m *SendVideo) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendVideo) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendVideo) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendVideo) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendAnimation contains information about sendAnimation telegram api method.
@@ -248,7 +378,7 @@ func (m *SendAnimation) IsMultipart() bool {
 }
 
 // NewSendAnimation creates SendAnimation.
-func NewSendAnimation(chatID int64, animation *args.AnimationConfig, options ...SendAnimationOption) *SendAnimation {
+func NewSendAnimation(chatID int64, animation *args.AnimationConfig, opts ...Option[*SendAnimation]) *SendAnimation {
 	method := new(SendAnimation)
 	method.ChatID = chatID
 	method.File = animation.Local
@@ -260,15 +390,55 @@ func NewSendAnimation(chatID int64, animation *args.AnimationConfig, options ...
 	method.Duration = animation.Duration
 	method.Width = animation.Width
 	method.Height = animation.Height
-	for _, opt := range options {
-		opt.ApplySendAnimationOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendAnimationOption its a functional options interface.
-type SendAnimationOption interface {
-	ApplySendAnimationOption(*SendAnimation)
+// SetThumb sets thumb
+func (m *SendAnimation) SetThumb(t string) {
+	m.Thumb = t
+}
+
+// SetCaption sets caption
+func (m *SendAnimation) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetWidth sets width
+func (m *SendAnimation) SetWidth(w int) {
+	m.Width = w
+}
+
+// SetHeight sets height
+func (m *SendAnimation) SetHeight(h int) {
+	m.Height = h
+}
+
+// SetDuration sets duration
+func (m *SendAnimation) SetDuration(d int) {
+	m.Duration = d
+}
+
+// SetParseMode sets parse_mode
+func (m *SendAnimation) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendAnimation) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendAnimation) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendAnimation) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendVoice contains information about sendVoice telegram api method.
@@ -296,7 +466,7 @@ func (m *SendVoice) IsMultipart() bool {
 }
 
 // NewSendVoice creates SendVoice.
-func NewSendVoice(chatID int64, voice *args.VoiceConfig, options ...SendVoiceOption) *SendVoice {
+func NewSendVoice(chatID int64, voice *args.VoiceConfig, opts ...Option[*SendVoice]) *SendVoice {
 	method := new(SendVoice)
 	method.ChatID = chatID
 	method.File = voice.Local
@@ -304,15 +474,40 @@ func NewSendVoice(chatID int64, voice *args.VoiceConfig, options ...SendVoiceOpt
 	method.Caption = voice.Caption
 	method.ParseMode = voice.ParseMode
 	method.Duration = voice.Duration
-	for _, opt := range options {
-		opt.ApplySendVoiceOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendVoiceOption its a functional options interface.
-type SendVoiceOption interface {
-	ApplySendVoiceOption(*SendVoice)
+// SetCaption sets caption
+func (m *SendVoice) SetCaption(c string) {
+	m.Caption = c
+}
+
+// SetDuration sets duration
+func (m *SendVoice) SetDuration(d int) {
+	m.Duration = d
+}
+
+// SetParseMode sets parse_mode
+func (m *SendVoice) SetParseMode(m2 string) {
+	m.ParseMode = m2
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendVoice) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendVoice) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendVoice) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendVideoNote contains information about sendVideoNote telegram api method.
@@ -341,7 +536,7 @@ func (m *SendVideoNote) IsMultipart() bool {
 }
 
 // NewSendVideoNote creates SendVideoNote.
-func NewSendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, options ...SendVideoNoteOption) *SendVideoNote {
+func NewSendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, opts ...Option[*SendVideoNote]) *SendVideoNote {
 	method := new(SendVideoNote)
 	method.ChatID = chatID
 	method.File = videoNote.Local
@@ -350,15 +545,40 @@ func NewSendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, options ...
 	method.ThumbFile = videoNote.ThumbFile
 	method.Length = videoNote.Length
 	method.Duration = videoNote.Duration
-	for _, opt := range options {
-		opt.ApplySendVideoNoteOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendVideoNoteOption its a functional options interface.
-type SendVideoNoteOption interface {
-	ApplySendVideoNoteOption(*SendVideoNote)
+// SetThumb sets thumb
+func (m *SendVideoNote) SetThumb(t string) {
+	m.Thumb = t
+}
+
+// SetLength sets length
+func (m *SendVideoNote) SetLength(l int) {
+	m.Length = l
+}
+
+// SetDuration sets duration
+func (m *SendVideoNote) SetDuration(d int) {
+	m.Duration = d
+}
+
+// SetDisableNotification sets disable_notification
+func (m *SendVideoNote) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendVideoNote) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *SendVideoNote) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }
 
 // SendMediaGroup contains information about sendMediaGroup telegram api method.
@@ -383,7 +603,7 @@ func (m *SendMediaGroup) IsMultipart() bool {
 }
 
 // NewSendMediaGroup creates SendMediaGroup.
-func NewSendMediaGroup(chatID int64, medias []args.MediaGroupConfig, options ...SendMediaGroupOption) *SendMediaGroup {
+func NewSendMediaGroup(chatID int64, medias []args.MediaGroupConfig, opts ...Option[*SendMediaGroup]) *SendMediaGroup {
 	method := new(SendMediaGroup)
 	method.ChatID = chatID
 	for _, media := range medias {
@@ -396,15 +616,20 @@ func NewSendMediaGroup(chatID int64, medias []args.MediaGroupConfig, options ...
 			method.Files = append(method.ThumbFiles, file)
 		}
 	}
-	for _, opt := range options {
-		opt.ApplySendMediaGroupOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// SendMediaGroupOption its a functional options interface.
-type SendMediaGroupOption interface {
-	ApplySendMediaGroupOption(*SendMediaGroup)
+// SetDisableNotification sets disable_notification
+func (m *SendMediaGroup) SetDisableNotification(v bool) {
+	m.DisableNotification = v
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *SendMediaGroup) SetReplyToMessageID(id int) {
+	m.ReplyToMessageID = id
 }
 
 // EditMessageMedia contains information about editMessageMedia telegram api method.
@@ -430,7 +655,7 @@ func (m *EditMessageMedia) IsMultipart() bool {
 }
 
 // NewEditMessageMedia creates EditMessageMedia.
-func NewEditMessageMedia(message *args.MessageID, media args.InputMediaConfig, options ...EditMessageMediaOption) *EditMessageMedia {
+func NewEditMessageMedia(message *args.MessageID, media args.InputMediaConfig, opts ...Option[*EditMessageMedia]) *EditMessageMedia {
 	method := new(EditMessageMedia)
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID
@@ -443,13 +668,49 @@ func NewEditMessageMedia(message *args.MessageID, media args.InputMediaConfig, o
 		method.ThumbFile = file
 	}
 	method.Media = stringified
-	for _, opt := range options {
-		opt.ApplyEditMessageMediaOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
 
-// EditMessageMediaOption its a functional options interface.
-type EditMessageMediaOption interface {
-	ApplyEditMessageMediaOption(*EditMessageMedia)
+// SetThumb sets thumb
+func (m *EditMessageMedia) SetThumb(t string) {
+}
+
+// SetCaption sets caption
+func (m *EditMessageMedia) SetCaption(c string) {
+}
+
+// SetWidth sets width
+func (m *EditMessageMedia) SetWidth(w int) {
+}
+
+// SetHeight sets height
+func (m *EditMessageMedia) SetHeight(h int) {
+}
+
+// SetDuration sets duration
+func (m *EditMessageMedia) SetDuration(d int) {
+}
+
+// SetSupportsStreaming sets supports_streaming
+func (m *EditMessageMedia) SetSupportsStreaming(s bool) {
+}
+
+// SetParseMode sets parse_mode
+func (m *EditMessageMedia) SetParseMode(m2 string) {
+}
+
+// SetDisableNotification sets disable_notification
+func (m *EditMessageMedia) SetDisableNotification(v bool) {
+}
+
+// SetReplyToMessageID sets reply_to_message_id
+func (m *EditMessageMedia) SetReplyToMessageID(id int) {
+}
+
+// SetReplyMarkup sets reply_markup
+func (m *EditMessageMedia) SetReplyMarkup(kb keyboard.Keyboard) {
+	m.ReplyMarkup = kb
 }

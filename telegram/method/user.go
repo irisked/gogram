@@ -8,19 +8,30 @@ type GetUserProfilePhotos struct {
 	SimpleMethod
 }
 
-// GetUserProfilePhotosOption interface for optional parameters.
-type GetUserProfilePhotosOption interface {
-	ApplyGetUserProfilePhotosOption(*GetUserProfilePhotos)
+// SetUserID sets user_id
+func (u *GetUserProfilePhotos) SetUserID(id int) {
+	u.UserID = id
+}
+
+// SetOffset sets offset
+func (u *GetUserProfilePhotos) SetOffset(v int) {
+	u.Offset = v
+}
+
+// SetLimit sets limit
+func (u *GetUserProfilePhotos) SetLimit(v int) {
+	u.Limit = v
 }
 
 // NewGetUserProfilePhotos creates GetUserProfilePhotos.
-func NewGetUserProfilePhotos(userID int, options ...GetUserProfilePhotosOption) *GetUserProfilePhotos {
-	method := new(GetUserProfilePhotos)
-	method.UserID = userID
-	for _, opt := range options {
-		opt.ApplyGetUserProfilePhotosOption(method)
+func NewGetUserProfilePhotos(userID int, opts ...Option[*GetUserProfilePhotos]) *GetUserProfilePhotos {
+	m := &GetUserProfilePhotos{
+		UserID: userID,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -36,20 +47,31 @@ type KickChatMember struct {
 	SimpleMethod
 }
 
-// KickChatMemberOption interface for optional parameters.
-type KickChatMemberOption interface {
-	ApplyKickChatMemberOption(*KickChatMember)
+// SetChatID sets chat_id
+func (k *KickChatMember) SetChatID(id int64) {
+	k.ChatID = id
+}
+
+// SetUserID sets user_id
+func (k *KickChatMember) SetUserID(id int) {
+	k.UserID = id
+}
+
+// SetUntilDate sets until_date
+func (k *KickChatMember) SetUntilDate(v int) {
+	k.UntilDate = v
 }
 
 // NewKickChatMember creates KickChatMember.
-func NewKickChatMember(userID int, chatID int64, options ...KickChatMemberOption) *KickChatMember {
-	method := new(KickChatMember)
-	method.ChatID = chatID
-	method.UserID = userID
-	for _, opt := range options {
-		opt.ApplyKickChatMemberOption(method)
+func NewKickChatMember(userID int, chatID int64, opts ...Option[*KickChatMember]) *KickChatMember {
+	m := &KickChatMember{
+		ChatID: chatID,
+		UserID: userID,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -64,12 +86,23 @@ type UnbanChatMember struct {
 	SimpleMethod
 }
 
+// SetChatID sets chat_id
+func (u *UnbanChatMember) SetChatID(id int64) {
+	u.ChatID = id
+}
+
+// SetUserID sets user_id
+func (u *UnbanChatMember) SetUserID(id int) {
+	u.UserID = id
+}
+
 // NewUnbanChatMember creates UnbanChatMember.
 func NewUnbanChatMember(userID int, chatID int64) *UnbanChatMember {
-	method := new(UnbanChatMember)
-	method.ChatID = chatID
-	method.UserID = userID
-	return method
+	m := &UnbanChatMember{
+		ChatID: chatID,
+		UserID: userID,
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -89,20 +122,51 @@ type RestrictChatMember struct {
 	SimpleMethod
 }
 
-// RestrictChatMemberOption interface for optional parameters.
-type RestrictChatMemberOption interface {
-	ApplyRestrictChatMemberOption(*RestrictChatMember)
+// SetChatID sets chat_id
+func (r *RestrictChatMember) SetChatID(id int64) {
+	r.ChatID = id
+}
+
+// SetUserID sets user_id
+func (r *RestrictChatMember) SetUserID(id int) {
+	r.UserID = id
+}
+
+// SetUntilDate sets until_date
+func (r *RestrictChatMember) SetUntilDate(v int) {
+	r.UntilDate = v
+}
+
+// SetCanSendMessages sets can_send_messages
+func (r *RestrictChatMember) SetCanSendMessages(v bool) {
+	r.CanSendMessages = v
+}
+
+// SetCanSendMediaMessages sets can_send_media_messages
+func (r *RestrictChatMember) SetCanSendMediaMessages(v bool) {
+	r.CanSendMediaMessages = v
+}
+
+// SetCanSendOtherMessages sets can_send_other_messages
+func (r *RestrictChatMember) SetCanSendOtherMessages(v bool) {
+	r.CanSendOtherMessages = v
+}
+
+// SetCanAddWebPagePreviews sets can_add_web_page_previews
+func (r *RestrictChatMember) SetCanAddWebPagePreviews(v bool) {
+	r.CanAddWebPagePreviews = v
 }
 
 // NewRestrictChatMember creates RestrictChatMember.
-func NewRestrictChatMember(userID int, chatID int64, options ...RestrictChatMemberOption) *RestrictChatMember {
-	method := new(RestrictChatMember)
-	method.ChatID = chatID
-	method.UserID = userID
-	for _, opt := range options {
-		opt.ApplyRestrictChatMemberOption(method)
+func NewRestrictChatMember(userID int, chatID int64, opts ...Option[*RestrictChatMember]) *RestrictChatMember {
+	m := &RestrictChatMember{
+		ChatID: chatID,
+		UserID: userID,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
@@ -125,23 +189,69 @@ type PromoteChatMember struct {
 	SimpleMethod
 }
 
+// SetChatID sets chat_id
+func (p *PromoteChatMember) SetChatID(id int64) {
+	p.ChatID = id
+}
+
+// SetUserID sets user_id
+func (p *PromoteChatMember) SetUserID(id int) {
+	p.UserID = id
+}
+
+// SetCanChangeInfo sets can_change_info
+func (p *PromoteChatMember) SetCanChangeInfo(v bool) {
+	p.CanChangeInfo = v
+}
+
+// SetCanPostMessages sets can_post_messages
+func (p *PromoteChatMember) SetCanPostMessages(v bool) {
+	p.CanPostMessages = v
+}
+
+// SetCanEditMessages sets can_edit_messages
+func (p *PromoteChatMember) SetCanEditMessages(v bool) {
+	p.CanEditMessages = v
+}
+
+// SetCanDeleteMessages sets can_delete_messages
+func (p *PromoteChatMember) SetCanDeleteMessages(v bool) {
+	p.CanDeleteMessages = v
+}
+
+// SetCanInviteUsers sets can_invite_users
+func (p *PromoteChatMember) SetCanInviteUsers(v bool) {
+	p.CanInviteUsers = v
+}
+
+// SetCanRestrictMembers sets can_restrict_members
+func (p *PromoteChatMember) SetCanRestrictMembers(v bool) {
+	p.CanRestrictMembers = v
+}
+
+// SetCanPinMessages sets can_pin_messages
+func (p *PromoteChatMember) SetCanPinMessages(v bool) {
+	p.CanPinMessages = v
+}
+
+// SetCanPromoteMembers sets can_promote_members
+func (p *PromoteChatMember) SetCanPromoteMembers(v bool) {
+	p.CanPromoteMembers = v
+}
+
 // NewPromoteChatMember creates PromoteChatMember.
-func NewPromoteChatMember(userID int, chatID int64, options ...PromoteChatMemberOption) *PromoteChatMember {
-	method := new(PromoteChatMember)
-	method.ChatID = chatID
-	method.UserID = userID
-	for _, opt := range options {
-		opt.ApplyPromoteChatMemberOption(method)
+func NewPromoteChatMember(userID int, chatID int64, opts ...Option[*PromoteChatMember]) *PromoteChatMember {
+	m := &PromoteChatMember{
+		ChatID: chatID,
+		UserID: userID,
 	}
-	return method
+	for _, o := range opts {
+		o(m)
+	}
+	return m
 }
 
 // Method returns telegram api method endpoint.
 func (r *PromoteChatMember) Method() string {
 	return "promoteChatMember"
-}
-
-// PromoteChatMemberOption interface for optional parameters.
-type PromoteChatMemberOption interface {
-	ApplyPromoteChatMemberOption(*PromoteChatMember)
 }

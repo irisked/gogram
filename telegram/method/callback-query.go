@@ -10,17 +10,12 @@ type AnswerCallbackQuery struct {
 	SimpleMethod
 }
 
-// AnswerCallbackQueryOption interface for setting AnswerCallbackQuery optional parameters.
-type AnswerCallbackQueryOption interface {
-	ApplyAnswerCallbackQueryOption(*AnswerCallbackQuery)
-}
-
 // NewAnswerCallbackQuery creates AnswerCallbackQuery.
-func NewAnswerCallbackQuery(id string, options ...AnswerCallbackQueryOption) *AnswerCallbackQuery {
+func NewAnswerCallbackQuery(id string, opts ...Option[*AnswerCallbackQuery]) *AnswerCallbackQuery {
 	method := new(AnswerCallbackQuery)
 	method.CallbackQueryID = id
-	for _, option := range options {
-		option.ApplyAnswerCallbackQueryOption(method)
+	for _, o := range opts {
+		o(method)
 	}
 	return method
 }
@@ -28,4 +23,24 @@ func NewAnswerCallbackQuery(id string, options ...AnswerCallbackQueryOption) *An
 // Method returns telegram api method endpoint.
 func (r *AnswerCallbackQuery) Method() string {
 	return "answerCallbackQuery"
+}
+
+// SetText sets text
+func (r *AnswerCallbackQuery) SetText(s string) {
+	r.Text = s
+}
+
+// SetShowAlert sets show_alert
+func (r *AnswerCallbackQuery) SetShowAlert(v bool) {
+	r.ShowAlert = v
+}
+
+// SetCacheTime sets cache_time
+func (r *AnswerCallbackQuery) SetCacheTime(v int) {
+	r.CacheTime = v
+}
+
+// SetURL sets url
+func (r *AnswerCallbackQuery) SetURL(s string) {
+	r.URL = s
 }

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/irisked/gogram/telegram/method"
+	"gogram/telegram/method"
 	"io"
 	"net/http"
 	"time"

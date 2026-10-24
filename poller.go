@@ -1,10 +1,10 @@
 package gogram
 
-import 	(
+import (
+	"gogram/telegram"
+	"gogram/telegram/method"
+	"gogram/types"
 	"time"
-	"github.com/irisked/gogram/option"
-	"github.com/irisked/gogram/types"
-	"github.com/irisked/gogram/telegram"
 )
 
 // Poller interface.
@@ -14,22 +14,23 @@ type Poller interface {
 }
 
 type pollingConfig struct {
-	offset int
-	limit int
+	offset         int
+	limit          int
 	allowedUpdates []types.UpdateType
-	started bool
+	started        bool
 }
 
 type poller struct {
 	config pollingConfig
-	tg *telegram.Telegram
+	tg     *telegram.Telegram
 }
+
 // NewPoller creates poller.
 func NewPoller(tg *telegram.Telegram, limit int) Poller {
 	p := poller{
 		config: pollingConfig{
-			offset: -1,
-			limit: limit,
+			offset:  -1,
+			limit:   limit,
 			started: false,
 		},
 		tg: tg,
@@ -50,12 +51,12 @@ func (p *poller) SetPolling(isPolling bool) {
 }
 
 func (p *poller) startPolling(updates chan<- types.Update) chan<- interface{} {
-	if (!p.IsPolling()) {
+	if !p.IsPolling() {
 		p.SetPolling(true)
 		done := make(chan interface{})
-		go func () {
+		go func() {
 			for {
-				select{
+				select {
 				case <-done:
 					p.SetPolling(false)
 					return
@@ -72,14 +73,14 @@ func (p *poller) startPolling(updates chan<- types.Update) chan<- interface{} {
 
 func (p *poller) fetch(updates chan<- types.Update) {
 	incoming, err := p.tg.GetUpdates(
-		option.Offset(p.config.offset),
-		option.Limit(p.config.limit),
+		func(u *method.GetUpdates) { u.Offset = p.config.offset },
+		func(u *method.GetUpdates) { u.Limit = p.config.limit },
 	)
 	if err != nil {
 		panic(err)
 	}
 	if len(incoming) > 0 {
-		p.config.offset = incoming[len(incoming) - 1].UpdateID + 1
+		p.config.offset = incoming[len(incoming)-1].UpdateID + 1
 		for _, update := range incoming {
 			updates <- update
 		}

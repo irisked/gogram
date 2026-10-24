@@ -3,8 +3,8 @@ package gogram
 import (
 	"fmt"
 	"sync"
-	"github.com/irisked/gogram/telegram"
-	"github.com/irisked/gogram/types"
+	"gogram/telegram"
+	"gogram/types"
 )
 
 // Handler function.
