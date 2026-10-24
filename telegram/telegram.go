@@ -9,21 +9,21 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/irisked/gogram/telegram/internal/net"
+	"github.com/irisked/gogram/telegram/internal/transport"
 	"github.com/irisked/gogram/telegram/method"
 )
 
-// Client is a Telegram Bot API client. The underlying *net.Client
-// (telegram/internal/net) is an unrelated, internal HTTP transport --
+// Client is a Telegram Bot API client. The underlying *transport.Client
+// (telegram/internal/transport) is an unrelated, internal HTTP client --
 // not to be confused with this exported Client.
 type Client struct {
-	client *net.Client
+	client *transport.Client
 }
 
 // New creates a Client for the given bot token.
 func New(token string) *Client {
 	c := new(Client)
-	c.client = net.NewClient(token)
+	c.client = transport.NewClient(token)
 	return c
 }
 
