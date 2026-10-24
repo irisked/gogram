@@ -2,20 +2,22 @@ package gogram
 
 import (
 	"fmt"
-	"github.com/irisked/gogram/types"
 	"strings"
+
+	"github.com/irisked/gogram/internal/router"
+	"github.com/irisked/gogram/types"
 )
 
 // dispatcher routes an incoming update to the handler registered for
 // its path.
 type dispatcher struct {
-	storage *storage
+	routes *router.Tree[Handler]
 }
 
 // newDispatcher creates a dispatcher.
 func newDispatcher() *dispatcher {
 	c := new(dispatcher)
-	c.storage = newStorage()
+	c.routes = router.New[Handler]()
 	return c
 }
 
@@ -24,7 +26,7 @@ func (c *dispatcher) OnUpdate(ut types.UpdateType, handler Handler) {
 }
 
 func (c *dispatcher) OnPath(path string, handler Handler) {
-	c.storage.Insert(path, handler)
+	c.routes.Insert(path, handler)
 }
 
 func (c *dispatcher) OnCallbackQuery(handler Handler) {
@@ -145,7 +147,7 @@ func (c *dispatcher) OnHelp(handler Handler) {
 
 func (c *dispatcher) Handle(ctx *Context) {
 	path := ctx.update.Path()
-	if handler, ok := c.storage.Find(path); ok {
+	if _, handler, ok := c.routes.LongestPrefix(path); ok {
 		handler(ctx)
 	}
 }
