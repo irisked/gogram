@@ -186,12 +186,25 @@ func (t *Tree[V]) Get(s string) (V, bool) {
 // LongestPrefix is like Get, but returns the longest prefix match
 // instead of requiring an exact one.
 func (t *Tree[V]) LongestPrefix(s string) (string, V, bool) {
+	return t.longestPrefix(s, func(string) bool { return true })
+}
+
+// Match returns the value stored at the longest prefix of path that
+// ends on a segment boundary: "/a/b" matches "/a/b/c" and "/a", but not
+// "/a/bc".
+func (t *Tree[V]) Match(path string) (string, V, bool) {
+	return t.longestPrefix(path, func(rest string) bool {
+		return rest == "" || rest[0] == '/'
+	})
+}
+
+func (t *Tree[V]) longestPrefix(s string, accept func(rest string) bool) (string, V, bool) {
 	var zero V
 	var last *leafNode[V]
 	n := t.root
 	search := s
 	for {
-		if n.isLeaf() {
+		if n.isLeaf() && accept(search) {
 			last = n.leaf
 		}
 		if len(search) == 0 {

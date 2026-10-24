@@ -1,0 +1,4 @@
+# The source of api.html, like go.sum for the Bot API spec.
+# Written by `make update-api`; checked by genapi.
+url https://core.telegram.org/bots/api
+sha256 f5a29e17ca2fb6694520e3f8f888f96c629f0dc89fa4b72b204ac2182399aa8a

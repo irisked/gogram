@@ -1,137 +1,106 @@
+// Package transport sends already-encoded requests to the Telegram Bot
+// API over HTTP and decodes the response envelope. Encoding request
+// bodies and interpreting results is the telegram package's job.
 package transport
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/irisked/gogram/telegram/method"
 	"io"
 	"net/http"
-	"time"
+	"strings"
 )
 
-const (
-	// TelegramAPIEndpoint is the endpoint for all API method with formatting for Sprintf.
-	TelegramAPIEndpoint = "https://api.telegram.org/bot%s/%s"
-	// TelegramFileEndpoint is the endpoint for downloading a file from Telegram.
-	TelegramFileEndpoint = "https://api.telegram.org/file/bot%s/%s"
-	// TelegramHTTPMethod http method for request
-	TelegramHTTPMethod = "POST"
-)
+// DefaultBaseURL is the public Bot API server.
+const DefaultBaseURL = "https://api.telegram.org"
 
-// Response is a response from Telegram API
-// with the result stored raw
+// Response is the envelope every Bot API call returns. Result is kept
+// raw so the caller can decode it into the method-specific type.
 type Response struct {
-	Ok          bool                `json:"ok"`
+	OK          bool                `json:"ok"`
 	Result      json.RawMessage     `json:"result"`
 	ErrorCode   int                 `json:"error_code"`
 	Description string              `json:"description"`
 	Parameters  *ResponseParameters `json:"parameters"`
 }
 
-// ResponseParameters are various errors that can be returned in APIResponse.
+// ResponseParameters carries extra information about a failed call.
 type ResponseParameters struct {
-	MigrateToChatID int64 `json:"migrate_to_chat_id"` // optional
-	RetryAfter      int   `json:"retry_after"`        // optional
+	MigrateToChatID int64 `json:"migrate_to_chat_id"`
+	RetryAfter      int   `json:"retry_after"`
 }
 
-func (rp *ResponseParameters) String() string {
-	return fmt.Sprintf("migrate_to_chat_id=%d retry_after=%d", rp.MigrateToChatID, rp.RetryAfter)
-}
-
-// Client represents a telegram api client.
+// Client posts requests to the Bot API.
 type Client struct {
 	token      string
+	baseURL    string
 	httpClient *http.Client
 }
 
-// NewClient creates Client.
-func NewClient(token string) *Client {
-	client := new(Client)
-	client.token = token
-	client.httpClient = &http.Client{
-		Timeout: time.Second * 10,
+// New creates a Client. An empty baseURL means DefaultBaseURL and a nil
+// httpClient means http.DefaultClient.
+func New(token, baseURL string, httpClient *http.Client) *Client {
+	if baseURL == "" {
+		baseURL = DefaultBaseURL
 	}
-	return client
+	if httpClient == nil {
+		httpClient = http.DefaultClient
+	}
+	return &Client{
+		token:      token,
+		baseURL:    strings.TrimRight(baseURL, "/"),
+		httpClient: httpClient,
+	}
 }
 
-// Token returns telegram token
-func (c *Client) Token() string {
-	return c.token
-}
-
-// Call builds http request and performs its from passed telegram method.
-func (c *Client) Call(ctx context.Context, method method.TelegramMethod) (Response, error) {
-	req, err := c.buildRequest(ctx, method)
+// Call posts body to the given API method and decodes the response
+// envelope. A non-OK envelope is not an error at this level; the caller
+// inspects Response.OK.
+func (c *Client) Call(ctx context.Context, method, contentType string, body io.Reader) (Response, error) {
+	url := fmt.Sprintf("%s/bot%s/%s", c.baseURL, c.token, method)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, body)
 	if err != nil {
-		return Response{}, err
+		// The client closes the body of requests it sends; this one is never
+		// sent, and a streamed body would otherwise block its writer.
+		if c, ok := body.(io.Closer); ok {
+			c.Close()
+		}
+		return Response{}, redactToken(err, c.token)
 	}
+	req.Header.Set("Content-Type", contentType)
+
 	res, err := c.httpClient.Do(req)
 	if err != nil {
-		return Response{}, err
+		return Response{}, redactToken(err, c.token)
 	}
 	defer res.Body.Close()
-	return c.parse(res)
-}
 
-// BuildRequest returns *http.Request from method.TelegramMethod
-// to be processed by client.
-func (c *Client) buildRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
-	if method.IsMultipart() {
-		return c.buildMultipartRequest(ctx, method)
-	}
-	return c.buildJSONRequest(ctx, method)
-}
-
-func (c *Client) buildMultipartRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
-	buffer, contentType, err := ToForm(method)
-	if err != nil {
-		return nil, err
-	}
-	return c.createHTTPRequest(ctx, method.Method(), buffer, contentType)
-}
-
-func (c *Client) buildJSONRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
-	buffer, contentType, err := ToJSON(method)
-	if err != nil {
-		return nil, err
-	}
-	return c.createHTTPRequest(ctx, method.Method(), buffer, contentType)
-}
-
-func (c *Client) createHTTPRequest(ctx context.Context, method string, body *bytes.Buffer, content string) (*http.Request, error) {
-	httpMethod := fmt.Sprintf(TelegramAPIEndpoint, c.token, method)
-	req, err := http.NewRequestWithContext(ctx, TelegramHTTPMethod, httpMethod, body)
-	if err != nil {
-		return nil, err
-	}
-	req.Header.Set("Content-Type", content)
-	return req, err
-}
-
-func (c *Client) parse(res *http.Response) (Response, error) {
 	var response Response
-	if err := c.decode(res.Body, &response); err != nil {
-		return response, err
+	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
+		return Response{}, fmt.Errorf("decode %s response (HTTP %d): %w", method, res.StatusCode, err)
 	}
-	return c.check(response)
+	return response, nil
 }
 
-func (c *Client) decode(body io.Reader, res *Response) error {
-	decoder := json.NewDecoder(body)
-	err := decoder.Decode(res)
-	return err
+// FileURL returns the download URL for a file path obtained from getFile.
+func (c *Client) FileURL(filePath string) string {
+	return fmt.Sprintf("%s/file/bot%s/%s", c.baseURL, c.token, filePath)
 }
 
-func (c *Client) check(res Response) (Response, error) {
-	if !res.Ok {
-		parameters := ResponseParameters{}
-		if res.Parameters != nil {
-			parameters = *res.Parameters
-		}
-		return res, errors.New(res.Description + parameters.String())
+// redactToken keeps the bot token out of error messages: net/http
+// includes the full request URL in *url.Error.
+func redactToken(err error, token string) error {
+	if token == "" || !strings.Contains(err.Error(), token) {
+		return err
 	}
-	return res, nil
+	return &redactedError{msg: strings.ReplaceAll(err.Error(), token, "<token>"), err: err}
 }
+
+type redactedError struct {
+	msg string
+	err error
+}
+
+func (e *redactedError) Error() string { return e.msg }
+func (e *redactedError) Unwrap() error { return e.err }
