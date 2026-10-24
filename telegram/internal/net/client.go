@@ -2,6 +2,7 @@ package net
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -62,8 +63,8 @@ func (c *Client) Token() string {
 }
 
 // Call builds http request and performs its from passed telegram method.
-func (c *Client) Call(method method.TelegramMethod) (Response, error) {
-	req, err := c.buildRequest(method)
+func (c *Client) Call(ctx context.Context, method method.TelegramMethod) (Response, error) {
+	req, err := c.buildRequest(ctx, method)
 	if err != nil {
 		return Response{}, err
 	}
@@ -77,32 +78,32 @@ func (c *Client) Call(method method.TelegramMethod) (Response, error) {
 
 // BuildRequest returns *http.Request from method.TelegramMethod
 // to be processed by client.
-func (c *Client) buildRequest(method method.TelegramMethod) (*http.Request, error) {
+func (c *Client) buildRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
 	if method.IsMultipart() {
-		return c.buildMultipartRequest(method)
+		return c.buildMultipartRequest(ctx, method)
 	}
-	return c.buildJSONRequest(method)
+	return c.buildJSONRequest(ctx, method)
 }
 
-func (c *Client) buildMultipartRequest(method method.TelegramMethod) (*http.Request, error) {
+func (c *Client) buildMultipartRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
 	buffer, contentType, err := ToForm(method)
 	if err != nil {
 		return nil, err
 	}
-	return c.createHTTPRequest(method.Method(), buffer, contentType)
+	return c.createHTTPRequest(ctx, method.Method(), buffer, contentType)
 }
 
-func (c *Client) buildJSONRequest(method method.TelegramMethod) (*http.Request, error) {
+func (c *Client) buildJSONRequest(ctx context.Context, method method.TelegramMethod) (*http.Request, error) {
 	buffer, contentType, err := ToJSON(method)
 	if err != nil {
 		return nil, err
 	}
-	return c.createHTTPRequest(method.Method(), buffer, contentType)
+	return c.createHTTPRequest(ctx, method.Method(), buffer, contentType)
 }
 
-func (c *Client) createHTTPRequest(method string, body *bytes.Buffer, content string) (*http.Request, error) {
+func (c *Client) createHTTPRequest(ctx context.Context, method string, body *bytes.Buffer, content string) (*http.Request, error) {
 	httpMethod := fmt.Sprintf(TelegramAPIEndpoint, c.token, method)
-	req, err := http.NewRequest(TelegramHTTPMethod, httpMethod, body)
+	req, err := http.NewRequestWithContext(ctx, TelegramHTTPMethod, httpMethod, body)
 	if err != nil {
 		return nil, err
 	}

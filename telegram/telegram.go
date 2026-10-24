@@ -1,13 +1,15 @@
 package telegram
 
 import (
+	"context"
 	"encoding/json"
+	"os"
+
 	"github.com/irisked/gogram/args"
 	"github.com/irisked/gogram/telegram/internal/net"
 	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/types"
-	"os"
 )
 
 // Client is a Telegram Bot API client.
@@ -22,8 +24,8 @@ func New(token string) *Client {
 	return c
 }
 
-func (t *Client) process(m method.TelegramMethod, result interface{}) error {
-	response, err := t.client.Call(m)
+func (t *Client) process(ctx context.Context, m method.TelegramMethod, result interface{}) error {
+	response, err := t.client.Call(ctx, m)
 	if err != nil {
 		return err
 	}
@@ -33,20 +35,20 @@ func (t *Client) process(m method.TelegramMethod, result interface{}) error {
 // GetMe performs getMe telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getme
-func (t *Client) GetMe() (types.User, error) {
+func (t *Client) GetMe(ctx context.Context) (types.User, error) {
 	m := method.NewGetMe()
 	user := types.User{}
-	err := t.process(m, &user)
+	err := t.process(ctx, m, &user)
 	return user, err
 }
 
 // GetUpdates performs getMe telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getupdates
-func (t *Client) GetUpdates(opts ...method.Option[*method.GetUpdates]) ([]types.Update, error) {
+func (t *Client) GetUpdates(ctx context.Context, opts ...method.Option[*method.GetUpdates]) ([]types.Update, error) {
 	m := method.NewGetUpdates(opts...)
 	var updates []types.Update
-	err := t.process(m, &updates)
+	err := t.process(ctx, m, &updates)
 	return updates, err
 }
 
@@ -58,10 +60,10 @@ func (t *Client) GetUpdates(opts ...method.Option[*method.GetUpdates]) ([]types.
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (t *Client) SendMessage(chatID int64, text args.TextData, opts ...method.Option[*method.SendMessage]) (types.Message, error) {
+func (t *Client) SendMessage(ctx context.Context, chatID int64, text args.TextData, opts ...method.Option[*method.SendMessage]) (types.Message, error) {
 	m := method.NewSendMessage(chatID, text, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -72,10 +74,10 @@ func (t *Client) SendMessage(chatID int64, text args.TextData, opts ...method.Op
 // option.DisableNotification()
 //
 // Reference: https://core.telegram.org/bots/api#forwardmessage
-func (t *Client) ForwardMessage(chatID, fromChatID, messageID int, opts ...method.Option[*method.ForwardMessage]) (types.Message, error) {
+func (t *Client) ForwardMessage(ctx context.Context, chatID, fromChatID, messageID int, opts ...method.Option[*method.ForwardMessage]) (types.Message, error) {
 	m := method.NewForwardMessage(chatID, fromChatID, messageID, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -87,10 +89,10 @@ func (t *Client) ForwardMessage(chatID, fromChatID, messageID int, opts ...metho
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendphoto
-func (t *Client) SendPhoto(chatID int64, photo *args.PhotoConfig, opts ...method.Option[*method.SendPhoto]) (types.Message, error) {
+func (t *Client) SendPhoto(ctx context.Context, chatID int64, photo *args.PhotoConfig, opts ...method.Option[*method.SendPhoto]) (types.Message, error) {
 	m := method.NewSendPhoto(chatID, photo, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -102,10 +104,10 @@ func (t *Client) SendPhoto(chatID int64, photo *args.PhotoConfig, opts ...method
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendaudio
-func (t *Client) SendAudio(chatID int64, audio *args.AudioConfig, opts ...method.Option[*method.SendAudio]) (types.Message, error) {
+func (t *Client) SendAudio(ctx context.Context, chatID int64, audio *args.AudioConfig, opts ...method.Option[*method.SendAudio]) (types.Message, error) {
 	m := method.NewSendAudio(chatID, audio, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -117,10 +119,10 @@ func (t *Client) SendAudio(chatID int64, audio *args.AudioConfig, opts ...method
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#senddocument
-func (t *Client) SendDocument(chatID int64, document *args.DocumentConfig, opts ...method.Option[*method.SendDocument]) (types.Message, error) {
+func (t *Client) SendDocument(ctx context.Context, chatID int64, document *args.DocumentConfig, opts ...method.Option[*method.SendDocument]) (types.Message, error) {
 	m := method.NewSendDocument(chatID, document, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -132,10 +134,10 @@ func (t *Client) SendDocument(chatID int64, document *args.DocumentConfig, opts 
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideo
-func (t *Client) SendVideo(chatID int64, video *args.VideoConfig, opts ...method.Option[*method.SendVideo]) (types.Message, error) {
+func (t *Client) SendVideo(ctx context.Context, chatID int64, video *args.VideoConfig, opts ...method.Option[*method.SendVideo]) (types.Message, error) {
 	m := method.NewSendVideo(chatID, video, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -147,10 +149,10 @@ func (t *Client) SendVideo(chatID int64, video *args.VideoConfig, opts ...method
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendanimation
-func (t *Client) SendAnimation(chatID int64, animation *args.AnimationConfig, opts ...method.Option[*method.SendAnimation]) (types.Message, error) {
+func (t *Client) SendAnimation(ctx context.Context, chatID int64, animation *args.AnimationConfig, opts ...method.Option[*method.SendAnimation]) (types.Message, error) {
 	m := method.NewSendAnimation(chatID, animation, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -162,10 +164,10 @@ func (t *Client) SendAnimation(chatID int64, animation *args.AnimationConfig, op
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvoice
-func (t *Client) SendVoice(chatID int64, voice *args.VoiceConfig, opts ...method.Option[*method.SendVoice]) (types.Message, error) {
+func (t *Client) SendVoice(ctx context.Context, chatID int64, voice *args.VoiceConfig, opts ...method.Option[*method.SendVoice]) (types.Message, error) {
 	m := method.NewSendVoice(chatID, voice, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -177,10 +179,10 @@ func (t *Client) SendVoice(chatID int64, voice *args.VoiceConfig, opts ...method
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideonote
-func (t *Client) SendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, opts ...method.Option[*method.SendVideoNote]) (types.Message, error) {
+func (t *Client) SendVideoNote(ctx context.Context, chatID int64, videoNote *args.VideoNoteConfig, opts ...method.Option[*method.SendVideoNote]) (types.Message, error) {
 	m := method.NewSendVideoNote(chatID, videoNote, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -192,10 +194,10 @@ func (t *Client) SendVideoNote(chatID int64, videoNote *args.VideoNoteConfig, op
 //
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
 // TODO: parse response to array.
-func (t *Client) SendMediaGroup(chatID int64, mediaGroup []args.MediaGroupConfig, opts ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
+func (t *Client) SendMediaGroup(ctx context.Context, chatID int64, mediaGroup []args.MediaGroupConfig, opts ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
 	m := method.NewSendMediaGroup(chatID, mediaGroup, opts...)
 	var messages []types.Message
-	err := t.process(m, &messages)
+	err := t.process(ctx, m, &messages)
 	return messages, err
 }
 
@@ -207,10 +209,10 @@ func (t *Client) SendMediaGroup(chatID int64, mediaGroup []args.MediaGroupConfig
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendlocation
-func (t *Client) SendLocation(chatID int64, location types.Location, opts ...method.Option[*method.SendLocation]) (types.Message, error) {
+func (t *Client) SendLocation(ctx context.Context, chatID int64, location types.Location, opts ...method.Option[*method.SendLocation]) (types.Message, error) {
 	m := method.NewSendLocation(chatID, location, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -225,10 +227,10 @@ func (t *Client) SendLocation(chatID int64, location types.Location, opts ...met
 // option.Keyboard(keyboard markup.Keyboard), option.Foursquare(id, type string)
 //
 // Reference: https://core.telegram.org/bots/api#sendvenue
-func (t *Client) SendVenue(chatID int64, venue types.Venue, opts ...method.Option[*method.SendVenue]) (types.Message, error) {
+func (t *Client) SendVenue(ctx context.Context, chatID int64, venue types.Venue, opts ...method.Option[*method.SendVenue]) (types.Message, error) {
 	m := method.NewSendVenue(chatID, venue, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -240,20 +242,20 @@ func (t *Client) SendVenue(chatID int64, venue types.Venue, opts ...method.Optio
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendcontact
-func (t *Client) SendContact(chatID int64, contact types.Contact, opts ...method.Option[*method.SendContact]) (types.Message, error) {
+func (t *Client) SendContact(ctx context.Context, chatID int64, contact types.Contact, opts ...method.Option[*method.SendContact]) (types.Message, error) {
 	m := method.NewSendContact(chatID, contact, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
 // SendChatAction performs sendChatAction telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#sendchataction
-func (t *Client) SendChatAction(chatID int64, action types.ChatAction) (types.Message, error) {
+func (t *Client) SendChatAction(ctx context.Context, chatID int64, action types.ChatAction) (types.Message, error) {
 	m := method.NewSendChatAction(chatID, action)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -264,20 +266,20 @@ func (t *Client) SendChatAction(chatID int64, action types.ChatAction) (types.Me
 // option.Offset(o int), option.Limit(l int)
 //
 // Reference: https://core.telegram.org/bots/api#getuserprofilephotos
-func (t *Client) GetUserProfilePhotos(userID int, opts ...method.Option[*method.GetUserProfilePhotos]) (types.UserProfilePhotos, error) {
+func (t *Client) GetUserProfilePhotos(ctx context.Context, userID int, opts ...method.Option[*method.GetUserProfilePhotos]) (types.UserProfilePhotos, error) {
 	m := method.NewGetUserProfilePhotos(userID, opts...)
 	photos := types.UserProfilePhotos{}
-	err := t.process(m, &photos)
+	err := t.process(ctx, m, &photos)
 	return photos, err
 }
 
 // GetFile performs getFile telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getfile
-func (t *Client) GetFile(fileID string) (types.File, error) {
+func (t *Client) GetFile(ctx context.Context, fileID string) (types.File, error) {
 	m := method.NewGetFile(fileID)
 	file := types.File{}
-	err := t.process(m, &file)
+	err := t.process(ctx, m, &file)
 	return file, err
 }
 
@@ -288,10 +290,10 @@ func (t *Client) GetFile(fileID string) (types.File, error) {
 // option.UntilDate(date int)
 //
 // Reference: https://core.telegram.org/bots/api#kickchatmember
-func (t *Client) KickChatMember(userID int, chatID int64, opts ...method.Option[*method.KickChatMember]) (bool, error) {
+func (t *Client) KickChatMember(ctx context.Context, userID int, chatID int64, opts ...method.Option[*method.KickChatMember]) (bool, error) {
 	m := method.NewKickChatMember(userID, chatID, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -302,10 +304,10 @@ func (t *Client) KickChatMember(userID int, chatID int64, opts ...method.Option[
 // option.UntilDate(date int)
 //
 // Reference: https://core.telegram.org/bots/api#unbanchatmember
-func (t *Client) UnbanChatMember(userID int, chatID int64) (bool, error) {
+func (t *Client) UnbanChatMember(ctx context.Context, userID int, chatID int64) (bool, error) {
 	m := method.NewUnbanChatMember(userID, chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -318,10 +320,10 @@ func (t *Client) UnbanChatMember(userID int, chatID int64) (bool, error) {
 //
 // Reference: https://core.telegram.org/bots/api#restrictchatmember
 // TODO: rework true/false
-func (t *Client) RestrictChatMember(userID int, chatID int64, opts ...method.Option[*method.RestrictChatMember]) (bool, error) {
+func (t *Client) RestrictChatMember(ctx context.Context, userID int, chatID int64, opts ...method.Option[*method.RestrictChatMember]) (bool, error) {
 	m := method.NewRestrictChatMember(userID, chatID, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -334,100 +336,100 @@ func (t *Client) RestrictChatMember(userID int, chatID int64, opts ...method.Opt
 //
 // Reference: https://core.telegram.org/bots/api#promotechatmember
 // TODO: rework true/false
-func (t *Client) PromoteChatMember(userID int, chatID int64, opts ...method.Option[*method.PromoteChatMember]) (bool, error) {
+func (t *Client) PromoteChatMember(ctx context.Context, userID int, chatID int64, opts ...method.Option[*method.PromoteChatMember]) (bool, error) {
 	m := method.NewPromoteChatMember(userID, chatID, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // ExportChatInviteLink performs exportChatInviteLink telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#exportchatinvitelink
-func (t *Client) ExportChatInviteLink(chatID int64) (string, error) {
+func (t *Client) ExportChatInviteLink(ctx context.Context, chatID int64) (string, error) {
 	m := method.NewExportChatInviteLink(chatID)
 	var result string
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetChatPhoto performs setChatPhoto telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatphoto
-func (t *Client) SetChatPhoto(chatID int64, file *os.File) (bool, error) {
+func (t *Client) SetChatPhoto(ctx context.Context, chatID int64, file *os.File) (bool, error) {
 	m := method.NewSetChatPhoto(chatID, file)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteChatPhoto performs deleteChatPhoto telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletechatphoto
-func (t *Client) DeleteChatPhoto(chatID int64) (bool, error) {
+func (t *Client) DeleteChatPhoto(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewDeleteChatPhoto(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetChatTitle performs setChatTitle telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchattitle
-func (t *Client) SetChatTitle(chatID int64, title string) (bool, error) {
+func (t *Client) SetChatTitle(ctx context.Context, chatID int64, title string) (bool, error) {
 	m := method.NewSetChatTitle(chatID, title)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetChatDescription performs setChatDescription telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatdescription
-func (t *Client) SetChatDescription(chatID int64, description string) (bool, error) {
+func (t *Client) SetChatDescription(ctx context.Context, chatID int64, description string) (bool, error) {
 	m := method.NewSetChatDescription(chatID, description)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // PinChatMessage performs pinChatMessage telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#pinchatmessage
-func (t *Client) PinChatMessage(chatID int64, messageID int, opts ...method.Option[*method.PinChatMessage]) (bool, error) {
+func (t *Client) PinChatMessage(ctx context.Context, chatID int64, messageID int, opts ...method.Option[*method.PinChatMessage]) (bool, error) {
 	m := method.NewPinChatMessage(chatID, messageID, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // UnpinChatMessage performs unpinChatMessage telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#unpinchatmessage
-func (t *Client) UnpinChatMessage(chatID int64) (bool, error) {
+func (t *Client) UnpinChatMessage(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewUnpinChatMessage(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // LeaveChat performs leaveChat telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#leavechat
-func (t *Client) LeaveChat(chatID int64) (bool, error) {
+func (t *Client) LeaveChat(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewLeaveChat(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetChat performs getChat telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchat
-func (t *Client) GetChat(chatID int64) (types.Chat, error) {
+func (t *Client) GetChat(ctx context.Context, chatID int64) (types.Chat, error) {
 	m := method.NewGetChat(chatID)
 	chat := types.Chat{}
-	err := t.process(m, &chat)
+	err := t.process(ctx, m, &chat)
 	return chat, err
 }
 
@@ -435,50 +437,50 @@ func (t *Client) GetChat(chatID int64) (types.Chat, error) {
 //
 // Reference: https://core.telegram.org/bots/api#getchatadministrators
 // TODO: results is array
-func (t *Client) GetChatAdministrators(chatID int64) (types.ChatMember, error) {
+func (t *Client) GetChatAdministrators(ctx context.Context, chatID int64) (types.ChatMember, error) {
 	m := method.NewGetChatAdministrators(chatID)
 	administrators := types.ChatMember{}
-	err := t.process(m, &administrators)
+	err := t.process(ctx, m, &administrators)
 	return administrators, err
 }
 
 // GetChatMembersCount performs getChatMembersCount telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchatmemberscount
-func (t *Client) GetChatMembersCount(chatID int64) (int, error) {
+func (t *Client) GetChatMembersCount(ctx context.Context, chatID int64) (int, error) {
 	m := method.NewGetChatMembersCount(chatID)
 	var result int
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetChatMember performs getChatMember telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchatmember
-func (t *Client) GetChatMember(chatID int64, userID int) (types.ChatMember, error) {
+func (t *Client) GetChatMember(ctx context.Context, chatID int64, userID int) (types.ChatMember, error) {
 	m := method.NewGetChatMember(chatID, userID)
 	member := types.ChatMember{}
-	err := t.process(m, &member)
+	err := t.process(ctx, m, &member)
 	return member, err
 }
 
 // SetChatStickerSet performs setChatStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatstickerset
-func (t *Client) SetChatStickerSet(chatID int64, stickerSetName string) (bool, error) {
+func (t *Client) SetChatStickerSet(ctx context.Context, chatID int64, stickerSetName string) (bool, error) {
 	m := method.NewSetChatStickerSet(chatID, stickerSetName)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteChatStickerSet performs deleteChatStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletechatstickerset
-func (t *Client) DeleteChatStickerSet(chatID int64) (bool, error) {
+func (t *Client) DeleteChatStickerSet(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewDeleteChatStickerSet(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -490,10 +492,10 @@ func (t *Client) DeleteChatStickerSet(chatID int64) (bool, error) {
 // option.CacheTime(time int)
 //
 // Reference: https://core.telegram.org/bots/api#answercallbackquery
-func (t *Client) AnswerCallbackQuery(id string, opts ...method.Option[*method.AnswerCallbackQuery]) (bool, error) {
+func (t *Client) AnswerCallbackQuery(ctx context.Context, id string, opts ...method.Option[*method.AnswerCallbackQuery]) (bool, error) {
 	m := method.NewAnswerCallbackQuery(id, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -505,10 +507,10 @@ func (t *Client) AnswerCallbackQuery(id string, opts ...method.Option[*method.An
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (t *Client) EditMessageText(messageID *args.MessageID, text args.TextData, opts ...method.Option[*method.EditMessageText]) (*types.Message, error) {
+func (t *Client) EditMessageText(ctx context.Context, messageID *args.MessageID, text args.TextData, opts ...method.Option[*method.EditMessageText]) (*types.Message, error) {
 	m := method.NewEditMessageText(messageID, text, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
@@ -520,10 +522,10 @@ func (t *Client) EditMessageText(messageID *args.MessageID, text args.TextData, 
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (t *Client) EditMessageCaption(messageID *args.MessageID, caption args.TextData, opts ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
+func (t *Client) EditMessageCaption(ctx context.Context, messageID *args.MessageID, caption args.TextData, opts ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
 	m := method.NewEditMessageCaption(messageID, caption, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
@@ -535,10 +537,10 @@ func (t *Client) EditMessageCaption(messageID *args.MessageID, caption args.Text
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
-func (t *Client) EditMessageMedia(messageID *args.MessageID, media args.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
+func (t *Client) EditMessageMedia(ctx context.Context, messageID *args.MessageID, media args.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
 	m := method.NewEditMessageMedia(messageID, media, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
@@ -546,20 +548,20 @@ func (t *Client) EditMessageMedia(messageID *args.MessageID, media args.InputMed
 // Returns pointer to the message, if message was sent by the bot or nil-pointer.
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
-func (t *Client) EditMessageReplyMarkup(messageID *args.MessageID, kb keyboard.Markup) (*types.Message, error) {
+func (t *Client) EditMessageReplyMarkup(ctx context.Context, messageID *args.MessageID, kb keyboard.Markup) (*types.Message, error) {
 	m := method.NewEditMessageReplyMarkup(messageID, kb)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
 // DeleteMessage performs deleteMessage telegram api method.
 //
 // https://core.telegram.org/bots/api#deletemessage
-func (t *Client) DeleteMessage(chatID int64, messageID int) (bool, error) {
+func (t *Client) DeleteMessage(ctx context.Context, chatID int64, messageID int) (bool, error) {
 	m := method.NewDeleteMessage(chatID, messageID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -572,10 +574,10 @@ func (t *Client) DeleteMessage(chatID int64, messageID int) (bool, error) {
 // option.CopyMessageAllowCopy(), option.CopyMessageReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#copymessage
-func (t *Client) CopyMessage(chatID, fromChatID int64, messageID int, opts ...method.Option[*method.CopyMessage]) (types.MessageID, error) {
+func (t *Client) CopyMessage(ctx context.Context, chatID, fromChatID int64, messageID int, opts ...method.Option[*method.CopyMessage]) (types.MessageID, error) {
 	m := method.NewCopyMessage(chatID, fromChatID, messageID, opts...)
 	var result types.MessageID
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -586,20 +588,20 @@ func (t *Client) CopyMessage(chatID, fromChatID int64, messageID int, opts ...me
 // option.CopyMessagesDisableNotification(), option.CopyMessagesRemoveSender()
 //
 // Reference: https://core.telegram.org/bots/api#copymessages
-func (t *Client) CopyMessages(chatID, fromChatID int64, messageIDs []int, opts ...method.Option[*method.CopyMessages]) ([]types.MessageID, error) {
+func (t *Client) CopyMessages(ctx context.Context, chatID, fromChatID int64, messageIDs []int, opts ...method.Option[*method.CopyMessages]) ([]types.MessageID, error) {
 	m := method.NewCopyMessages(chatID, fromChatID, messageIDs, opts...)
 	var result []types.MessageID
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteMessages performs deleteMessages telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletemessages
-func (t *Client) DeleteMessages(chatID int64, messageIDs []int) (bool, error) {
+func (t *Client) DeleteMessages(ctx context.Context, chatID int64, messageIDs []int) (bool, error) {
 	m := method.NewDeleteMessages(chatID, messageIDs)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -610,10 +612,10 @@ func (t *Client) DeleteMessages(chatID int64, messageIDs []int) (bool, error) {
 // option.StopPollReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#stoppoll
-func (t *Client) StopPoll(chatID int64, messageID int, opts ...method.Option[*method.StopPoll]) (types.Poll, error) {
+func (t *Client) StopPoll(ctx context.Context, chatID int64, messageID int, opts ...method.Option[*method.StopPoll]) (types.Poll, error) {
 	m := method.NewStopPoll(chatID, messageID, opts...)
 	var result types.Poll
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -624,10 +626,10 @@ func (t *Client) StopPoll(chatID int64, messageID int, opts ...method.Option[*me
 // option.EditMessageLiveLocationReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#editmessagelivelocation
-func (t *Client) EditMessageLiveLocation(messageID *args.MessageID, location types.Location, opts ...method.Option[*method.EditMessageLiveLocation]) (*types.Message, error) {
+func (t *Client) EditMessageLiveLocation(ctx context.Context, messageID *args.MessageID, location types.Location, opts ...method.Option[*method.EditMessageLiveLocation]) (*types.Message, error) {
 	m := method.NewEditMessageLiveLocation(messageID, location, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
@@ -638,10 +640,10 @@ func (t *Client) EditMessageLiveLocation(messageID *args.MessageID, location typ
 // option.StopMessageLiveLocationReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#stopmessagelivelocation
-func (t *Client) StopMessageLiveLocation(messageID *args.MessageID, opts ...method.Option[*method.StopMessageLiveLocation]) (*types.Message, error) {
+func (t *Client) StopMessageLiveLocation(ctx context.Context, messageID *args.MessageID, opts ...method.Option[*method.StopMessageLiveLocation]) (*types.Message, error) {
 	m := method.NewStopMessageLiveLocation(messageID, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return &message, err
 }
 
@@ -652,20 +654,20 @@ func (t *Client) StopMessageLiveLocation(messageID *args.MessageID, opts ...meth
 // option.DeleteWebhookDropPendingUpdates()
 //
 // Reference: https://core.telegram.org/bots/api#deletewebhook
-func (t *Client) DeleteWebhook(opts ...method.Option[*method.DeleteWebhook]) (bool, error) {
+func (t *Client) DeleteWebhook(ctx context.Context, opts ...method.Option[*method.DeleteWebhook]) (bool, error) {
 	m := method.NewDeleteWebhook(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetStickerSet performs getStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getstickerset
-func (t *Client) GetStickerSet(name string) (types.StickerSet, error) {
+func (t *Client) GetStickerSet(ctx context.Context, name string) (types.StickerSet, error) {
 	m := method.NewGetStickerSet(name)
 	var result types.StickerSet
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -679,10 +681,10 @@ func (t *Client) GetStickerSet(name string) (types.StickerSet, error) {
 // option.UploadStickerFileMaskPosition(), option.UploadStickerFileEmojiList()
 //
 // Reference: https://core.telegram.org/bots/api#uploadstickerfile
-func (t *Client) UploadStickerFile(userID int64, sticker *os.File, opts ...method.Option[*method.UploadStickerFile]) (types.File, error) {
+func (t *Client) UploadStickerFile(ctx context.Context, userID int64, sticker *os.File, opts ...method.Option[*method.UploadStickerFile]) (types.File, error) {
 	m := method.NewUploadStickerFile(sticker, opts...)
 	file := types.File{}
-	err := t.process(m, &file)
+	err := t.process(ctx, m, &file)
 	return file, err
 }
 
@@ -694,20 +696,20 @@ func (t *Client) UploadStickerFile(userID int64, sticker *os.File, opts ...metho
 // option.CreateNewStickerSetNeedsRepaired()
 //
 // Reference: https://core.telegram.org/bots/api#createnewstickerset
-func (t *Client) CreateNewStickerSet(userID int64, name, title string, stickers []string, opts ...method.Option[*method.CreateNewStickerSet]) (bool, error) {
+func (t *Client) CreateNewStickerSet(ctx context.Context, userID int64, name, title string, stickers []string, opts ...method.Option[*method.CreateNewStickerSet]) (bool, error) {
 	m := method.NewCreateNewStickerSet(userID, name, title, stickers, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteStickerSet performs deleteStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletestickerset
-func (t *Client) DeleteStickerSet(name string) (bool, error) {
+func (t *Client) DeleteStickerSet(ctx context.Context, name string) (bool, error) {
 	m := method.NewDeleteStickerSet(name)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -718,120 +720,120 @@ func (t *Client) DeleteStickerSet(name string) (bool, error) {
 // option.AddStickerToSetMaskPosition()
 //
 // Reference: https://core.telegram.org/bots/api#addstickertoset
-func (t *Client) AddStickerToSet(userID int64, name, sticker string, opts ...method.Option[*method.AddStickerToSet]) (bool, error) {
+func (t *Client) AddStickerToSet(ctx context.Context, userID int64, name, sticker string, opts ...method.Option[*method.AddStickerToSet]) (bool, error) {
 	m := method.NewAddStickerToSet(userID, name, sticker, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerPositionInSet performs setStickerPositionInSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickerpositioninset
-func (t *Client) SetStickerPositionInSet(sticker string, position int) (bool, error) {
+func (t *Client) SetStickerPositionInSet(ctx context.Context, sticker string, position int) (bool, error) {
 	m := method.NewSetStickerPositionInSet(sticker, position)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteStickerFromSet performs deleteStickerFromSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletestickerfromset
-func (t *Client) DeleteStickerFromSet(sticker string) (bool, error) {
+func (t *Client) DeleteStickerFromSet(ctx context.Context, sticker string) (bool, error) {
 	m := method.NewDeleteStickerFromSet(sticker)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // ReplaceStickerInSet performs replaceStickerInSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#replacestickerinset
-func (t *Client) ReplaceStickerInSet(userID int64, name, oldSticker, sticker string) (bool, error) {
+func (t *Client) ReplaceStickerInSet(ctx context.Context, userID int64, name, oldSticker, sticker string) (bool, error) {
 	m := method.NewReplaceStickerInSet(userID, name, oldSticker, sticker)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerEmojiList performs setStickerEmojiList telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickeremojilist
-func (t *Client) SetStickerEmojiList(sticker string, emojiList []string) (bool, error) {
+func (t *Client) SetStickerEmojiList(ctx context.Context, sticker string, emojiList []string) (bool, error) {
 	m := method.NewSetStickerEmojiList(sticker, emojiList)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerKeywords performs setStickerKeywords telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickerkeywords
-func (t *Client) SetStickerKeywords(sticker string, keywords []string) (bool, error) {
+func (t *Client) SetStickerKeywords(ctx context.Context, sticker string, keywords []string) (bool, error) {
 	m := method.NewSetStickerKeywords(sticker, keywords)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerMaskPosition performs setStickerMaskPosition telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickermaskposition
-func (t *Client) SetStickerMaskPosition(sticker, maskPosition string) (bool, error) {
+func (t *Client) SetStickerMaskPosition(ctx context.Context, sticker, maskPosition string) (bool, error) {
 	m := method.NewSetStickerMaskPosition(sticker, maskPosition)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerSetTitle performs setStickerSetTitle telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickersettitle
-func (t *Client) SetStickerSetTitle(name, title string) (bool, error) {
+func (t *Client) SetStickerSetTitle(ctx context.Context, name, title string) (bool, error) {
 	m := method.NewSetStickerSetTitle(name, title)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerSetDescription performs setStickerSetDescription telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickersetdescription
-func (t *Client) SetStickerSetDescription(name, description string) (bool, error) {
+func (t *Client) SetStickerSetDescription(ctx context.Context, name, description string) (bool, error) {
 	m := method.NewSetStickerSetDescription(name, description)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetStickerSetThumbnail performs setStickerSetThumbnail telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setstickersetthumbnail
-func (t *Client) SetStickerSetThumbnail(name, thumbnail string) (bool, error) {
+func (t *Client) SetStickerSetThumbnail(ctx context.Context, name, thumbnail string) (bool, error) {
 	m := method.NewSetStickerSetThumbnail(name, thumbnail)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // SetCustomEmojiStickerSetThumbnail performs setCustomEmojiStickerSetThumbnail telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail
-func (t *Client) SetCustomEmojiStickerSetThumbnail(name, customEmoji string) (bool, error) {
+func (t *Client) SetCustomEmojiStickerSetThumbnail(ctx context.Context, name, customEmoji string) (bool, error) {
 	m := method.NewSetCustomEmojiStickerSetThumbnail(name, customEmoji)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetCustomEmojiStickers performs getCustomEmojiStickers telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getcustomemojistickers
-func (t *Client) GetCustomEmojiStickers(customEmojiIDs []string) ([]types.Sticker, error) {
+func (t *Client) GetCustomEmojiStickers(ctx context.Context, customEmojiIDs []string) ([]types.Sticker, error) {
 	m := method.NewGetCustomEmojiStickers(customEmojiIDs)
 	var result []types.Sticker
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -842,10 +844,10 @@ func (t *Client) GetCustomEmojiStickers(customEmojiIDs []string) ([]types.Sticke
 // option.CreateForumTopicIconColor(), option.CreateForumTopicIconEmojiID()
 //
 // Reference: https://core.telegram.org/bots/api#createforumtopic
-func (t *Client) CreateForumTopic(chatID int64, name string, opts ...method.Option[*method.CreateForumTopic]) (method.ForumTopic, error) {
+func (t *Client) CreateForumTopic(ctx context.Context, chatID int64, name string, opts ...method.Option[*method.CreateForumTopic]) (method.ForumTopic, error) {
 	m := method.NewCreateForumTopic(chatID, name, opts...)
 	var result method.ForumTopic
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -856,130 +858,130 @@ func (t *Client) CreateForumTopic(chatID int64, name string, opts ...method.Opti
 // option.EditForumTopicName(), option.EditForumTopicIconEmojiID()
 //
 // Reference: https://core.telegram.org/bots/api#editforumtopic
-func (t *Client) EditForumTopic(chatID int64, messageID int, opts ...method.Option[*method.EditForumTopic]) (bool, error) {
+func (t *Client) EditForumTopic(ctx context.Context, chatID int64, messageID int, opts ...method.Option[*method.EditForumTopic]) (bool, error) {
 	m := method.NewEditForumTopic(chatID, messageID, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // DeleteForumTopic performs deleteForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deleteforumtopic
-func (t *Client) DeleteForumTopic(chatID int64, messageID int) (bool, error) {
+func (t *Client) DeleteForumTopic(ctx context.Context, chatID int64, messageID int) (bool, error) {
 	m := method.NewDeleteForumTopic(chatID, messageID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetForumTopic performs getForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getforumtopic
-func (t *Client) GetForumTopic(chatID int64, messageID int) (method.ForumTopic, error) {
+func (t *Client) GetForumTopic(ctx context.Context, chatID int64, messageID int) (method.ForumTopic, error) {
 	m := method.NewGetForumTopic(chatID, messageID)
 	var result method.ForumTopic
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // CloseForumTopic performs closeForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#closeforumtopic
-func (t *Client) CloseForumTopic(chatID int64, messageID int) (bool, error) {
+func (t *Client) CloseForumTopic(ctx context.Context, chatID int64, messageID int) (bool, error) {
 	m := method.NewCloseForumTopic(chatID, messageID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // ReopenForumTopic performs reopenForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#reopenforumtopic
-func (t *Client) ReopenForumTopic(chatID int64, messageID int) (bool, error) {
+func (t *Client) ReopenForumTopic(ctx context.Context, chatID int64, messageID int) (bool, error) {
 	m := method.NewReopenForumTopic(chatID, messageID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // GetForumTopicIconStickers performs getForumTopicIconStickers telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getforumtopiciconstickers
-func (t *Client) GetForumTopicIconStickers() ([]types.Sticker, error) {
+func (t *Client) GetForumTopicIconStickers(ctx context.Context) ([]types.Sticker, error) {
 	m := method.NewGetForumTopicIconStickers()
 	var result []types.Sticker
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // UnpinAllForumTopicMessages performs unpinAllForumTopicMessages telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#unpinallforumtopicmessages
-func (t *Client) UnpinAllForumTopicMessages(chatID int64, messageID int) (bool, error) {
+func (t *Client) UnpinAllForumTopicMessages(ctx context.Context, chatID int64, messageID int) (bool, error) {
 	m := method.NewUnpinAllForumTopicMessages(chatID, messageID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // EditGeneralForumTopic performs editGeneralForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#editgeneralforumtopic
-func (t *Client) EditGeneralTopic(chatID int64, name string) (bool, error) {
+func (t *Client) EditGeneralTopic(ctx context.Context, chatID int64, name string) (bool, error) {
 	m := method.NewEditGeneralForumTopic(chatID, name)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // CloseGeneralForumTopic performs closeGeneralForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#closegeneralforumtopic
-func (t *Client) CloseGeneralForumTopic(chatID int64) (bool, error) {
+func (t *Client) CloseGeneralForumTopic(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewCloseGeneralForumTopic(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // ReopenGeneralForumTopic performs reopenGeneralForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#reopengeneralforumtopic
-func (t *Client) ReopenGeneralForumTopic(chatID int64) (bool, error) {
+func (t *Client) ReopenGeneralForumTopic(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewReopenGeneralForumTopic(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // HideGeneralForumTopic performs hideGeneralForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#hidegeneralforumtopic
-func (t *Client) HideGeneralForumTopic(chatID int64) (bool, error) {
+func (t *Client) HideGeneralForumTopic(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewHideGeneralForumTopic(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // UnhideGeneralForumTopic performs unhideGeneralForumTopic telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#unhidegeneralforumtopic
-func (t *Client) UnhideGeneralForumTopic(chatID int64) (bool, error) {
+func (t *Client) UnhideGeneralForumTopic(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewUnhideGeneralForumTopic(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // UnpinAllGeneralForumTopicMessages performs unpinAllGeneralForumTopicMessages telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#unpinallgeneralforumtopicmessages
-func (t *Client) UnpinAllGeneralForumTopicMessages(chatID int64) (bool, error) {
+func (t *Client) UnpinAllGeneralForumTopicMessages(ctx context.Context, chatID int64) (bool, error) {
 	m := method.NewUnpinAllGeneralForumTopicMessages(chatID)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -990,10 +992,10 @@ func (t *Client) UnpinAllGeneralForumTopicMessages(chatID int64) (bool, error) {
 // option.SetMyCommandsScope(), option.SetMyCommandsLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#setmycommands
-func (t *Client) SetMyCommands(commands []method.BotCommand, opts ...method.Option[*method.SetMyCommands]) (bool, error) {
+func (t *Client) SetMyCommands(ctx context.Context, commands []method.BotCommand, opts ...method.Option[*method.SetMyCommands]) (bool, error) {
 	m := method.NewSetMyCommands(commands, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1004,10 +1006,10 @@ func (t *Client) SetMyCommands(commands []method.BotCommand, opts ...method.Opti
 // option.GetMyCommandsScope(), option.GetMyCommandsLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#getmycommands
-func (t *Client) GetMyCommands(opts ...method.Option[*method.GetMyCommands]) ([]method.BotCommand, error) {
+func (t *Client) GetMyCommands(ctx context.Context, opts ...method.Option[*method.GetMyCommands]) ([]method.BotCommand, error) {
 	m := method.NewGetMyCommands(opts...)
 	var result []method.BotCommand
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1018,10 +1020,10 @@ func (t *Client) GetMyCommands(opts ...method.Option[*method.GetMyCommands]) ([]
 // option.DeleteMyCommandsScope(), option.DeleteMyCommandsLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#deletemycommands
-func (t *Client) DeleteMyCommands(opts ...method.Option[*method.DeleteMyCommands]) (bool, error) {
+func (t *Client) DeleteMyCommands(ctx context.Context, opts ...method.Option[*method.DeleteMyCommands]) (bool, error) {
 	m := method.NewDeleteMyCommands(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1032,10 +1034,10 @@ func (t *Client) DeleteMyCommands(opts ...method.Option[*method.DeleteMyCommands
 // option.SetMyNameName(), option.SetMyNameLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#setmyname
-func (t *Client) SetMyName(opts ...method.Option[*method.SetMyName]) (bool, error) {
+func (t *Client) SetMyName(ctx context.Context, opts ...method.Option[*method.SetMyName]) (bool, error) {
 	m := method.NewSetMyName(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1046,10 +1048,10 @@ func (t *Client) SetMyName(opts ...method.Option[*method.SetMyName]) (bool, erro
 // option.GetMyNameLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#getmyname
-func (t *Client) GetMyName(opts ...method.Option[*method.GetMyName]) (types.BotName, error) {
+func (t *Client) GetMyName(ctx context.Context, opts ...method.Option[*method.GetMyName]) (types.BotName, error) {
 	m := method.NewGetMyName(opts...)
 	var result types.BotName
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1060,10 +1062,10 @@ func (t *Client) GetMyName(opts ...method.Option[*method.GetMyName]) (types.BotN
 // option.SetMyDescriptionDescription(), option.SetMyDescriptionLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#setmydescription
-func (t *Client) SetMyDescription(opts ...method.Option[*method.SetMyDescription]) (bool, error) {
+func (t *Client) SetMyDescription(ctx context.Context, opts ...method.Option[*method.SetMyDescription]) (bool, error) {
 	m := method.NewSetMyDescription(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1074,10 +1076,10 @@ func (t *Client) SetMyDescription(opts ...method.Option[*method.SetMyDescription
 // option.GetMyDescriptionLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#getmydescription
-func (t *Client) GetMyDescription(opts ...method.Option[*method.GetMyDescription]) (types.BotDescription, error) {
+func (t *Client) GetMyDescription(ctx context.Context, opts ...method.Option[*method.GetMyDescription]) (types.BotDescription, error) {
 	m := method.NewGetMyDescription(opts...)
 	var result types.BotDescription
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1088,10 +1090,10 @@ func (t *Client) GetMyDescription(opts ...method.Option[*method.GetMyDescription
 // option.SetMyShortDescriptionShortDescription(), option.SetMyShortDescriptionLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#setmyshortdescription
-func (t *Client) SetMyShortDescription(opts ...method.Option[*method.SetMyShortDescription]) (bool, error) {
+func (t *Client) SetMyShortDescription(ctx context.Context, opts ...method.Option[*method.SetMyShortDescription]) (bool, error) {
 	m := method.NewSetMyShortDescription(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1102,10 +1104,10 @@ func (t *Client) SetMyShortDescription(opts ...method.Option[*method.SetMyShortD
 // option.GetMyShortDescriptionLanguageCode()
 //
 // Reference: https://core.telegram.org/bots/api#getmyshortdescription
-func (t *Client) GetMyShortDescription(opts ...method.Option[*method.GetMyShortDescription]) (types.BotShortDescription, error) {
+func (t *Client) GetMyShortDescription(ctx context.Context, opts ...method.Option[*method.GetMyShortDescription]) (types.BotShortDescription, error) {
 	m := method.NewGetMyShortDescription(opts...)
 	var result types.BotShortDescription
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1116,10 +1118,10 @@ func (t *Client) GetMyShortDescription(opts ...method.Option[*method.GetMyShortD
 // option.SetMyDefaultAdministratorRightsForSupergroups(), option.SetMyDefaultAdministratorRightsForChannels()
 //
 // Reference: https://core.telegram.org/bots/api#setmydefaultadministratorrights
-func (t *Client) SetMyDefaultAdministratorRights(rights method.BotAdministratorRights, opts ...method.Option[*method.SetMyDefaultAdministratorRights]) (bool, error) {
+func (t *Client) SetMyDefaultAdministratorRights(ctx context.Context, rights method.BotAdministratorRights, opts ...method.Option[*method.SetMyDefaultAdministratorRights]) (bool, error) {
 	m := method.NewSetMyDefaultAdministratorRights(&rights, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1130,10 +1132,10 @@ func (t *Client) SetMyDefaultAdministratorRights(rights method.BotAdministratorR
 // option.GetMyDefaultAdministratorRightsForSupergroups(), option.GetMyDefaultAdministratorRightsForChannels()
 //
 // Reference: https://core.telegram.org/bots/api#getmydefaultadministratorrights
-func (t *Client) GetMyDefaultAdministratorRights(opts ...method.Option[*method.GetMyDefaultAdministratorRights]) (method.BotAdministratorRights, error) {
+func (t *Client) GetMyDefaultAdministratorRights(ctx context.Context, opts ...method.Option[*method.GetMyDefaultAdministratorRights]) (method.BotAdministratorRights, error) {
 	m := method.NewGetMyDefaultAdministratorRights(opts...)
 	var result method.BotAdministratorRights
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1144,10 +1146,10 @@ func (t *Client) GetMyDefaultAdministratorRights(opts ...method.Option[*method.G
 // option.SetChatMenuButtonChatID(), option.SetChatMenuButtonMenuButton()
 //
 // Reference: https://core.telegram.org/bots/api#setchatmenubutton
-func (t *Client) SetChatMenuButton(opts ...method.Option[*method.SetChatMenuButton]) (bool, error) {
+func (t *Client) SetChatMenuButton(ctx context.Context, opts ...method.Option[*method.SetChatMenuButton]) (bool, error) {
 	m := method.NewSetChatMenuButton(opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1158,10 +1160,10 @@ func (t *Client) SetChatMenuButton(opts ...method.Option[*method.SetChatMenuButt
 // option.GetChatMenuButtonChatID()
 //
 // Reference: https://core.telegram.org/bots/api#getchatmenubutton
-func (t *Client) GetChatMenuButton(opts ...method.Option[*method.GetChatMenuButton]) (types.MenuButton, error) {
+func (t *Client) GetChatMenuButton(ctx context.Context, opts ...method.Option[*method.GetChatMenuButton]) (types.MenuButton, error) {
 	m := method.NewGetChatMenuButton(opts...)
 	var result types.MenuButton
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1173,20 +1175,20 @@ func (t *Client) GetChatMenuButton(opts ...method.Option[*method.GetChatMenuButt
 // option.AnswerInlineQueryNextOffset(), option.AnswerInlineQueryButton()
 //
 // Reference: https://core.telegram.org/bots/api#answerinlinequery
-func (t *Client) AnswerInlineQuery(inlineQueryID string, results []method.InlineQueryResult, opts ...method.Option[*method.AnswerInlineQuery]) (bool, error) {
+func (t *Client) AnswerInlineQuery(ctx context.Context, inlineQueryID string, results []method.InlineQueryResult, opts ...method.Option[*method.AnswerInlineQuery]) (bool, error) {
 	m := method.NewAnswerInlineQuery(inlineQueryID, results, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // AnswerWebAppQuery performs answerWebAppQuery telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#answerwebappquery
-func (t *Client) AnswerWebAppQuery(webAppQueryID, result string) (method.SentWebAppMessage, error) {
+func (t *Client) AnswerWebAppQuery(ctx context.Context, webAppQueryID, result string) (method.SentWebAppMessage, error) {
 	m := method.NewAnswerWebAppQuery(webAppQueryID, result)
 	var resultSent method.SentWebAppMessage
-	err := t.process(m, &resultSent)
+	err := t.process(ctx, m, &resultSent)
 	return resultSent, err
 }
 
@@ -1198,10 +1200,10 @@ func (t *Client) AnswerWebAppQuery(webAppQueryID, result string) (method.SentWeb
 // option.SendPaidMediaShowCaptionAboveMedia(), option.SendPaidMediaReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#sendpaidmedia
-func (t *Client) SendPaidMedia(chatID int64, starCount int, media []method.InputPaidMedia, opts ...method.Option[*method.SendPaidMedia]) (types.Message, error) {
+func (t *Client) SendPaidMedia(ctx context.Context, chatID int64, starCount int, media []method.InputPaidMedia, opts ...method.Option[*method.SendPaidMedia]) (types.Message, error) {
 	m := method.NewSendPaidMedia(chatID, starCount, media, opts...)
 	message := types.Message{}
-	err := t.process(m, &message)
+	err := t.process(ctx, m, &message)
 	return message, err
 }
 
@@ -1212,10 +1214,10 @@ func (t *Client) SendPaidMedia(chatID int64, starCount int, media []method.Input
 // option.AnswerShippingQueryShippingOptions(), option.AnswerShippingQueryErrorMessage()
 //
 // Reference: https://core.telegram.org/bots/api#answershippingquery
-func (t *Client) AnswerShippingQuery(shippingQueryID string, ok bool, opts ...method.Option[*method.AnswerShippingQuery]) (bool, error) {
+func (t *Client) AnswerShippingQuery(ctx context.Context, shippingQueryID string, ok bool, opts ...method.Option[*method.AnswerShippingQuery]) (bool, error) {
 	m := method.NewAnswerShippingQuery(shippingQueryID, ok, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1226,10 +1228,10 @@ func (t *Client) AnswerShippingQuery(shippingQueryID string, ok bool, opts ...me
 // option.AnswerPreCheckoutQueryErrorMessage()
 //
 // Reference: https://core.telegram.org/bots/api#answerprecheckoutquery
-func (t *Client) AnswerPreCheckoutQuery(preCheckoutQueryID string, ok bool, opts ...method.Option[*method.AnswerPreCheckoutQuery]) (bool, error) {
+func (t *Client) AnswerPreCheckoutQuery(ctx context.Context, preCheckoutQueryID string, ok bool, opts ...method.Option[*method.AnswerPreCheckoutQuery]) (bool, error) {
 	m := method.NewAnswerPreCheckoutQuery(preCheckoutQueryID, ok, opts...)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
@@ -1240,20 +1242,20 @@ func (t *Client) AnswerPreCheckoutQuery(preCheckoutQueryID string, ok bool, opts
 // option.GetStarTransactionsOffset(), option.GetStarTransactionsLimit()
 //
 // Reference: https://core.telegram.org/bots/api#getstartransactions
-func (t *Client) GetStarTransactions(opts ...method.Option[*method.GetStarTransactions]) (types.StarTransactions, error) {
+func (t *Client) GetStarTransactions(ctx context.Context, opts ...method.Option[*method.GetStarTransactions]) (types.StarTransactions, error) {
 	m := method.NewGetStarTransactions(opts...)
 	var result types.StarTransactions
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 
 // RefundStarPayment performs refundStarPayment telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#refundstarpayment
-func (t *Client) RefundStarPayment(userID int64, telegramPaymentCharge string) (bool, error) {
+func (t *Client) RefundStarPayment(ctx context.Context, userID int64, telegramPaymentCharge string) (bool, error) {
 	m := method.NewRefundStarPayment(userID, telegramPaymentCharge)
 	var result bool
-	err := t.process(m, &result)
+	err := t.process(ctx, m, &result)
 	return result, err
 }
 

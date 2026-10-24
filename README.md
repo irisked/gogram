@@ -3,8 +3,11 @@ Telegram bot framework.
 
 ```
   import (
+    "context"
+
     "github.com/irisked/gogram/args"
     "github.com/irisked/gogram/option"
+    "github.com/irisked/gogram/telegram/method"
     "github.com/irisked/gogram/telegram/keyboard/inline"
     "github.com/irisked/gogram"
   )
@@ -21,7 +24,7 @@ Telegram bot framework.
 			inline.NewButton("test2", inline.Callback("test", "1")),
 			inline.NewButton("test2", inline.Callback("test-callback1", "1")),
 		)
-		ctx.Reply(args.Text("stiker response"), option.Keyboard(kb))
+		ctx.Reply(args.Text("stiker response"), option.Keyboard[*method.SendMessage](kb))
 	})
 	bot.OnCommand("test", func (ctx *gogram.Context) {
 		ctx.Reply(args.Markdown("```test```"))
@@ -35,5 +38,5 @@ Telegram bot framework.
 	bot.OnCallback("test-callback1", func (ctx *gogram.Context) {
 		ctx.Reply(args.Markdown("```test-callback1```"))
 	})
-	bot.StartPolling()
+	bot.StartPolling(context.Background())
 ```

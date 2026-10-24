@@ -1,22 +1,23 @@
 package gogram
 
 import (
-	"sync"
+	"context"
+	"log"
 
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/types"
 )
 
 // Handler function.
-type Handler func (ctx *Context)
+type Handler func(ctx *Context)
 
 // Gogram its a telegram bot framework
 type Gogram struct {
-	telegram *telegram.Client
+	telegram   *telegram.Client
 	dispatcher Dispatcher
-	poller Poller
-	done chan interface{}
-	updates chan types.Update 
+	poller     Poller
+	cancel     context.CancelFunc
+	updates    chan types.Update
 }
 
 // New creates Gogram
@@ -28,48 +29,53 @@ func New(token string) *Gogram {
 	return g
 }
 
-// StartPolling starts bot using long poling.
-func (g *Gogram) StartPolling() {
-	g.startPolling()
+// Errors returns transient errors encountered while polling. Reading
+// from it is optional.
+func (g *Gogram) Errors() <-chan error {
+	return g.poller.Errors()
 }
 
-func (g *Gogram) startPolling() {
-	if !g.poller.IsPolling() {
-		var wg sync.WaitGroup
-		g.updates = make(chan types.Update)
-		g.done = make(chan interface{})
-		done := g.poller.StartPolling(g.updates)
-		wg.Add(1)
-		go func () {
-			defer wg.Done()
-			for {
-				select {
-				case <- g.done:
-					close(done)
-					close(g.updates)
-					return
-				case update := <- g.updates:
-					go g.handle(update)
-				}
-			}
-		}()
-		wg.Wait()
+// StartPolling starts the bot using long polling. It returns
+// immediately; polling stops when ctx is cancelled or StopPolling is
+// called.
+func (g *Gogram) StartPolling(ctx context.Context) error {
+	if g.poller.IsPolling() {
+		return ErrAlreadyPolling
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	g.cancel = cancel
+	g.updates = make(chan types.Update)
+	if err := g.poller.StartPolling(ctx, g.updates); err != nil {
+		cancel()
+		return err
+	}
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case update := <-g.updates:
+				go g.handle(ctx, update)
+			}
+		}
+	}()
+	return nil
 }
 
-func (g *Gogram) handle(update types.Update) {
-	ctx := NewContext(*g.telegram, update)
-	g.dispatcher.Handle(ctx)
+func (g *Gogram) handle(ctx context.Context, update types.Update) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("gogram: recovered panic in handler: %v", r)
+		}
+	}()
+	c := NewContext(ctx, *g.telegram, update)
+	g.dispatcher.Handle(c)
 }
 
 // StopPolling stops long polling.
 func (g *Gogram) StopPolling() {
-	g.stopPolling()
-}
-
-func (g *Gogram) stopPolling() {
-	if g.poller.IsPolling() {
-		close(g.done)
+	if g.poller.IsPolling() && g.cancel != nil {
+		g.cancel()
 	}
 }
 

@@ -1,24 +1,31 @@
 package gogram
 
 import (
+	"context"
+	"os"
+
 	"github.com/irisked/gogram/args"
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/types"
-	"os"
 )
 
-// Context is gogram's bot-update context.
+// Context is gogram's bot-update context: a per-update object passed
+// to handlers, not to be confused with the stdlib context.Context it
+// holds internally (stored on NewContext, used by every API call this
+// Context makes on the caller's behalf).
 type Context struct {
 	update types.Update
 	tg     telegram.Client
+	stdCtx context.Context
 	State  map[string]interface{}
 }
 
 // NewContext creates a Context for the given update.
-func NewContext(tg telegram.Client, update types.Update) *Context {
+func NewContext(ctx context.Context, tg telegram.Client, update types.Update) *Context {
 	c := new(Context)
+	c.stdCtx = ctx
 	c.tg = tg
 	c.update = update
 	c.State = make(map[string]interface{})
@@ -138,7 +145,7 @@ func (c *Context) From() *types.User {
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
 func (c *Context) Reply(text args.TextData, options ...method.Option[*method.SendMessage]) (types.Message, error) {
-	return c.tg.SendMessage(c.ChatID(), text, options...)
+	return c.tg.SendMessage(c.stdCtx, c.ChatID(), text, options...)
 }
 
 // ReplyWithPhoto performs sendPhoto telegram api method.
@@ -150,7 +157,7 @@ func (c *Context) Reply(text args.TextData, options ...method.Option[*method.Sen
 //
 // Reference: https://core.telegram.org/bots/api#sendphoto
 func (c *Context) ReplyWithPhoto(photo *args.PhotoConfig, options ...method.Option[*method.SendPhoto]) (types.Message, error) {
-	return c.tg.SendPhoto(c.ChatID(), photo, options...)
+	return c.tg.SendPhoto(c.stdCtx, c.ChatID(), photo, options...)
 }
 
 // ReplyWithAudio performs sendAudio telegram api method.
@@ -162,7 +169,7 @@ func (c *Context) ReplyWithPhoto(photo *args.PhotoConfig, options ...method.Opti
 //
 // Reference: https://core.telegram.org/bots/api#sendaudio
 func (c *Context) ReplyWithAudio(audio *args.AudioConfig, options ...method.Option[*method.SendAudio]) (types.Message, error) {
-	return c.tg.SendAudio(c.ChatID(), audio, options...)
+	return c.tg.SendAudio(c.stdCtx, c.ChatID(), audio, options...)
 }
 
 // ReplyWithVideo performs sendVideo telegram api method.
@@ -174,7 +181,7 @@ func (c *Context) ReplyWithAudio(audio *args.AudioConfig, options ...method.Opti
 //
 // Reference: https://core.telegram.org/bots/api#sendvideo
 func (c *Context) ReplyWithVideo(video *args.VideoConfig, options ...method.Option[*method.SendVideo]) (types.Message, error) {
-	return c.tg.SendVideo(c.ChatID(), video, options...)
+	return c.tg.SendVideo(c.stdCtx, c.ChatID(), video, options...)
 }
 
 // ReplyWithAnimation performs sendAnimation telegram api method.
@@ -186,7 +193,7 @@ func (c *Context) ReplyWithVideo(video *args.VideoConfig, options ...method.Opti
 //
 // Reference: https://core.telegram.org/bots/api#sendanimation
 func (c *Context) ReplyWithAnimation(animation *args.AnimationConfig, options ...method.Option[*method.SendAnimation]) (types.Message, error) {
-	return c.tg.SendAnimation(c.ChatID(), animation, options...)
+	return c.tg.SendAnimation(c.stdCtx, c.ChatID(), animation, options...)
 }
 
 // ReplyWithDocument performs sendDocument telegram api method.
@@ -198,7 +205,7 @@ func (c *Context) ReplyWithAnimation(animation *args.AnimationConfig, options ..
 //
 // Reference: https://core.telegram.org/bots/api#senddocument
 func (c *Context) ReplyWithDocument(document *args.DocumentConfig, options ...method.Option[*method.SendDocument]) (types.Message, error) {
-	return c.tg.SendDocument(c.ChatID(), document, options...)
+	return c.tg.SendDocument(c.stdCtx, c.ChatID(), document, options...)
 }
 
 // ReplyWithVoice performs sendVoice telegram api method.
@@ -210,7 +217,7 @@ func (c *Context) ReplyWithDocument(document *args.DocumentConfig, options ...me
 //
 // Reference: https://core.telegram.org/bots/api#sendvoice
 func (c *Context) ReplyWithVoice(voice *args.VoiceConfig, options ...method.Option[*method.SendVoice]) (types.Message, error) {
-	return c.tg.SendVoice(c.ChatID(), voice, options...)
+	return c.tg.SendVoice(c.stdCtx, c.ChatID(), voice, options...)
 }
 
 // ReplyWithVideoNote performs sendVideoNote telegram api method.
@@ -222,7 +229,7 @@ func (c *Context) ReplyWithVoice(voice *args.VoiceConfig, options ...method.Opti
 //
 // Reference: https://core.telegram.org/bots/api#sendvideonote
 func (c *Context) ReplyWithVideoNote(videoNote *args.VideoNoteConfig, options ...method.Option[*method.SendVideoNote]) (types.Message, error) {
-	return c.tg.SendVideoNote(c.ChatID(), videoNote, options...)
+	return c.tg.SendVideoNote(c.stdCtx, c.ChatID(), videoNote, options...)
 }
 
 // ReplyWithMediaGroup performs sendMediaGroup telegram api method.
@@ -233,7 +240,7 @@ func (c *Context) ReplyWithVideoNote(videoNote *args.VideoNoteConfig, options ..
 //
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
 func (c *Context) ReplyWithMediaGroup(mediaGroup []args.MediaGroupConfig, options ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
-	return c.tg.SendMediaGroup(c.ChatID(), mediaGroup, options...)
+	return c.tg.SendMediaGroup(c.stdCtx, c.ChatID(), mediaGroup, options...)
 }
 
 // ReplyWithLocation performs sendLocation telegram api method.
@@ -245,7 +252,7 @@ func (c *Context) ReplyWithMediaGroup(mediaGroup []args.MediaGroupConfig, option
 //
 // Reference: https://core.telegram.org/bots/api#sendlocation
 func (c *Context) ReplyWithLocation(location types.Location, options ...method.Option[*method.SendLocation]) (types.Message, error) {
-	return c.tg.SendLocation(c.ChatID(), location, options...)
+	return c.tg.SendLocation(c.stdCtx, c.ChatID(), location, options...)
 }
 
 // TODO: https://core.telegram.org/bots/api#editmessagelivelocation
@@ -260,7 +267,7 @@ func (c *Context) ReplyWithLocation(location types.Location, options ...method.O
 //
 // Reference: https://core.telegram.org/bots/api#sendvenue
 func (c *Context) ReplyWithVenue(venue types.Venue, options ...method.Option[*method.SendVenue]) (types.Message, error) {
-	return c.tg.SendVenue(c.ChatID(), venue, options...)
+	return c.tg.SendVenue(c.stdCtx, c.ChatID(), venue, options...)
 }
 
 // ReplyWithContact performs sendContact telegram api method.
@@ -272,14 +279,14 @@ func (c *Context) ReplyWithVenue(venue types.Venue, options ...method.Option[*me
 //
 // Reference: https://core.telegram.org/bots/api#sendcontact
 func (c *Context) ReplyWithContact(contact types.Contact, options ...method.Option[*method.SendContact]) (types.Message, error) {
-	return c.tg.SendContact(c.ChatID(), contact, options...)
+	return c.tg.SendContact(c.stdCtx, c.ChatID(), contact, options...)
 }
 
 // ReplyWithChatAction performs sendChatAction telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#sendchataction
 func (c *Context) ReplyWithChatAction(action types.ChatAction) (types.Message, error) {
-	return c.tg.SendChatAction(c.ChatID(), action)
+	return c.tg.SendChatAction(c.stdCtx, c.ChatID(), action)
 }
 
 // KickChatMember performs kickChatMember telegram api method.
@@ -291,7 +298,7 @@ func (c *Context) ReplyWithChatAction(action types.ChatAction) (types.Message, e
 // Reference: https://core.telegram.org/bots/api#kickchatmember
 // TODO: swap userID <-> ChatID in params
 func (c *Context) KickChatMember(userID int, options ...method.Option[*method.KickChatMember]) (bool, error) {
-	return c.tg.KickChatMember(userID, c.ChatID(), options...)
+	return c.tg.KickChatMember(c.stdCtx, userID, c.ChatID(), options...)
 }
 
 // UnbanChatMember performs unbanChatMember telegram api method.
@@ -302,7 +309,7 @@ func (c *Context) KickChatMember(userID int, options ...method.Option[*method.Ki
 //
 // Reference: https://core.telegram.org/bots/api#unbanchatmember
 func (c *Context) UnbanChatMember(userID int) (bool, error) {
-	return c.tg.UnbanChatMember(userID, c.ChatID())
+	return c.tg.UnbanChatMember(c.stdCtx, userID, c.ChatID())
 }
 
 // RestrictChatMember performs restrictChatMember telegram api method.
@@ -314,7 +321,7 @@ func (c *Context) UnbanChatMember(userID int) (bool, error) {
 //
 // Reference: https://core.telegram.org/bots/api#restrictchatmember
 func (c *Context) RestrictChatMember(userID int, options ...method.Option[*method.RestrictChatMember]) (bool, error) {
-	return c.tg.RestrictChatMember(userID, c.ChatID(), options...)
+	return c.tg.RestrictChatMember(c.stdCtx, userID, c.ChatID(), options...)
 }
 
 // PromoteChatMember performs promoteChatMember telegram api method.
@@ -326,105 +333,105 @@ func (c *Context) RestrictChatMember(userID int, options ...method.Option[*metho
 //
 // Reference: https://core.telegram.org/bots/api#promotechatmember
 func (c *Context) PromoteChatMember(userID int, options ...method.Option[*method.PromoteChatMember]) (bool, error) {
-	return c.tg.PromoteChatMember(userID, c.ChatID(), options...)
+	return c.tg.PromoteChatMember(c.stdCtx, userID, c.ChatID(), options...)
 }
 
 // ExportChatInviteLink performs exportChatInviteLink telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#exportchatinvitelink
 func (c *Context) ExportChatInviteLink() (string, error) {
-	return c.tg.ExportChatInviteLink(c.ChatID())
+	return c.tg.ExportChatInviteLink(c.stdCtx, c.ChatID())
 }
 
 // SetChatPhoto performs setChatPhoto telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatphoto
 func (c *Context) SetChatPhoto(file *os.File) (bool, error) {
-	return c.tg.SetChatPhoto(c.ChatID(), file)
+	return c.tg.SetChatPhoto(c.stdCtx, c.ChatID(), file)
 }
 
 // DeleteChatPhoto performs deleteChatPhoto telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletechatphoto
 func (c *Context) DeleteChatPhoto() (bool, error) {
-	return c.tg.DeleteChatPhoto(c.ChatID())
+	return c.tg.DeleteChatPhoto(c.stdCtx, c.ChatID())
 }
 
 // SetChatTitle performs setChatTitle telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchattitle
 func (c *Context) SetChatTitle(title string) (bool, error) {
-	return c.tg.SetChatTitle(c.ChatID(), title)
+	return c.tg.SetChatTitle(c.stdCtx, c.ChatID(), title)
 }
 
 // SetChatDescription performs setChatDescription telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatdescription
 func (c *Context) SetChatDescription(description string) (bool, error) {
-	return c.tg.SetChatDescription(c.ChatID(), description)
+	return c.tg.SetChatDescription(c.stdCtx, c.ChatID(), description)
 }
 
 // PinChatMessage performs pinChatMessage telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#pinchatmessage
 func (c *Context) PinChatMessage(messageID int, options ...method.Option[*method.PinChatMessage]) (bool, error) {
-	return c.tg.PinChatMessage(c.ChatID(), messageID, options...)
+	return c.tg.PinChatMessage(c.stdCtx, c.ChatID(), messageID, options...)
 }
 
 // UnpinChatMessage performs unpinChatMessage telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#unpinchatmessage
 func (c *Context) UnpinChatMessage() (bool, error) {
-	return c.tg.UnpinChatMessage(c.ChatID())
+	return c.tg.UnpinChatMessage(c.stdCtx, c.ChatID())
 }
 
 // LeaveChat performs leaveChat telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#leavechat
 func (c *Context) LeaveChat() (bool, error) {
-	return c.tg.LeaveChat(c.ChatID())
+	return c.tg.LeaveChat(c.stdCtx, c.ChatID())
 }
 
 // GetChat performs getChat telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchat
 func (c *Context) GetChat() (types.Chat, error) {
-	return c.tg.GetChat(c.ChatID())
+	return c.tg.GetChat(c.stdCtx, c.ChatID())
 }
 
 // GetChatAdministrators performs getChatAdministrators telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchatadministrators
 func (c *Context) GetChatAdministrators() (types.ChatMember, error) {
-	return c.tg.GetChatAdministrators(c.ChatID())
+	return c.tg.GetChatAdministrators(c.stdCtx, c.ChatID())
 }
 
 // GetChatMembersCount performs getChatMembersCount telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchatmemberscount
 func (c *Context) GetChatMembersCount() (int, error) {
-	return c.tg.GetChatMembersCount(c.ChatID())
+	return c.tg.GetChatMembersCount(c.stdCtx, c.ChatID())
 }
 
 // GetChatMember performs getChatMember telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#getchatmember
 func (c *Context) GetChatMember(userID int) (types.ChatMember, error) {
-	return c.tg.GetChatMember(c.ChatID(), userID)
+	return c.tg.GetChatMember(c.stdCtx, c.ChatID(), userID)
 }
 
 // SetChatStickerSet performs setChatStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#setchatstickerset
 func (c *Context) SetChatStickerSet(stickerSetName string) (bool, error) {
-	return c.tg.SetChatStickerSet(c.ChatID(), stickerSetName)
+	return c.tg.SetChatStickerSet(c.stdCtx, c.ChatID(), stickerSetName)
 }
 
 // DeleteChatStickerSet performs deleteChatStickerSet telegram api method.
 //
 // Reference: https://core.telegram.org/bots/api#deletechatstickerset
 func (c *Context) DeleteChatStickerSet() (bool, error) {
-	return c.tg.DeleteChatStickerSet(c.ChatID())
+	return c.tg.DeleteChatStickerSet(c.stdCtx, c.ChatID())
 }
 
 // AnswerCallbackQuery performs answerCallbackQuery telegram api method.
@@ -436,7 +443,7 @@ func (c *Context) DeleteChatStickerSet() (bool, error) {
 //
 // Reference: https://core.telegram.org/bots/api#answercallbackquery
 func (c *Context) AnswerCallbackQuery(options ...method.Option[*method.AnswerCallbackQuery]) (bool, error) {
-	return c.tg.AnswerCallbackQuery(c.CallbackQuery().ID, options...)
+	return c.tg.AnswerCallbackQuery(c.stdCtx, c.CallbackQuery().ID, options...)
 }
 
 // EditMessageText performs editMessageText telegram api method.
@@ -448,7 +455,7 @@ func (c *Context) AnswerCallbackQuery(options ...method.Option[*method.AnswerCal
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
 func (c *Context) EditMessageText(text args.TextData, options ...method.Option[*method.EditMessageText]) (*types.Message, error) {
-	return c.tg.EditMessageText(c.CallbackQuery().MessageID(), text, options...)
+	return c.tg.EditMessageText(c.stdCtx, c.CallbackQuery().MessageID(), text, options...)
 }
 
 // EditMessageCaption performs editMessageCaption telegram api method.
@@ -460,7 +467,7 @@ func (c *Context) EditMessageText(text args.TextData, options ...method.Option[*
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
 func (c *Context) EditMessageCaption(caption args.TextData, options ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
-	return c.tg.EditMessageCaption(c.CallbackQuery().MessageID(), caption, options...)
+	return c.tg.EditMessageCaption(c.stdCtx, c.CallbackQuery().MessageID(), caption, options...)
 }
 
 // EditMessageMedia performs editMessageMedia telegram api method.
@@ -472,7 +479,7 @@ func (c *Context) EditMessageCaption(caption args.TextData, options ...method.Op
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
 func (c *Context) EditMessageMedia(media args.InputMediaConfig, options ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
-	return c.tg.EditMessageMedia(c.CallbackQuery().MessageID(), media, options...)
+	return c.tg.EditMessageMedia(c.stdCtx, c.CallbackQuery().MessageID(), media, options...)
 }
 
 // EditMessageReplyMarkup performs editMessageReplyMarkup telegram api method.
@@ -484,14 +491,14 @@ func (c *Context) EditMessageMedia(media args.InputMediaConfig, options ...metho
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
 func (c *Context) EditMessageReplyMarkup(kb keyboard.Markup) (*types.Message, error) {
-	return c.tg.EditMessageReplyMarkup(c.CallbackQuery().MessageID(), kb)
+	return c.tg.EditMessageReplyMarkup(c.stdCtx, c.CallbackQuery().MessageID(), kb)
 }
 
 // DeleteMessage performs deleteMessage telegram api method.
 //
 // https://core.telegram.org/bots/api#deletemessage
 func (c *Context) DeleteMessage(messageID int) (bool, error) {
-	return c.tg.DeleteMessage(c.ChatID(), messageID)
+	return c.tg.DeleteMessage(c.stdCtx, c.ChatID(), messageID)
 }
 
 // TODO: stickers methods.

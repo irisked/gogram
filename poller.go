@@ -1,88 +1,135 @@
 package gogram
 
 import (
+	"context"
+	"errors"
+	"sync"
+	"time"
+
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/types"
-	"time"
 )
+
+// ErrAlreadyPolling is returned by StartPolling when the poller is
+// already running.
+var ErrAlreadyPolling = errors.New("gogram: poller is already running")
 
 // Poller interface.
 type Poller interface {
-	StartPolling(chan<- types.Update) chan<- interface{}
+	StartPolling(ctx context.Context, updates chan<- types.Update) error
 	IsPolling() bool
+	// Errors returns transient errors encountered while polling (e.g.
+	// a failed GetUpdates call). Reading from it is optional; errors
+	// that aren't read are dropped rather than blocking the poller.
+	Errors() <-chan error
 }
 
 type pollingConfig struct {
-	offset         int
-	limit          int
-	allowedUpdates []types.UpdateType
-	started        bool
+	mu      sync.Mutex
+	offset  int
+	limit   int
+	started bool
+}
+
+func (c *pollingConfig) isStarted() bool {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return c.started
+}
+
+func (c *pollingConfig) setStarted(v bool) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.started = v
+}
+
+func (c *pollingConfig) offsetAndLimit() (int, int) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return c.offset, c.limit
+}
+
+func (c *pollingConfig) setOffset(v int) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	c.offset = v
 }
 
 type poller struct {
 	config pollingConfig
 	tg     *telegram.Client
+	errs   chan error
 }
 
 // NewPoller creates poller.
 func NewPoller(tg *telegram.Client, limit int) Poller {
 	p := poller{
 		config: pollingConfig{
-			offset:  -1,
-			limit:   limit,
-			started: false,
+			offset: -1,
+			limit:  limit,
 		},
-		tg: tg,
+		tg:   tg,
+		errs: make(chan error, 16),
 	}
 	return &p
 }
 
 func (p *poller) IsPolling() bool {
-	return p.config.started
+	return p.config.isStarted()
 }
 
-func (p *poller) StartPolling(updates chan<- types.Update) chan<- interface{} {
-	return p.startPolling(updates)
+func (p *poller) Errors() <-chan error {
+	return p.errs
 }
 
-func (p *poller) SetPolling(isPolling bool) {
-	p.config.started = isPolling
-}
-
-func (p *poller) startPolling(updates chan<- types.Update) chan<- interface{} {
-	if !p.IsPolling() {
-		p.SetPolling(true)
-		done := make(chan interface{})
-		go func() {
-			for {
-				select {
-				case <-done:
-					p.SetPolling(false)
-					return
-				default:
-				}
-				p.fetch(updates)
-				time.Sleep(2 * time.Second)
-			}
-		}()
-		return done
+func (p *poller) StartPolling(ctx context.Context, updates chan<- types.Update) error {
+	if p.IsPolling() {
+		return ErrAlreadyPolling
 	}
-	panic("(p *poller) startPolling called more the one time.")
+	p.config.setStarted(true)
+	go func() {
+		defer p.config.setStarted(false)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			default:
+			}
+			if err := p.fetch(ctx, updates); err != nil {
+				p.reportErr(err)
+			}
+			select {
+			case <-ctx.Done():
+				return
+			case <-time.After(2 * time.Second):
+			}
+		}
+	}()
+	return nil
 }
 
-func (p *poller) fetch(updates chan<- types.Update) {
-	incoming, err := p.tg.GetUpdates(
-		func(u *method.GetUpdates) { u.Offset = p.config.offset },
-		func(u *method.GetUpdates) { u.Limit = p.config.limit },
+func (p *poller) reportErr(err error) {
+	select {
+	case p.errs <- err:
+	default:
+	}
+}
+
+func (p *poller) fetch(ctx context.Context, updates chan<- types.Update) error {
+	offset, limit := p.config.offsetAndLimit()
+	incoming, err := p.tg.GetUpdates(ctx,
+		func(u *method.GetUpdates) { u.Offset = offset },
+		func(u *method.GetUpdates) { u.Limit = limit },
 	)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	if len(incoming) > 0 {
-		p.config.offset = incoming[len(incoming)-1].UpdateID + 1
+		p.config.setOffset(incoming[len(incoming)-1].UpdateID + 1)
 		for _, update := range incoming {
 			updates <- update
 		}
 	}
+	return nil
 }
