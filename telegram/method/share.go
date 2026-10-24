@@ -14,7 +14,7 @@ type SendContact struct {
 	VCard               string            `json:"vcard,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -57,7 +57,7 @@ func (r *SendContact) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *SendContact) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *SendContact) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }
 
@@ -69,7 +69,7 @@ type SendLocation struct {
 	LivePeriod          int               `json:"live_period,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -106,7 +106,7 @@ func (r *SendLocation) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *SendLocation) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *SendLocation) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }
 
@@ -121,7 +121,7 @@ type SendVenue struct {
 	FoursquareType      string            `json:"foursquare_type,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -165,6 +165,6 @@ func (r *SendVenue) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *SendVenue) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *SendVenue) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }

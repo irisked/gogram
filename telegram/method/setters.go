@@ -19,7 +19,7 @@ type DisableNotificationSetter interface {
 
 // ReplyMarkupSetter interface for setting reply_markup
 type ReplyMarkupSetter interface {
-	SetReplyMarkup(keyboard.Keyboard)
+	SetReplyMarkup(keyboard.Markup)
 }
 
 // CaptionSetter interface for setting caption and parse_mode
@@ -216,7 +216,7 @@ type (
 		SetDisableNotification(bool)
 		SetReplyToMessageID(int)
 		SetAllowCopy(bool)
-		SetReplyMarkup(keyboard.Keyboard)
+		SetReplyMarkup(keyboard.Markup)
 	}
 
 	CopyMessagesSetter interface {
@@ -228,15 +228,15 @@ type (
 	}
 
 	StopPollSetter interface {
-		SetReplyMarkup(keyboard.Keyboard)
+		SetReplyMarkup(keyboard.Markup)
 	}
 
 	EditMessageLiveLocationSetter interface {
-		SetReplyMarkup(keyboard.Keyboard)
+		SetReplyMarkup(keyboard.Markup)
 	}
 
 	StopMessageLiveLocationSetter interface {
-		SetReplyMarkup(keyboard.Keyboard)
+		SetReplyMarkup(keyboard.Markup)
 	}
 
 	DeleteWebhookSetter interface {

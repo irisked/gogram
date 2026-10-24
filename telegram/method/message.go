@@ -136,9 +136,10 @@ func (r *EditMessageCaption) Method() string {
 
 // EditMessageReplyMarkup contains information about editMessageReplyMarkup telegram api method.
 type EditMessageReplyMarkup struct {
-	ChatID          int64  `json:"chat_id,omitempty"`
-	MessageID       int    `json:"message_id,omitempty"`
-	InlineMessageID string `json:"inline_message_id,omitempty"`
+	ChatID          int64           `json:"chat_id,omitempty"`
+	MessageID       int             `json:"message_id,omitempty"`
+	InlineMessageID string          `json:"inline_message_id,omitempty"`
+	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty"`
 	EditOptions
 	SimpleMethod
 }
@@ -149,11 +150,12 @@ func (r *EditMessageReplyMarkup) Method() string {
 }
 
 // NewEditMessageReplyMarkup creates EditMessageReplyMarkup.
-func NewEditMessageReplyMarkup(message *args.MessageID, keyboard keyboard.Keyboard, opts ...Option[*EditMessageReplyMarkup]) *EditMessageReplyMarkup {
+func NewEditMessageReplyMarkup(message *args.MessageID, kb keyboard.Markup, opts ...Option[*EditMessageReplyMarkup]) *EditMessageReplyMarkup {
 	m := &EditMessageReplyMarkup{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
 		InlineMessageID: message.InlineMessageID,
+		ReplyMarkup:     kb,
 	}
 	for _, o := range opts {
 		o(m)

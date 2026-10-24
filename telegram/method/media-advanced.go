@@ -16,7 +16,7 @@ type CopyMessage struct {
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	AllowCopy           bool              `json:"allow_sending_without_reply,omitempty" form:"allow_sending_without_reply,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -64,7 +64,7 @@ func (r *CopyMessage) SetAllowCopy(v bool) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *CopyMessage) SetReplyMarkup(m keyboard.Keyboard) {
+func (r *CopyMessage) SetReplyMarkup(m keyboard.Markup) {
 	r.ReplyMarkup = m
 }
 
@@ -131,7 +131,7 @@ func (r *DeleteMessages) Method() string {
 type StopPoll struct {
 	ChatID      int64             `json:"chat_id" form:"chat_id"`
 	MessageID   int               `json:"message_id" form:"message_id"`
-	ReplyMarkup keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -153,7 +153,7 @@ func (r *StopPoll) Method() string {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *StopPoll) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *StopPoll) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }
 
@@ -164,7 +164,7 @@ type EditMessageLiveLocation struct {
 	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
 	Latitude        float64           `json:"latitude" form:"latitude"`
 	Longitude       float64           `json:"longitude" form:"longitude"`
-	ReplyMarkup     keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -189,7 +189,7 @@ func (r *EditMessageLiveLocation) Method() string {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *EditMessageLiveLocation) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *EditMessageLiveLocation) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }
 
@@ -198,7 +198,7 @@ type StopMessageLiveLocation struct {
 	ChatID          int64             `json:"chat_id,omitempty" form:"chat_id,omitempty"`
 	MessageID       int               `json:"message_id,omitempty" form:"message_id,omitempty"`
 	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
-	ReplyMarkup     keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -221,7 +221,7 @@ func (r *StopMessageLiveLocation) Method() string {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *StopMessageLiveLocation) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *StopMessageLiveLocation) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }
 

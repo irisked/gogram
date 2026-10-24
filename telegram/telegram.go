@@ -546,7 +546,7 @@ func (t *Client) EditMessageMedia(messageID *args.MessageID, media args.InputMed
 // Returns pointer to the message, if message was sent by the bot or nil-pointer.
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
-func (t *Client) EditMessageReplyMarkup(messageID *args.MessageID, kb keyboard.Keyboard) (*types.Message, error) {
+func (t *Client) EditMessageReplyMarkup(messageID *args.MessageID, kb keyboard.Markup) (*types.Message, error) {
 	m := method.NewEditMessageReplyMarkup(messageID, kb)
 	message := types.Message{}
 	err := t.process(m, &message)

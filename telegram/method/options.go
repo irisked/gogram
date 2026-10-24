@@ -96,7 +96,7 @@ type SendOptions struct {
 	DisableWebPagePreview bool              `json:"disable_web_page_preview,omitempty" form:"disable_web_page_preview,omitempty"`
 	DisableNotification   bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID      int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup           keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup           keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	ParseMode             string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 }
 
@@ -149,7 +149,7 @@ func (o *SendOptions) SetDisableNotification(v bool) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (o *SendOptions) SetReplyMarkup(kb keyboard.Keyboard) {
+func (o *SendOptions) SetReplyMarkup(kb keyboard.Markup) {
 	o.ReplyMarkup = kb
 }
 

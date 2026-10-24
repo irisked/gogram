@@ -483,7 +483,7 @@ func (c *Context) EditMessageMedia(media args.InputMediaConfig, options ...metho
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
-func (c *Context) EditMessageReplyMarkup(kb keyboard.Keyboard) (*types.Message, error) {
+func (c *Context) EditMessageReplyMarkup(kb keyboard.Markup) (*types.Message, error) {
 	return c.tg.EditMessageReplyMarkup(c.CallbackQuery().MessageID(), kb)
 }
 

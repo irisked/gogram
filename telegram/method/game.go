@@ -76,7 +76,7 @@ type SendGame struct {
 	GameShortName       string            `json:"game_short_name"`
 	DisableNotification bool              `json:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
 
@@ -107,6 +107,6 @@ func (r *SendGame) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (r *SendGame) SetReplyMarkup(kb keyboard.Keyboard) {
+func (r *SendGame) SetReplyMarkup(kb keyboard.Markup) {
 	r.ReplyMarkup = kb
 }

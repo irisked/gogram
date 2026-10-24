@@ -23,7 +23,7 @@ func DisableNotification[T method.DisableNotificationSetter]() Option[T] {
 }
 
 // Keyboard sets reply_markup
-func Keyboard[T method.ReplyMarkupSetter](kb keyboard.Keyboard) Option[T] {
+func Keyboard[T method.ReplyMarkupSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
@@ -241,7 +241,7 @@ func CopyMessageAllowCopy[T method.CopyMessageSetter](v bool) Option[T] {
 	return func(t T) { t.SetAllowCopy(v) }
 }
 
-func CopyMessageReplyMarkup[T method.CopyMessageSetter](kb keyboard.Keyboard) Option[T] {
+func CopyMessageReplyMarkup[T method.CopyMessageSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
@@ -258,17 +258,17 @@ func CopyMessagesRemoveSender[T method.CopyMessagesSetter](v bool) Option[T] {
 // (no setters needed)
 
 // StopPoll setters
-func StopPollReplyMarkup[T method.StopPollSetter](kb keyboard.Keyboard) Option[T] {
+func StopPollReplyMarkup[T method.StopPollSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
 // EditMessageLiveLocation setters
-func EditMessageLiveLocationReplyMarkup[T method.EditMessageLiveLocationSetter](kb keyboard.Keyboard) Option[T] {
+func EditMessageLiveLocationReplyMarkup[T method.EditMessageLiveLocationSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
 // StopMessageLiveLocation setters
-func StopMessageLiveLocationReplyMarkup[T method.StopMessageLiveLocationSetter](kb keyboard.Keyboard) Option[T] {
+func StopMessageLiveLocationReplyMarkup[T method.StopMessageLiveLocationSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 

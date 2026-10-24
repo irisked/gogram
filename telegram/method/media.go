@@ -34,7 +34,7 @@ type SendPhoto struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -83,7 +83,7 @@ func (m *SendPhoto) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendPhoto) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendPhoto) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -101,7 +101,7 @@ type SendAudio struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -175,7 +175,7 @@ func (m *SendAudio) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendAudio) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendAudio) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -190,7 +190,7 @@ type SendDocument struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -246,7 +246,7 @@ func (m *SendDocument) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendDocument) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendDocument) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -265,7 +265,7 @@ type SendVideo struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -345,7 +345,7 @@ func (m *SendVideo) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendVideo) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendVideo) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -363,7 +363,7 @@ type SendAnimation struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -437,7 +437,7 @@ func (m *SendAnimation) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendAnimation) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendAnimation) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -451,7 +451,7 @@ type SendVoice struct {
 	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -506,7 +506,7 @@ func (m *SendVoice) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendVoice) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendVoice) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -521,7 +521,7 @@ type SendVideoNote struct {
 	Duration            int               `json:"duration,omitempty" form:"duration,omitempty"`
 	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
 	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	ReplyMarkup         keyboard.Keyboard `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -577,7 +577,7 @@ func (m *SendVideoNote) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *SendVideoNote) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *SendVideoNote) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
 
@@ -640,7 +640,7 @@ type EditMessageMedia struct {
 	MessageID       int               `json:"message_id,omitempty" form:"message_id,omitempty"`
 	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
 	Media           string            `json:"media" form:"media"`
-	ReplyMarkup     keyboard.Keyboard `json:"reply_markup,omitempty"`
+	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty"`
 }
 
 // Method returns telegram api method endpoint.
@@ -711,6 +711,6 @@ func (m *EditMessageMedia) SetReplyToMessageID(id int) {
 }
 
 // SetReplyMarkup sets reply_markup
-func (m *EditMessageMedia) SetReplyMarkup(kb keyboard.Keyboard) {
+func (m *EditMessageMedia) SetReplyMarkup(kb keyboard.Markup) {
 	m.ReplyMarkup = kb
 }
