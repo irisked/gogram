@@ -1,4 +1,6 @@
-package with
+// Package option provides functional options for configuring telegram
+// API method calls.
+package option
 
 import (
 	"github.com/irisked/gogram/telegram/keyboard"
@@ -6,8 +8,9 @@ import (
 	"github.com/irisked/gogram/types"
 )
 
-// Option is a generic functional option type
-type Option[T any] func(T)
+// Option is an alias for method.Option[T], re-exported so callers of
+// this package don't need to import telegram/method directly.
+type Option[T any] = method.Option[T]
 
 // ReplyToMessageID sets reply_to_message_id
 func ReplyToMessageID[T method.ReplyToMessageIDSetter](id int) Option[T] {
