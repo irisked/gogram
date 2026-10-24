@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"gogram/args"
-	"gogram/types"
+	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/types"
 )
 
 // GetUpdates contains information about getUpdates telegram api method.

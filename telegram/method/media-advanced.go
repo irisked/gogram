@@ -1,9 +1,9 @@
 package method
 
 import (
-	"gogram/args"
-	"gogram/telegram/keyboard"
-	"gogram/types"
+	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/telegram/keyboard"
+	"github.com/irisked/gogram/types"
 )
 
 // CopyMessage contains information about copyMessage telegram api method.

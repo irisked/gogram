@@ -1,8 +1,8 @@
 package method
 
 import (
-	"gogram/telegram/keyboard"
-	"gogram/types"
+	"github.com/irisked/gogram/telegram/keyboard"
+	"github.com/irisked/gogram/types"
 )
 
 // SendContact contains information about sendContact telegram api method.

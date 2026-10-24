@@ -1,7 +1,7 @@
 package types
 
 import (
-	"gogram/args"
+	"github.com/irisked/gogram/args"
 	"strings"
 )
 

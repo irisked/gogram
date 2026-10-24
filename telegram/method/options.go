@@ -3,7 +3,7 @@ package method
 import (
 	"os"
 
-	"gogram/telegram/keyboard"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // Type aliases for backward compatibility - now using generic Option[T]

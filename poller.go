@@ -1,9 +1,9 @@
 package gogram
 
 import (
-	"gogram/telegram"
-	"gogram/telegram/method"
-	"gogram/types"
+	"github.com/irisked/gogram/telegram"
+	"github.com/irisked/gogram/telegram/method"
+	"github.com/irisked/gogram/types"
 	"time"
 )
 

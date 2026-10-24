@@ -3,8 +3,8 @@ package method
 import (
 	"os"
 
-	"gogram/args"
-	"gogram/telegram/keyboard"
+	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/telegram/keyboard"
 )
 
 // GetFile contains information about getFile telegram api method.

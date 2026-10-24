@@ -1,9 +1,9 @@
 package with
 
 import (
-	"gogram/telegram/keyboard"
-	"gogram/telegram/method"
-	"gogram/types"
+	"github.com/irisked/gogram/telegram/keyboard"
+	"github.com/irisked/gogram/telegram/method"
+	"github.com/irisked/gogram/types"
 )
 
 // Option is a generic functional option type

@@ -3,8 +3,8 @@ package method
 import (
 	"os"
 
-	"gogram/telegram/keyboard"
-	"gogram/types"
+	"github.com/irisked/gogram/telegram/keyboard"
+	"github.com/irisked/gogram/types"
 )
 
 // ReplyToMessageIDSetter interface for setting reply_to_message_id

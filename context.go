@@ -1,11 +1,11 @@
 package gogram
 
 import (
-	"gogram/args"
-	"gogram/telegram"
-	"gogram/telegram/keyboard"
-	"gogram/telegram/method"
-	"gogram/types"
+	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/telegram"
+	"github.com/irisked/gogram/telegram/keyboard"
+	"github.com/irisked/gogram/telegram/method"
+	"github.com/irisked/gogram/types"
 	"os"
 )
 
