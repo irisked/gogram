@@ -2,7 +2,6 @@ package method
 
 import (
 	"os"
-
 )
 
 // GetStickerSet contains information about getStickerSet telegram api method.
@@ -25,15 +24,15 @@ func (r *GetStickerSet) Method() string {
 
 // UploadStickerFile contains information about uploadStickerFile telegram api method.
 type UploadStickerFile struct {
-	Sticker        *os.File `json:"-" form:"sticker"`
-	StickerFormat  string   `json:"sticker_format" form:"sticker_format"`
-	StickerType    string   `json:"sticker_type,omitempty" form:"sticker_type,omitempty"`
-	PNGSticker     string   `json:"png_sticker" form:"png_sticker"`
-	TSVGSticker    string   `json:"tgs_sticker,omitempty" form:"tgs_sticker,omitempty"`
-	WebmSticker    string   `json:"webm_sticker,omitempty" form:"webm_sticker,omitempty"`
-	Thumbnail      string   `json:"thumbnail,omitempty" form:"thumbnail,omitempty"`
-	MaskPosition   string   `json:"mask_position,omitempty" form:"mask_position,omitempty"`
-	EmojiList      []string `json:"emoji_list,omitempty" form:"emoji_list,omitempty"`
+	Sticker       *os.File `json:"-" form:"sticker"`
+	StickerFormat string   `json:"sticker_format" form:"sticker_format"`
+	StickerType   string   `json:"sticker_type,omitempty" form:"sticker_type,omitempty"`
+	PNGSticker    string   `json:"png_sticker" form:"png_sticker"`
+	TSVGSticker   string   `json:"tgs_sticker,omitempty" form:"tgs_sticker,omitempty"`
+	WebmSticker   string   `json:"webm_sticker,omitempty" form:"webm_sticker,omitempty"`
+	Thumbnail     string   `json:"thumbnail,omitempty" form:"thumbnail,omitempty"`
+	MaskPosition  string   `json:"mask_position,omitempty" form:"mask_position,omitempty"`
+	EmojiList     []string `json:"emoji_list,omitempty" form:"emoji_list,omitempty"`
 	SimpleMethod
 }
 
@@ -107,10 +106,10 @@ type CreateNewStickerSet struct {
 // NewCreateNewStickerSet creates CreateNewStickerSet.
 func NewCreateNewStickerSet(ownerID int64, name, title string, stickers []string, opts ...Option[*CreateNewStickerSet]) *CreateNewStickerSet {
 	m := &CreateNewStickerSet{
-		OwnerID:   ownerID,
-		Name:      name,
-		Title:     title,
-		Stickers:  stickers,
+		OwnerID:  ownerID,
+		Name:     name,
+		Title:    title,
+		Stickers: stickers,
 	}
 	for _, o := range opts {
 		o(m)
@@ -190,8 +189,8 @@ func (r *AddStickerToSet) SetMaskPosition(m string) {
 
 // SetStickerPositionInSet contains information about setStickerPositionInSet telegram api method.
 type SetStickerPositionInSet struct {
-	Sticker   string `json:"sticker" form:"sticker"`
-	Position  int    `json:"position" form:"position"`
+	Sticker  string `json:"sticker" form:"sticker"`
+	Position int    `json:"position" form:"position"`
 	SimpleMethod
 }
 
@@ -253,8 +252,8 @@ func (r *ReplaceStickerInSet) Method() string {
 
 // SetStickerEmojiList contains information about setStickerEmojiList telegram api method.
 type SetStickerEmojiList struct {
-	Sticker    string   `json:"sticker" form:"sticker"`
-	EmojiList  []string `json:"emoji_list" form:"emoji_list"`
+	Sticker   string   `json:"sticker" form:"sticker"`
+	EmojiList []string `json:"emoji_list" form:"emoji_list"`
 	SimpleMethod
 }
 

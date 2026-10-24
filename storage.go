@@ -9,7 +9,7 @@ func (s *storage) Insert(path string, handler Handler) {
 	s.tree.Insert(path, handler)
 }
 
-func (s *storage) Map()  map[string]Handler {
+func (s *storage) Map() map[string]Handler {
 	return s.tree.ToMap()
 }
 

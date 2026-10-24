@@ -15,13 +15,6 @@ type EditOptions struct {
 	InlineMessageID string `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
 }
 
-// Type aliases for convenience
-type SendMessageOpt = Option[*SendMessage]
-type ForwardMessageOpt = Option[*ForwardMessage]
-type EditMessageTextOpt = Option[*EditMessageText]
-type EditMessageCaptionOpt = Option[*EditMessageCaption]
-type EditMessageReplyMarkupOpt = Option[*EditMessageReplyMarkup]
-
 // SendMessage contains information about sendMessage telegram api method.
 type SendMessage struct {
 	ChatID int64  `json:"chat_id"`

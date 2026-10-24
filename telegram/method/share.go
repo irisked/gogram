@@ -7,13 +7,13 @@ import (
 
 // SendContact contains information about sendContact telegram api method.
 type SendContact struct {
-	ChatID              int64             `json:"chat_id"`
-	PhoneNumber         string            `json:"phone_number"`
-	FirstName           string            `json:"first_name"`
-	LastName            string            `json:"last_name,omitempty"`
-	VCard               string            `json:"vcard,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id"`
+	PhoneNumber         string          `json:"phone_number"`
+	FirstName           string          `json:"first_name"`
+	LastName            string          `json:"last_name,omitempty"`
+	VCard               string          `json:"vcard,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
@@ -63,12 +63,12 @@ func (r *SendContact) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendLocation contains information about sendLocation telegram api method.
 type SendLocation struct {
-	ChatID              int64             `json:"chat_id"`
-	Latitude            float64           `json:"latitude"`
-	Longitude           float64           `json:"longitude"`
-	LivePeriod          int               `json:"live_period,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id"`
+	Latitude            float64         `json:"latitude"`
+	Longitude           float64         `json:"longitude"`
+	LivePeriod          int             `json:"live_period,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }
@@ -112,15 +112,15 @@ func (r *SendLocation) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendVenue contains information about sendVenue telegram api method.
 type SendVenue struct {
-	ChatID              int64             `json:"chat_id"`
-	Latitude            float64           `json:"latitude"`
-	Longitude           float64           `json:"longitude"`
-	Title               string            `json:"title"`
-	Address             string            `json:"address"`
-	FoursquareID        string            `json:"foursquare_id,omitempty"`
-	FoursquareType      string            `json:"foursquare_type,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id"`
+	Latitude            float64         `json:"latitude"`
+	Longitude           float64         `json:"longitude"`
+	Title               string          `json:"title"`
+	Address             string          `json:"address"`
+	FoursquareID        string          `json:"foursquare_id,omitempty"`
+	FoursquareType      string          `json:"foursquare_type,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }

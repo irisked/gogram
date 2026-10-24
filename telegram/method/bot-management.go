@@ -1,7 +1,6 @@
 package method
 
-import (
-)
+import ()
 
 // BotCommand contains information about bot command.
 type BotCommand struct {
@@ -11,9 +10,9 @@ type BotCommand struct {
 
 // SetMyCommands contains information about setMyCommands telegram api method.
 type SetMyCommands struct {
-	Commands      []BotCommand `json:"commands" form:"commands"`
-	Scope         string       `json:"scope,omitempty" form:"scope,omitempty"`
-	LanguageCode  string       `json:"language_code,omitempty" form:"language_code,omitempty"`
+	Commands     []BotCommand `json:"commands" form:"commands"`
+	Scope        string       `json:"scope,omitempty" form:"scope,omitempty"`
+	LanguageCode string       `json:"language_code,omitempty" form:"language_code,omitempty"`
 	SimpleMethod
 }
 
@@ -304,9 +303,9 @@ type BotAdministratorRights struct {
 
 // SetMyDefaultAdministratorRights contains information about setMyDefaultAdministratorRights telegram api method.
 type SetMyDefaultAdministratorRights struct {
-	Rights       *BotAdministratorRights `json:"rights" form:"rights"`
-	ForSupergroups bool                  `json:"for_supergroups,omitempty" form:"for_supergroups,omitempty"`
-	ForChannels    bool                  `json:"for_channels,omitempty" form:"for_channels,omitempty"`
+	Rights         *BotAdministratorRights `json:"rights" form:"rights"`
+	ForSupergroups bool                    `json:"for_supergroups,omitempty" form:"for_supergroups,omitempty"`
+	ForChannels    bool                    `json:"for_channels,omitempty" form:"for_channels,omitempty"`
 	SimpleMethod
 }
 
@@ -369,16 +368,16 @@ func (r *GetMyDefaultAdministratorRights) SetForChannels(f bool) {
 
 // MenuButton contains information about menu button.
 type MenuButton struct {
-	Type         string `json:"type" form:"type"`
-	Text         string `json:"text,omitempty" form:"text,omitempty"`
-	WebURL       string `json:"web_app,omitempty" form:"web_app,omitempty"`
-	ShortName    string `json:"short_name,omitempty" form:"short_name,omitempty"`
+	Type      string `json:"type" form:"type"`
+	Text      string `json:"text,omitempty" form:"text,omitempty"`
+	WebURL    string `json:"web_app,omitempty" form:"web_app,omitempty"`
+	ShortName string `json:"short_name,omitempty" form:"short_name,omitempty"`
 }
 
 // SetChatMenuButton contains information about setChatMenuButton telegram api method.
 type SetChatMenuButton struct {
-	ChatID       int64  `json:"chat_id,omitempty" form:"chat_id,omitempty"`
-	MenuButton   string `json:"menu_button" form:"menu_button"`
+	ChatID     int64  `json:"chat_id,omitempty" form:"chat_id,omitempty"`
+	MenuButton string `json:"menu_button" form:"menu_button"`
 	SimpleMethod
 }
 

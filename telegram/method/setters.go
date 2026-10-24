@@ -188,7 +188,7 @@ type ShowAlertSetter interface {
 	SetShowAlert(bool)
 }
 
-// URLSetter interface for setting url in callback queries
+// CallbackQueryURLSetter interface for setting url in callback queries
 type CallbackQueryURLSetter interface {
 	SetURL(string)
 }

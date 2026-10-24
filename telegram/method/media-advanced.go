@@ -8,14 +8,14 @@ import (
 
 // CopyMessage contains information about copyMessage telegram api method.
 type CopyMessage struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	FromChatID          int64             `json:"from_chat_id" form:"from_chat_id"`
-	MessageID           int               `json:"message_id" form:"message_id"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
-	AllowCopy           bool              `json:"allow_sending_without_reply,omitempty" form:"allow_sending_without_reply,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	FromChatID          int64           `json:"from_chat_id" form:"from_chat_id"`
+	MessageID           int             `json:"message_id" form:"message_id"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	AllowCopy           bool            `json:"allow_sending_without_reply,omitempty" form:"allow_sending_without_reply,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
@@ -129,8 +129,8 @@ func (r *DeleteMessages) Method() string {
 
 // StopPoll contains information about stopPoll telegram api method.
 type StopPoll struct {
-	ChatID      int64             `json:"chat_id" form:"chat_id"`
-	MessageID   int               `json:"message_id" form:"message_id"`
+	ChatID      int64           `json:"chat_id" form:"chat_id"`
+	MessageID   int             `json:"message_id" form:"message_id"`
 	ReplyMarkup keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
@@ -159,11 +159,11 @@ func (r *StopPoll) SetReplyMarkup(kb keyboard.Markup) {
 
 // EditMessageLiveLocation contains information about editMessageLiveLocation telegram api method.
 type EditMessageLiveLocation struct {
-	ChatID          int64             `json:"chat_id,omitempty" form:"chat_id,omitempty"`
-	MessageID       int               `json:"message_id,omitempty" form:"message_id,omitempty"`
-	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
-	Latitude        float64           `json:"latitude" form:"latitude"`
-	Longitude       float64           `json:"longitude" form:"longitude"`
+	ChatID          int64           `json:"chat_id,omitempty" form:"chat_id,omitempty"`
+	MessageID       int             `json:"message_id,omitempty" form:"message_id,omitempty"`
+	InlineMessageID string          `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
+	Latitude        float64         `json:"latitude" form:"latitude"`
+	Longitude       float64         `json:"longitude" form:"longitude"`
 	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }
@@ -195,9 +195,9 @@ func (r *EditMessageLiveLocation) SetReplyMarkup(kb keyboard.Markup) {
 
 // StopMessageLiveLocation contains information about stopMessageLiveLocation telegram api method.
 type StopMessageLiveLocation struct {
-	ChatID          int64             `json:"chat_id,omitempty" form:"chat_id,omitempty"`
-	MessageID       int               `json:"message_id,omitempty" form:"message_id,omitempty"`
-	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
+	ChatID          int64           `json:"chat_id,omitempty" form:"chat_id,omitempty"`
+	MessageID       int             `json:"message_id,omitempty" form:"message_id,omitempty"`
+	InlineMessageID string          `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
 	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 	SimpleMethod
 }

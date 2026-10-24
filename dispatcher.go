@@ -1,11 +1,10 @@
 package gogram
 
 import (
-	"github.com/irisked/gogram/types"
 	"fmt"
+	"github.com/irisked/gogram/types"
 	"strings"
 )
-
 
 // dispatcher routes an incoming update to the handler registered for
 // its path.
@@ -20,35 +19,35 @@ func newDispatcher() *dispatcher {
 	return c
 }
 
-func(c *dispatcher) OnUpdate(ut types.UpdateType, handler Handler) {
+func (c *dispatcher) OnUpdate(ut types.UpdateType, handler Handler) {
 	c.OnPath(defaultPath(ut), handler)
 }
 
-func(c *dispatcher) OnPath(path string, handler Handler) {
+func (c *dispatcher) OnPath(path string, handler Handler) {
 	c.storage.Insert(path, handler)
 }
 
-func(c *dispatcher) OnCallbackQuery(handler Handler) {
+func (c *dispatcher) OnCallbackQuery(handler Handler) {
 	c.OnPath(defaultPath(types.IncomingCallbackQuery), handler)
 }
 
-func(c *dispatcher) OnCallback(path string, handler Handler) {
+func (c *dispatcher) OnCallback(path string, handler Handler) {
 	c.OnPath(defaultStringPath(types.IncomingCallbackQuery.String(), path), handler)
 }
 
-func(c *dispatcher) OnInlineQuery(handler Handler) {
+func (c *dispatcher) OnInlineQuery(handler Handler) {
 	c.OnPath(defaultPath(types.IncomingInlineQuery), handler)
 }
 
-func(c *dispatcher) OnShippingQuery(handler Handler) {
+func (c *dispatcher) OnShippingQuery(handler Handler) {
 	c.OnPath(defaultPath(types.IncomingShippingQuery), handler)
 }
 
-func(c *dispatcher) OnPreCheckoutQuery(handler Handler) {
+func (c *dispatcher) OnPreCheckoutQuery(handler Handler) {
 	c.OnPath(defaultPath(types.IncomingPreCheckoutQuery), handler)
 }
 
-func(c *dispatcher) OnChosenInlineResult(handler Handler) {
+func (c *dispatcher) OnChosenInlineResult(handler Handler) {
 	c.OnPath(defaultPath(types.IncomingChosenInlineResult), handler)
 }
 

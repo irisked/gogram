@@ -220,36 +220,42 @@ func Force[T method.ForceSetter]() Option[T] {
 	return func(t T) { t.SetForce(true) }
 }
 
-// CopyMessage setters
+// CopyMessageCaption sets caption.
 func CopyMessageCaption[T method.CopyMessageSetter](text string) Option[T] {
 	return func(t T) { t.SetCaption(text) }
 }
 
+// CopyMessageParseMode sets parse mode.
 func CopyMessageParseMode[T method.CopyMessageSetter](mode string) Option[T] {
 	return func(t T) { t.SetParseMode(mode) }
 }
 
+// CopyMessageDisableNotification sets disable notification to true.
 func CopyMessageDisableNotification[T method.CopyMessageSetter]() Option[T] {
 	return func(t T) { t.SetDisableNotification(true) }
 }
 
+// CopyMessageReplyToMessageID sets reply_to_message_id.
 func CopyMessageReplyToMessageID[T method.CopyMessageSetter](id int) Option[T] {
 	return func(t T) { t.SetReplyToMessageID(id) }
 }
 
+// CopyMessageAllowCopy sets allow copy.
 func CopyMessageAllowCopy[T method.CopyMessageSetter](v bool) Option[T] {
 	return func(t T) { t.SetAllowCopy(v) }
 }
 
+// CopyMessageReplyMarkup sets reply markup.
 func CopyMessageReplyMarkup[T method.CopyMessageSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
-// CopyMessages setters
+// CopyMessagesDisableNotification sets disable notification to true.
 func CopyMessagesDisableNotification[T method.CopyMessagesSetter]() Option[T] {
 	return func(t T) { t.SetDisableNotification(true) }
 }
 
+// CopyMessagesRemoveSender sets remove sender.
 func CopyMessagesRemoveSender[T method.CopyMessagesSetter](v bool) Option[T] {
 	return func(t T) { t.SetRemoveSender(v) }
 }
@@ -257,22 +263,22 @@ func CopyMessagesRemoveSender[T method.CopyMessagesSetter](v bool) Option[T] {
 // DeleteMessages setters
 // (no setters needed)
 
-// StopPoll setters
+// StopPollReplyMarkup sets reply markup.
 func StopPollReplyMarkup[T method.StopPollSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
-// EditMessageLiveLocation setters
+// EditMessageLiveLocationReplyMarkup sets reply markup.
 func EditMessageLiveLocationReplyMarkup[T method.EditMessageLiveLocationSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
-// StopMessageLiveLocation setters
+// StopMessageLiveLocationReplyMarkup sets reply markup.
 func StopMessageLiveLocationReplyMarkup[T method.StopMessageLiveLocationSetter](kb keyboard.Markup) Option[T] {
 	return func(t T) { t.SetReplyMarkup(kb) }
 }
 
-// DeleteWebhook setters
+// DeleteWebhookDropPendingUpdates sets drop pending updates.
 func DeleteWebhookDropPendingUpdates[T method.DeleteWebhookSetter](v bool) Option[T] {
 	return func(t T) { t.SetDropPendingUpdates(v) }
 }
@@ -280,48 +286,57 @@ func DeleteWebhookDropPendingUpdates[T method.DeleteWebhookSetter](v bool) Optio
 // GetStickerSet setters
 // (no setters needed)
 
-// UploadStickerFile setters
+// UploadStickerFileFormat sets sticker format.
 func UploadStickerFileFormat[T method.UploadStickerFileSetter](s string) Option[T] {
 	return func(t T) { t.SetStickerFormat(s) }
 }
 
+// UploadStickerFileType sets sticker type.
 func UploadStickerFileType[T method.UploadStickerFileSetter](s string) Option[T] {
 	return func(t T) { t.SetStickerType(s) }
 }
 
+// UploadStickerFilePNGSticker sets the PNG sticker file.
 func UploadStickerFilePNGSticker[T method.UploadStickerFileSetter](p string) Option[T] {
 	return func(t T) { t.SetPNGSticker(p) }
 }
 
+// UploadStickerFileTSVGSticker sets the TGS (animated) sticker file.
 func UploadStickerFileTSVGSticker[T method.UploadStickerFileSetter](t string) Option[T] {
 	return func(s T) { s.SetTSVGSticker(t) }
 }
 
+// UploadStickerFileWebmSticker sets webm sticker.
 func UploadStickerFileWebmSticker[T method.UploadStickerFileSetter](w string) Option[T] {
 	return func(s T) { s.SetWebmSticker(w) }
 }
 
+// UploadStickerFileThumbnail sets thumbnail.
 func UploadStickerFileThumbnail[T method.UploadStickerFileSetter](t string) Option[T] {
 	return func(s T) { s.SetThumbnail(t) }
 }
 
+// UploadStickerFileMaskPosition sets mask position.
 func UploadStickerFileMaskPosition[T method.UploadStickerFileSetter](m string) Option[T] {
 	return func(t T) { t.SetMaskPosition(m) }
 }
 
+// UploadStickerFileEmojiList sets emoji list.
 func UploadStickerFileEmojiList[T method.UploadStickerFileSetter](e []string) Option[T] {
 	return func(t T) { t.SetEmojiList(e) }
 }
 
-// CreateNewStickerSet setters
+// CreateNewStickerSetStickerType sets sticker type.
 func CreateNewStickerSetStickerType[T method.CreateNewStickerSetSetter](s string) Option[T] {
 	return func(t T) { t.SetStickerType(s) }
 }
 
+// CreateNewStickerSetMaskPosition sets mask position.
 func CreateNewStickerSetMaskPosition[T method.CreateNewStickerSetSetter](m string) Option[T] {
 	return func(t T) { t.SetMaskPosition(m) }
 }
 
+// CreateNewStickerSetNeedsRepaired sets needs repaired.
 func CreateNewStickerSetNeedsRepaired[T method.CreateNewStickerSetSetter](n *bool) Option[T] {
 	return func(t T) { t.SetNeedsRepaired(n) }
 }
@@ -329,7 +344,7 @@ func CreateNewStickerSetNeedsRepaired[T method.CreateNewStickerSetSetter](n *boo
 // DeleteStickerSet setters
 // (no setters needed)
 
-// AddStickerToSet setters
+// AddStickerToSetMaskPosition sets mask position.
 func AddStickerToSetMaskPosition[T method.AddStickerToSetSetter](m string) Option[T] {
 	return func(t T) { t.SetMaskPosition(m) }
 }
@@ -367,20 +382,22 @@ func AddStickerToSetMaskPosition[T method.AddStickerToSetSetter](m string) Optio
 // GetCustomEmojiStickers setters
 // (no setters needed)
 
-// ForumTopic setters
+// CreateForumTopicIconColor sets icon color.
 func CreateForumTopicIconColor[T method.ForumTopicSetter](c int) Option[T] {
 	return func(t T) { t.SetIconColor(c) }
 }
 
+// CreateForumTopicIconEmojiID sets icon emoji ID.
 func CreateForumTopicIconEmojiID[T method.ForumTopicSetter](e string) Option[T] {
 	return func(t T) { t.SetIconEmojiID(e) }
 }
 
-// EditForumTopic setters
+// EditForumTopicName sets name.
 func EditForumTopicName[T method.EditForumTopicSetter](n string) Option[T] {
 	return func(t T) { t.SetName(n) }
 }
 
+// EditForumTopicIconEmojiID sets icon emoji ID.
 func EditForumTopicIconEmojiID[T method.EditForumTopicSetter](e string) Option[T] {
 	return func(t T) { t.SetIconEmojiID(e) }
 }
@@ -421,165 +438,182 @@ func EditForumTopicIconEmojiID[T method.EditForumTopicSetter](e string) Option[T
 // UnpinAllGeneralForumTopicMessages setters
 // (no setters needed)
 
-// SetMyCommands setters
+// SetMyCommandsScope sets scope.
 func SetMyCommandsScope[T method.SetMyCommandsSetter](s string) Option[T] {
 	return func(t T) { t.SetScope(s) }
 }
 
+// SetMyCommandsLanguageCode sets language code.
 func SetMyCommandsLanguageCode[T method.SetMyCommandsSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// GetMyCommands setters
+// GetMyCommandsScope sets scope.
 func GetMyCommandsScope[T method.GetMyCommandsSetter](s string) Option[T] {
 	return func(t T) { t.SetScope(s) }
 }
 
+// GetMyCommandsLanguageCode sets language code.
 func GetMyCommandsLanguageCode[T method.GetMyCommandsSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// DeleteMyCommands setters
+// DeleteMyCommandsScope sets scope.
 func DeleteMyCommandsScope[T method.DeleteMyCommandsSetter](s string) Option[T] {
 	return func(t T) { t.SetScope(s) }
 }
 
+// DeleteMyCommandsLanguageCode sets language code.
 func DeleteMyCommandsLanguageCode[T method.DeleteMyCommandsSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// SetMyName setters
+// SetMyNameName sets name.
 func SetMyNameName[T method.SetMyNameSetter](n string) Option[T] {
 	return func(t T) { t.SetName(n) }
 }
 
+// SetMyNameLanguageCode sets language code.
 func SetMyNameLanguageCode[T method.SetMyNameSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// GetMyName setters
+// GetMyNameLanguageCode sets language code.
 func GetMyNameLanguageCode[T method.GetMyNameSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// SetMyDescription setters
+// SetMyDescriptionDescription sets description.
 func SetMyDescriptionDescription[T method.SetMyDescriptionSetter](d string) Option[T] {
 	return func(t T) { t.SetDescription(d) }
 }
 
+// SetMyDescriptionLanguageCode sets language code.
 func SetMyDescriptionLanguageCode[T method.SetMyDescriptionSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// GetMyDescription setters
+// GetMyDescriptionLanguageCode sets language code.
 func GetMyDescriptionLanguageCode[T method.GetMyDescriptionSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// SetMyShortDescription setters
+// SetMyShortDescriptionShortDescription sets short description.
 func SetMyShortDescriptionShortDescription[T method.SetMyShortDescriptionSetter](s string) Option[T] {
 	return func(t T) { t.SetShortDescription(s) }
 }
 
+// SetMyShortDescriptionLanguageCode sets language code.
 func SetMyShortDescriptionLanguageCode[T method.SetMyShortDescriptionSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// GetMyShortDescription setters
+// GetMyShortDescriptionLanguageCode sets language code.
 func GetMyShortDescriptionLanguageCode[T method.GetMyShortDescriptionSetter](l string) Option[T] {
 	return func(t T) { t.SetLanguageCode(l) }
 }
 
-// SetMyDefaultAdministratorRights setters
+// SetMyDefaultAdministratorRightsForSupergroups sets for supergroups.
 func SetMyDefaultAdministratorRightsForSupergroups[T method.SetMyDefaultAdministratorRightsSetter](f bool) Option[T] {
 	return func(t T) { t.SetForSupergroups(f) }
 }
 
+// SetMyDefaultAdministratorRightsForChannels sets for channels.
 func SetMyDefaultAdministratorRightsForChannels[T method.SetMyDefaultAdministratorRightsSetter](f bool) Option[T] {
 	return func(t T) { t.SetForChannels(f) }
 }
 
-// GetMyDefaultAdministratorRights setters
+// GetMyDefaultAdministratorRightsForSupergroups sets for supergroups.
 func GetMyDefaultAdministratorRightsForSupergroups[T method.GetMyDefaultAdministratorRightsSetter](f bool) Option[T] {
 	return func(t T) { t.SetForSupergroups(f) }
 }
 
+// GetMyDefaultAdministratorRightsForChannels sets for channels.
 func GetMyDefaultAdministratorRightsForChannels[T method.GetMyDefaultAdministratorRightsSetter](f bool) Option[T] {
 	return func(t T) { t.SetForChannels(f) }
 }
 
-// SetChatMenuButton setters
+// SetChatMenuButtonChatID sets chat_id.
 func SetChatMenuButtonChatID[T method.SetChatMenuButtonSetter](c int64) Option[T] {
 	return func(t T) { t.SetChatID(c) }
 }
 
+// SetChatMenuButtonMenuButton sets menu button.
 func SetChatMenuButtonMenuButton[T method.SetChatMenuButtonSetter](m string) Option[T] {
 	return func(t T) { t.SetMenuButton(m) }
 }
 
-// GetChatMenuButton setters
+// GetChatMenuButtonChatID sets chat_id.
 func GetChatMenuButtonChatID[T method.GetChatMenuButtonSetter](c int64) Option[T] {
 	return func(t T) { t.SetChatID(c) }
 }
 
-// AnswerInlineQuery setters
+// AnswerInlineQueryCacheTime sets cache time.
 func AnswerInlineQueryCacheTime[T method.AnswerInlineQuerySetter](c int) Option[T] {
 	return func(t T) { t.SetCacheTime(c) }
 }
 
+// AnswerInlineQueryIsPersonal sets is personal.
 func AnswerInlineQueryIsPersonal[T method.AnswerInlineQuerySetter](p bool) Option[T] {
 	return func(t T) { t.SetIsPersonal(p) }
 }
 
+// AnswerInlineQueryNextOffset sets next offset.
 func AnswerInlineQueryNextOffset[T method.AnswerInlineQuerySetter](n string) Option[T] {
 	return func(t T) { t.SetNextOffset(n) }
 }
 
+// AnswerInlineQueryButton sets button.
 func AnswerInlineQueryButton[T method.AnswerInlineQuerySetter](b string) Option[T] {
 	return func(t T) { t.SetButton(b) }
 }
 
-// AnswerWebAppQuery setters
+// AnswerWebAppQueryResult sets result.
 func AnswerWebAppQueryResult[T method.AnswerWebAppQuerySetter](r string) Option[T] {
 	return func(t T) { t.SetResult(r) }
 }
 
-// SendPaidMedia setters
+// SendPaidMediaCaption sets caption.
 func SendPaidMediaCaption[T method.SendPaidMediaSetter](c string) Option[T] {
 	return func(t T) { t.SetCaption(c) }
 }
 
+// SendPaidMediaParseMode sets parse mode.
 func SendPaidMediaParseMode[T method.SendPaidMediaSetter](p string) Option[T] {
 	return func(t T) { t.SetParseMode(p) }
 }
 
+// SendPaidMediaShowCaptionAboveMedia sets show caption above media.
 func SendPaidMediaShowCaptionAboveMedia[T method.SendPaidMediaSetter](s *bool) Option[T] {
 	return func(t T) { t.SetShowCaptionAboveMedia(s) }
 }
 
+// SendPaidMediaReplyMarkup sets reply markup.
 func SendPaidMediaReplyMarkup[T method.SendPaidMediaSetter](r string) Option[T] {
 	return func(t T) { t.SetReplyMarkup(r) }
 }
 
-// AnswerShippingQuery setters
+// AnswerShippingQueryShippingOptions sets shipping options.
 func AnswerShippingQueryShippingOptions[T method.AnswerShippingQuerySetter](s string) Option[T] {
 	return func(t T) { t.SetShippingOptions(s) }
 }
 
+// AnswerShippingQueryErrorMessage sets error message.
 func AnswerShippingQueryErrorMessage[T method.AnswerShippingQuerySetter](e string) Option[T] {
 	return func(t T) { t.SetErrorMessage(e) }
 }
 
-// AnswerPreCheckoutQuery setters
+// AnswerPreCheckoutQueryErrorMessage sets error message.
 func AnswerPreCheckoutQueryErrorMessage[T method.AnswerPreCheckoutQuerySetter](e string) Option[T] {
 	return func(t T) { t.SetErrorMessage(e) }
 }
 
-// GetStarTransactions setters
+// GetStarTransactionsOffset sets offset.
 func GetStarTransactionsOffset[T method.GetStarTransactionsSetter](o int) Option[T] {
 	return func(t T) { t.SetOffset(o) }
 }
 
+// GetStarTransactionsLimit sets limit.
 func GetStarTransactionsLimit[T method.GetStarTransactionsSetter](l int) Option[T] {
 	return func(t T) { t.SetLimit(l) }
 }

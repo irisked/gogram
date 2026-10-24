@@ -72,10 +72,10 @@ func (m *SetGameScores) SetDisableEditMessage(v bool) {
 
 // SendGame contains information about sendGame telegram api method.
 type SendGame struct {
-	ChatID              int               `json:"chat_id"`
-	GameShortName       string            `json:"game_short_name"`
-	DisableNotification bool              `json:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty"`
+	ChatID              int             `json:"chat_id"`
+	GameShortName       string          `json:"game_short_name"`
+	DisableNotification bool            `json:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty"`
 	SimpleMethod
 }

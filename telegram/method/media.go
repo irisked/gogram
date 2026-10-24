@@ -27,13 +27,13 @@ func (m *GetFile) Method() string {
 
 // SendPhoto contains information about sendPhoto telegram api method.
 type SendPhoto struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-"`
-	Photo               string            `json:"photo" form:"photo"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-"`
+	Photo               string          `json:"photo" form:"photo"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -89,18 +89,18 @@ func (m *SendPhoto) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendAudio contains information about sendMessage telegram api method.
 type SendAudio struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	ThumbFile           *os.File          `json:"-" form:"thumb"`
-	Audio               string            `json:"audio"`
-	Thumb               string            `json:"thumb,omitempty" form:"thumb,omitempty"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	Duration            int               `json:"duration,omitempty" form:"caption,omitempty"`
-	Performer           string            `json:"performer,omitempty" form:"performer,omitempty"`
-	Title               string            `json:"title,omitempty" form:"title,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	ThumbFile           *os.File        `json:"-" form:"thumb"`
+	Audio               string          `json:"audio"`
+	Thumb               string          `json:"thumb,omitempty" form:"thumb,omitempty"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	Duration            int             `json:"duration,omitempty" form:"caption,omitempty"`
+	Performer           string          `json:"performer,omitempty" form:"performer,omitempty"`
+	Title               string          `json:"title,omitempty" form:"title,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -181,15 +181,15 @@ func (m *SendAudio) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendDocument contains information about sendDocument telegram api method.
 type SendDocument struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	ThumbFile           *os.File          `json:"-" form:"thumb"`
-	Document            string            `json:"document" form:"document"`
-	Thumb               string            `json:"thumb,omitempty" form:"thumb,omitempty"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	ThumbFile           *os.File        `json:"-" form:"thumb"`
+	Document            string          `json:"document" form:"document"`
+	Thumb               string          `json:"thumb,omitempty" form:"thumb,omitempty"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -252,19 +252,19 @@ func (m *SendDocument) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendVideo contains information about sendVideo telegram api method.
 type SendVideo struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	ThumbFile           *os.File          `json:"-" form:"thumb"`
-	Video               string            `json:"video" form:"video"`
-	Thumb               string            `json:"thumb,omitempty" form:"thumb,omitempty"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	Width               int               `json:"width,omitempty" form:"width,omitempty"`
-	Height              int               `json:"height,omitempty" form:"height,omitempty"`
-	Duration            int               `json:"duration,omitempty" form:"duration,omitempty"`
-	SupportsStreaming   bool              `json:"supports_streaming,omitempty" form:"supports_streaming,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	ThumbFile           *os.File        `json:"-" form:"thumb"`
+	Video               string          `json:"video" form:"video"`
+	Thumb               string          `json:"thumb,omitempty" form:"thumb,omitempty"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	Width               int             `json:"width,omitempty" form:"width,omitempty"`
+	Height              int             `json:"height,omitempty" form:"height,omitempty"`
+	Duration            int             `json:"duration,omitempty" form:"duration,omitempty"`
+	SupportsStreaming   bool            `json:"supports_streaming,omitempty" form:"supports_streaming,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -351,18 +351,18 @@ func (m *SendVideo) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendAnimation contains information about sendAnimation telegram api method.
 type SendAnimation struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	ThumbFile           *os.File          `json:"-" form:"thumb"`
-	Animation           string            `json:"animation" form:"animation"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	Thumb               string            `json:"thumb,omitempty" form:"thumb,omitempty"`
-	Width               int               `json:"width,omitempty" form:"width,omitempty"`
-	Height              int               `json:"height,omitempty" form:"height,omitempty"`
-	Duration            int               `form:"duration,omitempty" form:"duration,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	ThumbFile           *os.File        `json:"-" form:"thumb"`
+	Animation           string          `json:"animation" form:"animation"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	Thumb               string          `json:"thumb,omitempty" form:"thumb,omitempty"`
+	Width               int             `json:"width,omitempty" form:"width,omitempty"`
+	Height              int             `json:"height,omitempty" form:"height,omitempty"`
+	Duration            int             `form:"duration,omitempty" form:"duration,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -443,14 +443,14 @@ func (m *SendAnimation) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendVoice contains information about sendVoice telegram api method.
 type SendVoice struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	Voice               string            `json:"audio" form:"audio"`
-	Caption             string            `json:"caption,omitempty" form:"caption,omitempty"`
-	Duration            int               `json:"duration,omitempty" form:"duration,omitempty"`
-	ParseMode           string            `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	Voice               string          `json:"audio" form:"audio"`
+	Caption             string          `json:"caption,omitempty" form:"caption,omitempty"`
+	Duration            int             `json:"duration,omitempty" form:"duration,omitempty"`
+	ParseMode           string          `json:"parse_mode,omitempty" form:"parse_mode,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -512,15 +512,15 @@ func (m *SendVoice) SetReplyMarkup(kb keyboard.Markup) {
 
 // SendVideoNote contains information about sendVideoNote telegram api method.
 type SendVideoNote struct {
-	ChatID              int64             `json:"chat_id" form:"chat_id"`
-	File                *os.File          `json:"-" form:"file"`
-	ThumbFile           *os.File          `json:"-" form:"thumb"`
-	VideoNote           string            `json:"video_note" form:"video_note"`
-	Thumb               string            `json:"thumb,omitempty" form:"thumb,omitempty"`
-	Length              int               `json:"length,omitempty" form:"length,omitempty"`
-	Duration            int               `json:"duration,omitempty" form:"duration,omitempty"`
-	DisableNotification bool              `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
-	ReplyToMessageID    int               `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
+	ChatID              int64           `json:"chat_id" form:"chat_id"`
+	File                *os.File        `json:"-" form:"file"`
+	ThumbFile           *os.File        `json:"-" form:"thumb"`
+	VideoNote           string          `json:"video_note" form:"video_note"`
+	Thumb               string          `json:"thumb,omitempty" form:"thumb,omitempty"`
+	Length              int             `json:"length,omitempty" form:"length,omitempty"`
+	Duration            int             `json:"duration,omitempty" form:"duration,omitempty"`
+	DisableNotification bool            `json:"disable_notification,omitempty" form:"disable_notification,omitempty"`
+	ReplyToMessageID    int             `json:"reply_to_message_id,omitempty" form:"reply_to_message_id,omitempty"`
 	ReplyMarkup         keyboard.Markup `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
 }
 
@@ -634,12 +634,12 @@ func (m *SendMediaGroup) SetReplyToMessageID(id int) {
 
 // EditMessageMedia contains information about editMessageMedia telegram api method.
 type EditMessageMedia struct {
-	File            *os.File          `json:"-" form:"file"`
-	ThumbFile       *os.File          `json:"-" form:"thumb"`
-	ChatID          int64             `json:"chat_id,omitempty" form:"chat_id,omitempty"`
-	MessageID       int               `json:"message_id,omitempty" form:"message_id,omitempty"`
-	InlineMessageID string            `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
-	Media           string            `json:"media" form:"media"`
+	File            *os.File        `json:"-" form:"file"`
+	ThumbFile       *os.File        `json:"-" form:"thumb"`
+	ChatID          int64           `json:"chat_id,omitempty" form:"chat_id,omitempty"`
+	MessageID       int             `json:"message_id,omitempty" form:"message_id,omitempty"`
+	InlineMessageID string          `json:"inline_message_id,omitempty" form:"inline_message_id,omitempty"`
+	Media           string          `json:"media" form:"media"`
 	ReplyMarkup     keyboard.Markup `json:"reply_markup,omitempty"`
 }
 

@@ -1,30 +1,29 @@
 package method
 
-import (
-)
+import ()
 
 // InlineQueryResult contains information about inline query result.
 type InlineQueryResult struct {
-	Type           string          `json:"type" form:"type"`
-	ID             string          `json:"id" form:"id"`
-	Title          string          `json:"title,omitempty" form:"title,omitempty"`
-	Caption        string          `json:"caption,omitempty" form:"caption,omitempty"`
-	InputMessageContent string       `json:"input_message_content,omitempty" form:"input_message_content,omitempty"`
-	ReplyMarkup    string          `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
-	URL            string          `json:"url,omitempty" form:"url,omitempty"`
-	ThumbURL       string          `json:"thumb_url,omitempty" form:"thumb_url,omitempty"`
-	ThumbWidth     int             `json:"thumb_width,omitempty" form:"thumb_width,omitempty"`
-	ThumbHeight    int             `json:"thumb_height,omitempty" form:"thumb_height,omitempty"`
+	Type                string `json:"type" form:"type"`
+	ID                  string `json:"id" form:"id"`
+	Title               string `json:"title,omitempty" form:"title,omitempty"`
+	Caption             string `json:"caption,omitempty" form:"caption,omitempty"`
+	InputMessageContent string `json:"input_message_content,omitempty" form:"input_message_content,omitempty"`
+	ReplyMarkup         string `json:"reply_markup,omitempty" form:"reply_markup,omitempty"`
+	URL                 string `json:"url,omitempty" form:"url,omitempty"`
+	ThumbURL            string `json:"thumb_url,omitempty" form:"thumb_url,omitempty"`
+	ThumbWidth          int    `json:"thumb_width,omitempty" form:"thumb_width,omitempty"`
+	ThumbHeight         int    `json:"thumb_height,omitempty" form:"thumb_height,omitempty"`
 }
 
 // AnswerInlineQuery contains information about answerInlineQuery telegram api method.
 type AnswerInlineQuery struct {
-	InlineQueryID string           `json:"inline_query_id" form:"inline_query_id"`
+	InlineQueryID string              `json:"inline_query_id" form:"inline_query_id"`
 	Results       []InlineQueryResult `json:"results" form:"results"`
-	CacheTime     int              `json:"cache_time,omitempty" form:"cache_time,omitempty"`
-	IsPersonal    bool             `json:"is_personal,omitempty" form:"is_personal,omitempty"`
-	NextOffset    string           `json:"next_offset,omitempty" form:"next_offset,omitempty"`
-	Button        string           `json:"button,omitempty" form:"button,omitempty"`
+	CacheTime     int                 `json:"cache_time,omitempty" form:"cache_time,omitempty"`
+	IsPersonal    bool                `json:"is_personal,omitempty" form:"is_personal,omitempty"`
+	NextOffset    string              `json:"next_offset,omitempty" form:"next_offset,omitempty"`
+	Button        string              `json:"button,omitempty" form:"button,omitempty"`
 	SimpleMethod
 }
 

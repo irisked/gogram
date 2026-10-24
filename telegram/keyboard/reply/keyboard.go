@@ -7,9 +7,9 @@ import (
 // Keyboard represents represents a custom keyboard with reply options
 type Keyboard struct {
 	Buttons         [][]Button `json:"keyboard"`
-	ResizeKeyboard  bool        `json:"resize_keyboard,omitempty"`
-	OneTimeKeyboard bool        `json:"one_time_keyboard,omitempty"`
-	Selective       bool        `json:"selective,omitempty"`
+	ResizeKeyboard  bool       `json:"resize_keyboard,omitempty"`
+	OneTimeKeyboard bool       `json:"one_time_keyboard,omitempty"`
+	Selective       bool       `json:"selective,omitempty"`
 }
 
 // NewKeyboard creates Keyboard
@@ -20,8 +20,8 @@ func NewKeyboard(options ...func(*Keyboard)) *Keyboard {
 	}
 	keyboard.Buttons = make([][]Button, 0)
 	for i := range keyboard.Buttons {
-    keyboard.Buttons[i] = make([]Button, 0)
-}
+		keyboard.Buttons[i] = make([]Button, 0)
+	}
 	return keyboard
 }
 

@@ -38,12 +38,12 @@ func Callback(data string, args ...string) func(*Button) {
 		builder.WriteString(data)
 		builder.WriteString(":")
 		length := len(args)
-		isLast := func (index, length int) bool {
+		isLast := func(index, length int) bool {
 			return index == length
 		}
 		for index, element := range args {
 			builder.WriteString(element)
-			if !isLast(index, length - 1) {
+			if !isLast(index, length-1) {
 				builder.WriteString(",")
 			}
 		}
