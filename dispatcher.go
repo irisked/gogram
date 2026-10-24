@@ -7,50 +7,16 @@ import (
 )
 
 
-// Dispatcher interface
-type Dispatcher interface {
-	OnPath(string, Handler)
-	OnUpdate(types.UpdateType, Handler)
-	OnCallbackQuery(Handler)
-	OnCallback(string, Handler)
-	OnInlineQuery(Handler)
-	OnShippingQuery(Handler)
-	OnPreCheckoutQuery(Handler)
-	OnChosenInlineResult(Handler)
-	OnMessage(Handler)
-	OnEditedMessage(Handler)
-	OnText(Handler)
-	OnAudio(Handler)
-	OnDocument(Handler)
-	OnAnimation(Handler)
-	OnPhoto(Handler)
-	OnSticker(Handler)
-	OnVideo(Handler)
-	OnVideoNote(Handler)
-	OnVoice(Handler)
-	OnContact(Handler)
-	OnLocation(Handler)
-	OnVenue(Handler)
-	OnNewChatMembers(Handler)
-	OnLeftChatMember(Handler)
-	OnNewChatPhoto(Handler)
-	OnDeleteChatPhoto(Handler)
-	OnInvoice(Handler)
-	OnSuccessfulPayment(Handler)
-	OnCommand(string, Handler)
-	OnStart(Handler)
-	OnHelp(Handler)
-	Handle(*Context)
-}
-
+// dispatcher routes an incoming update to the handler registered for
+// its path.
 type dispatcher struct {
-	storage Storage
+	storage *storage
 }
 
-// NewDispatcher creates dispatcher
-func NewDispatcher() Dispatcher {
+// newDispatcher creates a dispatcher.
+func newDispatcher() *dispatcher {
 	c := new(dispatcher)
-	c.storage = NewStorage()
+	c.storage = newStorage()
 	return c
 }
 

@@ -14,7 +14,7 @@ type Handler func(ctx *Context)
 // Gogram its a telegram bot framework
 type Gogram struct {
 	telegram   *telegram.Client
-	dispatcher Dispatcher
+	dispatcher *dispatcher
 	poller     Poller
 	cancel     context.CancelFunc
 	updates    chan types.Update
@@ -25,7 +25,7 @@ func New(token string) *Gogram {
 	g := new(Gogram)
 	g.telegram = telegram.New(token)
 	g.poller = NewPoller(g.telegram, 100)
-	g.dispatcher = NewDispatcher()
+	g.dispatcher = newDispatcher()
 	return g
 }
 

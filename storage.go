@@ -1,14 +1,8 @@
 package gogram
 
-// Storage interface
-type Storage interface {
-	Insert(string, Handler)
-	Find(string) (Handler, bool)
-	Map() map[string]Handler
-}
-
+// storage is a path-keyed handler lookup backed by a radix tree.
 type storage struct {
-	tree *Tree
+	tree *tree
 }
 
 func (s *storage) Insert(path string, handler Handler) {
@@ -24,9 +18,9 @@ func (s *storage) Find(path string) (Handler, bool) {
 	return handler, ok
 }
 
-// NewStorage creates storage
-func NewStorage() Storage {
-	storage := new(storage)
-	storage.tree = NewTree()
-	return storage
+// newStorage creates a storage.
+func newStorage() *storage {
+	s := new(storage)
+	s.tree = newTree()
+	return s
 }

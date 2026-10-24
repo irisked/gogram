@@ -97,24 +97,24 @@ func (e edges) Sort() {
 	sort.Sort(e)
 }
 
-// Tree implements a radix tree. This can be treated as a
+// tree implements a radix tree. This can be treated as a
 // Dictionary abstract data type. The main advantage over
 // a standard hash map is prefix-based lookups and
 // ordered iteration,
-type Tree struct {
+type tree struct {
 	root *node
 	size int
 }
 
-// NewTree returns an empty Tree
-func NewTree() *Tree {
-	return NewTreeFromMap(nil)
+// newTree returns an empty tree
+func newTree() *tree {
+	return newTreeFromMap(nil)
 }
 
-// NewTreeFromMap returns a new tree containing the keys
+// newTreeFromMap returns a new tree containing the keys
 // from an existing map
-func NewTreeFromMap(m map[string]Handler) *Tree {
-	t := &Tree{root: &node{}}
+func newTreeFromMap(m map[string]Handler) *tree {
+	t := &tree{root: &node{}}
 	for k, v := range m {
 		t.Insert(k, v)
 	}
@@ -122,7 +122,7 @@ func NewTreeFromMap(m map[string]Handler) *Tree {
 }
 
 // Len is used to return the number of elements in the tree
-func (t *Tree) Len() int {
+func (t *tree) Len() int {
 	return t.size
 }
 
@@ -144,7 +144,7 @@ func longestPrefix(k1, k2 string) int {
 
 // Insert is used to add a newentry or update
 // an existing entry. Returns if updated.
-func (t *Tree) Insert(s string, v Handler) (Handler, bool) {
+func (t *tree) Insert(s string, v Handler) (Handler, bool) {
 	var parent *node
 	n := t.root
 	search := s
@@ -234,7 +234,7 @@ func (t *Tree) Insert(s string, v Handler) (Handler, bool) {
 
 // Delete is used to delete a key, returning the previous
 // value and if it was deleted
-func (t *Tree) Delete(s string) (Handler, bool) {
+func (t *tree) Delete(s string) (Handler, bool) {
 	var parent *node
 	var label byte
 	n := t.root
@@ -292,12 +292,12 @@ DELETE:
 // DeletePrefix is used to delete the subtree under a prefix
 // Returns how many nodes were deleted
 // Use this to delete large subtrees efficiently
-func (t *Tree) DeletePrefix(s string) int {
+func (t *tree) DeletePrefix(s string) int {
 	return t.deletePrefix(nil, t.root, s)
 }
 
 // delete does a recursive deletion
-func (t *Tree) deletePrefix(parent, n *node, prefix string) int {
+func (t *tree) deletePrefix(parent, n *node, prefix string) int {
 	// Check for key exhaustion
 	if len(prefix) == 0 {
 		// Remove the leaf node
@@ -346,7 +346,7 @@ func (n *node) mergeChild() {
 
 // Get is used to lookup a specific key, returning
 // the value and if it was found
-func (t *Tree) Get(s string) (Handler, bool) {
+func (t *tree) Get(s string) (Handler, bool) {
 	n := t.root
 	search := s
 	for {
@@ -376,7 +376,7 @@ func (t *Tree) Get(s string) (Handler, bool) {
 
 // LongestPrefix is like Get, but instead of an
 // exact match, it will return the longest prefix match.
-func (t *Tree) LongestPrefix(s string) (string, Handler, bool) {
+func (t *tree) LongestPrefix(s string) (string, Handler, bool) {
 	var last *leafNode
 	n := t.root
 	search := s
@@ -411,7 +411,7 @@ func (t *Tree) LongestPrefix(s string) (string, Handler, bool) {
 }
 
 // Minimum is used to return the minimum value in the tree
-func (t *Tree) Minimum() (string, Handler, bool) {
+func (t *tree) Minimum() (string, Handler, bool) {
 	n := t.root
 	for {
 		if n.isLeaf() {
@@ -427,7 +427,7 @@ func (t *Tree) Minimum() (string, Handler, bool) {
 }
 
 // Maximum is used to return the maximum value in the tree
-func (t *Tree) Maximum() (string, Handler, bool) {
+func (t *tree) Maximum() (string, Handler, bool) {
 	n := t.root
 	for {
 		if num := len(n.edges); num > 0 {
@@ -443,12 +443,12 @@ func (t *Tree) Maximum() (string, Handler, bool) {
 }
 
 // Walk is used to walk the tree
-func (t *Tree) Walk(fn WalkFn) {
+func (t *tree) Walk(fn WalkFn) {
 	recursiveWalk(t.root, fn)
 }
 
 // WalkPrefix is used to walk the tree under a prefix
-func (t *Tree) WalkPrefix(prefix string, fn WalkFn) {
+func (t *tree) WalkPrefix(prefix string, fn WalkFn) {
 	n := t.root
 	search := prefix
 	for {
@@ -483,7 +483,7 @@ func (t *Tree) WalkPrefix(prefix string, fn WalkFn) {
 // from the root down to a given leaf. Where WalkPrefix walks
 // all the entries *under* the given prefix, this walks the
 // entries *above* the given prefix.
-func (t *Tree) WalkPath(path string, fn WalkFn) {
+func (t *tree) WalkPath(path string, fn WalkFn) {
 	n := t.root
 	search := path
 	for {
@@ -530,7 +530,7 @@ func recursiveWalk(n *node, fn WalkFn) bool {
 }
 
 // ToMap is used to walk the tree and convert it into a map
-func (t *Tree) ToMap() map[string]Handler {
+func (t *tree) ToMap() map[string]Handler {
 	out := make(map[string]Handler, t.size)
 	t.Walk(func(k string, v Handler) bool {
 		out[k] = v
