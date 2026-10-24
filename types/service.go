@@ -1,7 +1,7 @@
 package types
 
 import (
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"strings"
 )
 
@@ -142,11 +142,11 @@ func (cq *CallbackQuery) Path() string {
 }
 
 // MessageID returns id of message.
-func (cq *CallbackQuery) MessageID() *args.MessageID {
+func (cq *CallbackQuery) MessageID() *content.MessageID {
 	if cq.IsFromInlineMessage() {
-		return args.InlineMessageID(cq.InlineMessageID)
+		return content.InlineMessageID(cq.InlineMessageID)
 	}
-	return args.ChatMessage(cq.Message.MessageID, cq.Message.Chat.ID)
+	return content.ChatMessage(cq.Message.MessageID, cq.Message.Chat.ID)
 }
 
 // InlineQuery is a Query from domain for an inline method.

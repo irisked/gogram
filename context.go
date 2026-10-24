@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/telegram/method"
@@ -144,7 +144,7 @@ func (c *Context) From() *types.User {
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (c *Context) Reply(text args.TextData, options ...method.Option[*method.SendMessage]) (types.Message, error) {
+func (c *Context) Reply(text content.TextData, options ...method.Option[*method.SendMessage]) (types.Message, error) {
 	return c.tg.SendMessage(c.stdCtx, c.ChatID(), text, options...)
 }
 
@@ -156,7 +156,7 @@ func (c *Context) Reply(text args.TextData, options ...method.Option[*method.Sen
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendphoto
-func (c *Context) ReplyWithPhoto(photo *args.PhotoConfig, options ...method.Option[*method.SendPhoto]) (types.Message, error) {
+func (c *Context) ReplyWithPhoto(photo *content.PhotoConfig, options ...method.Option[*method.SendPhoto]) (types.Message, error) {
 	return c.tg.SendPhoto(c.stdCtx, c.ChatID(), photo, options...)
 }
 
@@ -168,7 +168,7 @@ func (c *Context) ReplyWithPhoto(photo *args.PhotoConfig, options ...method.Opti
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendaudio
-func (c *Context) ReplyWithAudio(audio *args.AudioConfig, options ...method.Option[*method.SendAudio]) (types.Message, error) {
+func (c *Context) ReplyWithAudio(audio *content.AudioConfig, options ...method.Option[*method.SendAudio]) (types.Message, error) {
 	return c.tg.SendAudio(c.stdCtx, c.ChatID(), audio, options...)
 }
 
@@ -180,7 +180,7 @@ func (c *Context) ReplyWithAudio(audio *args.AudioConfig, options ...method.Opti
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideo
-func (c *Context) ReplyWithVideo(video *args.VideoConfig, options ...method.Option[*method.SendVideo]) (types.Message, error) {
+func (c *Context) ReplyWithVideo(video *content.VideoConfig, options ...method.Option[*method.SendVideo]) (types.Message, error) {
 	return c.tg.SendVideo(c.stdCtx, c.ChatID(), video, options...)
 }
 
@@ -192,7 +192,7 @@ func (c *Context) ReplyWithVideo(video *args.VideoConfig, options ...method.Opti
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendanimation
-func (c *Context) ReplyWithAnimation(animation *args.AnimationConfig, options ...method.Option[*method.SendAnimation]) (types.Message, error) {
+func (c *Context) ReplyWithAnimation(animation *content.AnimationConfig, options ...method.Option[*method.SendAnimation]) (types.Message, error) {
 	return c.tg.SendAnimation(c.stdCtx, c.ChatID(), animation, options...)
 }
 
@@ -204,7 +204,7 @@ func (c *Context) ReplyWithAnimation(animation *args.AnimationConfig, options ..
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#senddocument
-func (c *Context) ReplyWithDocument(document *args.DocumentConfig, options ...method.Option[*method.SendDocument]) (types.Message, error) {
+func (c *Context) ReplyWithDocument(document *content.DocumentConfig, options ...method.Option[*method.SendDocument]) (types.Message, error) {
 	return c.tg.SendDocument(c.stdCtx, c.ChatID(), document, options...)
 }
 
@@ -216,7 +216,7 @@ func (c *Context) ReplyWithDocument(document *args.DocumentConfig, options ...me
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvoice
-func (c *Context) ReplyWithVoice(voice *args.VoiceConfig, options ...method.Option[*method.SendVoice]) (types.Message, error) {
+func (c *Context) ReplyWithVoice(voice *content.VoiceConfig, options ...method.Option[*method.SendVoice]) (types.Message, error) {
 	return c.tg.SendVoice(c.stdCtx, c.ChatID(), voice, options...)
 }
 
@@ -228,7 +228,7 @@ func (c *Context) ReplyWithVoice(voice *args.VoiceConfig, options ...method.Opti
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideonote
-func (c *Context) ReplyWithVideoNote(videoNote *args.VideoNoteConfig, options ...method.Option[*method.SendVideoNote]) (types.Message, error) {
+func (c *Context) ReplyWithVideoNote(videoNote *content.VideoNoteConfig, options ...method.Option[*method.SendVideoNote]) (types.Message, error) {
 	return c.tg.SendVideoNote(c.stdCtx, c.ChatID(), videoNote, options...)
 }
 
@@ -239,7 +239,7 @@ func (c *Context) ReplyWithVideoNote(videoNote *args.VideoNoteConfig, options ..
 // option.DisableWebPagePreview(), option.ReplyToMessageID(id int),
 //
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
-func (c *Context) ReplyWithMediaGroup(mediaGroup []args.MediaGroupConfig, options ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
+func (c *Context) ReplyWithMediaGroup(mediaGroup []content.MediaGroupConfig, options ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
 	return c.tg.SendMediaGroup(c.stdCtx, c.ChatID(), mediaGroup, options...)
 }
 
@@ -454,7 +454,7 @@ func (c *Context) AnswerCallbackQuery(options ...method.Option[*method.AnswerCal
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (c *Context) EditMessageText(text args.TextData, options ...method.Option[*method.EditMessageText]) (*types.Message, error) {
+func (c *Context) EditMessageText(text content.TextData, options ...method.Option[*method.EditMessageText]) (*types.Message, error) {
 	return c.tg.EditMessageText(c.stdCtx, c.CallbackQuery().MessageID(), text, options...)
 }
 
@@ -466,7 +466,7 @@ func (c *Context) EditMessageText(text args.TextData, options ...method.Option[*
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (c *Context) EditMessageCaption(caption args.TextData, options ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
+func (c *Context) EditMessageCaption(caption content.TextData, options ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
 	return c.tg.EditMessageCaption(c.stdCtx, c.CallbackQuery().MessageID(), caption, options...)
 }
 
@@ -478,7 +478,7 @@ func (c *Context) EditMessageCaption(caption args.TextData, options ...method.Op
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
-func (c *Context) EditMessageMedia(media args.InputMediaConfig, options ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
+func (c *Context) EditMessageMedia(media content.InputMediaConfig, options ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
 	return c.tg.EditMessageMedia(c.stdCtx, c.CallbackQuery().MessageID(), media, options...)
 }
 

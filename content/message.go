@@ -1,4 +1,4 @@
-package args
+package content
 
 // MessageID struct.
 type MessageID struct {

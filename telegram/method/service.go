@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/types"
 )
 
@@ -86,7 +86,7 @@ type SetWebhook struct {
 }
 
 // NewSetWebhook creates SetWebhook.
-func NewSetWebhook(url string, file *args.File, fn ...func(*SetWebhook)) *SetWebhook {
+func NewSetWebhook(url string, file *content.File, fn ...func(*SetWebhook)) *SetWebhook {
 	m := &SetWebhook{
 		URL: url,
 	}

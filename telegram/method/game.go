@@ -1,7 +1,7 @@
 package method
 
 import (
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram/keyboard"
 )
 
@@ -15,7 +15,7 @@ type GetGameHighScores struct {
 }
 
 // NewGetGameHighScores creates GetGameHighScores.
-func NewGetGameHighScores(userID int, message args.MessageID) *GetGameHighScores {
+func NewGetGameHighScores(userID int, message content.MessageID) *GetGameHighScores {
 	method := new(GetGameHighScores)
 	method.UserID = userID
 	method.ChatID = message.ChatID
@@ -42,7 +42,7 @@ type SetGameScores struct {
 }
 
 // NewSetGameScores creates SetGameScores.
-func NewSetGameScores(userID, score int, message args.MessageID, fn ...func(*SetGameScores)) *SetGameScores {
+func NewSetGameScores(userID, score int, message content.MessageID, fn ...func(*SetGameScores)) *SetGameScores {
 	method := new(SetGameScores)
 	method.UserID = userID
 	method.Score = score

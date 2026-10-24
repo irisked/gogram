@@ -3,7 +3,7 @@ package telegram
 import (
 	"context"
 
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/types"
 )
@@ -16,7 +16,7 @@ import (
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendphoto
-func (t *Client) SendPhoto(ctx context.Context, chatID int64, photo *args.PhotoConfig, opts ...method.Option[*method.SendPhoto]) (types.Message, error) {
+func (t *Client) SendPhoto(ctx context.Context, chatID int64, photo *content.PhotoConfig, opts ...method.Option[*method.SendPhoto]) (types.Message, error) {
 	m := method.NewSendPhoto(chatID, photo, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -31,7 +31,7 @@ func (t *Client) SendPhoto(ctx context.Context, chatID int64, photo *args.PhotoC
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendaudio
-func (t *Client) SendAudio(ctx context.Context, chatID int64, audio *args.AudioConfig, opts ...method.Option[*method.SendAudio]) (types.Message, error) {
+func (t *Client) SendAudio(ctx context.Context, chatID int64, audio *content.AudioConfig, opts ...method.Option[*method.SendAudio]) (types.Message, error) {
 	m := method.NewSendAudio(chatID, audio, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -46,7 +46,7 @@ func (t *Client) SendAudio(ctx context.Context, chatID int64, audio *args.AudioC
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#senddocument
-func (t *Client) SendDocument(ctx context.Context, chatID int64, document *args.DocumentConfig, opts ...method.Option[*method.SendDocument]) (types.Message, error) {
+func (t *Client) SendDocument(ctx context.Context, chatID int64, document *content.DocumentConfig, opts ...method.Option[*method.SendDocument]) (types.Message, error) {
 	m := method.NewSendDocument(chatID, document, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -61,7 +61,7 @@ func (t *Client) SendDocument(ctx context.Context, chatID int64, document *args.
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideo
-func (t *Client) SendVideo(ctx context.Context, chatID int64, video *args.VideoConfig, opts ...method.Option[*method.SendVideo]) (types.Message, error) {
+func (t *Client) SendVideo(ctx context.Context, chatID int64, video *content.VideoConfig, opts ...method.Option[*method.SendVideo]) (types.Message, error) {
 	m := method.NewSendVideo(chatID, video, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -76,7 +76,7 @@ func (t *Client) SendVideo(ctx context.Context, chatID int64, video *args.VideoC
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendanimation
-func (t *Client) SendAnimation(ctx context.Context, chatID int64, animation *args.AnimationConfig, opts ...method.Option[*method.SendAnimation]) (types.Message, error) {
+func (t *Client) SendAnimation(ctx context.Context, chatID int64, animation *content.AnimationConfig, opts ...method.Option[*method.SendAnimation]) (types.Message, error) {
 	m := method.NewSendAnimation(chatID, animation, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -91,7 +91,7 @@ func (t *Client) SendAnimation(ctx context.Context, chatID int64, animation *arg
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvoice
-func (t *Client) SendVoice(ctx context.Context, chatID int64, voice *args.VoiceConfig, opts ...method.Option[*method.SendVoice]) (types.Message, error) {
+func (t *Client) SendVoice(ctx context.Context, chatID int64, voice *content.VoiceConfig, opts ...method.Option[*method.SendVoice]) (types.Message, error) {
 	m := method.NewSendVoice(chatID, voice, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -106,7 +106,7 @@ func (t *Client) SendVoice(ctx context.Context, chatID int64, voice *args.VoiceC
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendvideonote
-func (t *Client) SendVideoNote(ctx context.Context, chatID int64, videoNote *args.VideoNoteConfig, opts ...method.Option[*method.SendVideoNote]) (types.Message, error) {
+func (t *Client) SendVideoNote(ctx context.Context, chatID int64, videoNote *content.VideoNoteConfig, opts ...method.Option[*method.SendVideoNote]) (types.Message, error) {
 	m := method.NewSendVideoNote(chatID, videoNote, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -121,7 +121,7 @@ func (t *Client) SendVideoNote(ctx context.Context, chatID int64, videoNote *arg
 //
 // Reference: https://core.telegram.org/bots/api#sendmediagroup
 // TODO: parse response to array.
-func (t *Client) SendMediaGroup(ctx context.Context, chatID int64, mediaGroup []args.MediaGroupConfig, opts ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
+func (t *Client) SendMediaGroup(ctx context.Context, chatID int64, mediaGroup []content.MediaGroupConfig, opts ...method.Option[*method.SendMediaGroup]) ([]types.Message, error) {
 	m := method.NewSendMediaGroup(chatID, mediaGroup, opts...)
 	var messages []types.Message
 	err := t.process(ctx, m, &messages)
@@ -136,7 +136,7 @@ func (t *Client) SendMediaGroup(ctx context.Context, chatID int64, mediaGroup []
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
-func (t *Client) EditMessageMedia(ctx context.Context, messageID *args.MessageID, media args.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
+func (t *Client) EditMessageMedia(ctx context.Context, messageID *content.MessageID, media content.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
 	m := method.NewEditMessageMedia(messageID, media, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)

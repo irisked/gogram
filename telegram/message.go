@@ -3,7 +3,7 @@ package telegram
 import (
 	"context"
 
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/telegram/method"
 	"github.com/irisked/gogram/types"
@@ -17,7 +17,7 @@ import (
 // option.ReplyToMessageID(id int), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#sendmessage
-func (t *Client) SendMessage(ctx context.Context, chatID int64, text args.TextData, opts ...method.Option[*method.SendMessage]) (types.Message, error) {
+func (t *Client) SendMessage(ctx context.Context, chatID int64, text content.TextData, opts ...method.Option[*method.SendMessage]) (types.Message, error) {
 	m := method.NewSendMessage(chatID, text, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -46,7 +46,7 @@ func (t *Client) ForwardMessage(ctx context.Context, chatID, fromChatID, message
 // option.DisableWebPagePreview(), option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagetext
-func (t *Client) EditMessageText(ctx context.Context, messageID *args.MessageID, text args.TextData, opts ...method.Option[*method.EditMessageText]) (*types.Message, error) {
+func (t *Client) EditMessageText(ctx context.Context, messageID *content.MessageID, text content.TextData, opts ...method.Option[*method.EditMessageText]) (*types.Message, error) {
 	m := method.NewEditMessageText(messageID, text, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -61,7 +61,7 @@ func (t *Client) EditMessageText(ctx context.Context, messageID *args.MessageID,
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagecaption
-func (t *Client) EditMessageCaption(ctx context.Context, messageID *args.MessageID, caption args.TextData, opts ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
+func (t *Client) EditMessageCaption(ctx context.Context, messageID *content.MessageID, caption content.TextData, opts ...method.Option[*method.EditMessageCaption]) (*types.Message, error) {
 	m := method.NewEditMessageCaption(messageID, caption, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -72,7 +72,7 @@ func (t *Client) EditMessageCaption(ctx context.Context, messageID *args.Message
 // Returns pointer to the message, if message was sent by the bot or nil-pointer.
 //
 // Reference: https://core.telegram.org/bots/api#editmessagereplymarkup
-func (t *Client) EditMessageReplyMarkup(ctx context.Context, messageID *args.MessageID, kb keyboard.Markup) (*types.Message, error) {
+func (t *Client) EditMessageReplyMarkup(ctx context.Context, messageID *content.MessageID, kb keyboard.Markup) (*types.Message, error) {
 	m := method.NewEditMessageReplyMarkup(messageID, kb)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)

@@ -5,7 +5,7 @@ Telegram bot framework.
   import (
     "context"
 
-    "github.com/irisked/gogram/args"
+    "github.com/irisked/gogram/content"
     "github.com/irisked/gogram/option"
     "github.com/irisked/gogram/telegram/method"
     "github.com/irisked/gogram/telegram/keyboard/inline"
@@ -13,10 +13,10 @@ Telegram bot framework.
   )
 	bot := gogram.New("<token>")
 	bot.OnMessage(func (ctx *gogram.Context) {
-		ctx.Reply(args.Text("test response"))
+		ctx.Reply(content.Text("test response"))
 	})
 	bot.OnEditedMessage(func (ctx *gogram.Context) {
-		ctx.Reply(args.Text("test edited response"))
+		ctx.Reply(content.Text("test edited response"))
 	})
 	bot.OnSticker(func (ctx *gogram.Context) {
 		kb := inline.NewKeyboard(
@@ -24,19 +24,19 @@ Telegram bot framework.
 			inline.NewButton("test2", inline.Callback("test", "1")),
 			inline.NewButton("test2", inline.Callback("test-callback1", "1")),
 		)
-		ctx.Reply(args.Text("stiker response"), option.Keyboard[*method.SendMessage](kb))
+		ctx.Reply(content.Text("stiker response"), option.Keyboard[*method.SendMessage](kb))
 	})
 	bot.OnCommand("test", func (ctx *gogram.Context) {
-		ctx.Reply(args.Markdown("```test```"))
+		ctx.Reply(content.Markdown("```test```"))
 	})
 	bot.OnCallbackQuery(func (ctx *gogram.Context) {
-		ctx.Reply(args.Markdown("```test-generic```"))
+		ctx.Reply(content.Markdown("```test-generic```"))
 	})
 	bot.OnCallback("test-callback", func (ctx *gogram.Context) {
-		ctx.Reply(args.Markdown("```test-callback```"))
+		ctx.Reply(content.Markdown("```test-callback```"))
 	})
 	bot.OnCallback("test-callback1", func (ctx *gogram.Context) {
-		ctx.Reply(args.Markdown("```test-callback1```"))
+		ctx.Reply(content.Markdown("```test-callback1```"))
 	})
 	bot.StartPolling(context.Background())
 ```

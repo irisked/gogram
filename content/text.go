@@ -1,4 +1,4 @@
-package args
+package content
 
 // TextData text data.
 type TextData struct {

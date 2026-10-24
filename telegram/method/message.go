@@ -1,7 +1,7 @@
 package method
 
 import (
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram/keyboard"
 )
 
@@ -24,7 +24,7 @@ type SendMessage struct {
 }
 
 // NewSendMessage creates SendMessage.
-func NewSendMessage(chatID int64, text args.TextData, opts ...Option[*SendMessage]) *SendMessage {
+func NewSendMessage(chatID int64, text content.TextData, opts ...Option[*SendMessage]) *SendMessage {
 	m := &SendMessage{
 		ChatID: chatID,
 		Text:   text.Text,
@@ -52,7 +52,7 @@ type EditMessageText struct {
 }
 
 // NewEditMessageText creates EditMessageText.
-func NewEditMessageText(message *args.MessageID, text args.TextData, opts ...Option[*EditMessageText]) *EditMessageText {
+func NewEditMessageText(message *content.MessageID, text content.TextData, opts ...Option[*EditMessageText]) *EditMessageText {
 	m := &EditMessageText{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
@@ -108,7 +108,7 @@ type EditMessageCaption struct {
 }
 
 // NewEditMessageCaption creates EditMessageCaption
-func NewEditMessageCaption(message *args.MessageID, text args.TextData, opts ...Option[*EditMessageCaption]) *EditMessageCaption {
+func NewEditMessageCaption(message *content.MessageID, text content.TextData, opts ...Option[*EditMessageCaption]) *EditMessageCaption {
 	m := &EditMessageCaption{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
@@ -143,7 +143,7 @@ func (r *EditMessageReplyMarkup) Method() string {
 }
 
 // NewEditMessageReplyMarkup creates EditMessageReplyMarkup.
-func NewEditMessageReplyMarkup(message *args.MessageID, kb keyboard.Markup, opts ...Option[*EditMessageReplyMarkup]) *EditMessageReplyMarkup {
+func NewEditMessageReplyMarkup(message *content.MessageID, kb keyboard.Markup, opts ...Option[*EditMessageReplyMarkup]) *EditMessageReplyMarkup {
 	m := &EditMessageReplyMarkup{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,

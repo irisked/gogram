@@ -1,7 +1,7 @@
 package method
 
 import (
-	"github.com/irisked/gogram/args"
+	"github.com/irisked/gogram/content"
 	"github.com/irisked/gogram/telegram/keyboard"
 	"github.com/irisked/gogram/types"
 )
@@ -169,7 +169,7 @@ type EditMessageLiveLocation struct {
 }
 
 // NewEditMessageLiveLocation creates EditMessageLiveLocation.
-func NewEditMessageLiveLocation(message *args.MessageID, location types.Location, opts ...Option[*EditMessageLiveLocation]) *EditMessageLiveLocation {
+func NewEditMessageLiveLocation(message *content.MessageID, location types.Location, opts ...Option[*EditMessageLiveLocation]) *EditMessageLiveLocation {
 	m := &EditMessageLiveLocation{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
@@ -203,7 +203,7 @@ type StopMessageLiveLocation struct {
 }
 
 // NewStopMessageLiveLocation creates StopMessageLiveLocation.
-func NewStopMessageLiveLocation(message *args.MessageID, opts ...Option[*StopMessageLiveLocation]) *StopMessageLiveLocation {
+func NewStopMessageLiveLocation(message *content.MessageID, opts ...Option[*StopMessageLiveLocation]) *StopMessageLiveLocation {
 	m := &StopMessageLiveLocation{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
