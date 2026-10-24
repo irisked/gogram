@@ -12,7 +12,7 @@ type Handler func (ctx *Context)
 
 // Gogram its a telegram bot framework
 type Gogram struct {
-	telegram *telegram.Telegram
+	telegram *telegram.Client
 	dispatcher Dispatcher
 	poller Poller
 	done chan interface{}

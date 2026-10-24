@@ -22,11 +22,11 @@ type pollingConfig struct {
 
 type poller struct {
 	config pollingConfig
-	tg     *telegram.Telegram
+	tg     *telegram.Client
 }
 
 // NewPoller creates poller.
-func NewPoller(tg *telegram.Telegram, limit int) Poller {
+func NewPoller(tg *telegram.Client, limit int) Poller {
 	p := poller{
 		config: pollingConfig{
 			offset:  -1,

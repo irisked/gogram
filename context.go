@@ -9,20 +9,20 @@ import (
 	"os"
 )
 
-// Context its gogram context.
+// Context is gogram's bot-update context.
 type Context struct {
 	update types.Update
-	tg     telegram.Telegram
+	tg     telegram.Client
 	State  map[string]interface{}
 }
 
-// NewContext creates context.
-func NewContext(telegram telegram.Telegram, update types.Update) *Context {
-	context := new(Context)
-	context.tg = telegram
-	context.update = update
-	context.State = make(map[string]interface{})
-	return context
+// NewContext creates a Context for the given update.
+func NewContext(tg telegram.Client, update types.Update) *Context {
+	c := new(Context)
+	c.tg = tg
+	c.update = update
+	c.State = make(map[string]interface{})
+	return c
 }
 
 // Update returns raw update.
@@ -30,8 +30,8 @@ func (c *Context) Update() types.Update {
 	return c.update
 }
 
-// Telegram returns telegram.
-func (c *Context) Telegram() telegram.Telegram {
+// Client returns the Telegram Bot API client.
+func (c *Context) Client() telegram.Client {
 	return c.tg
 }
 
