@@ -27,8 +27,7 @@ func (t *Telegram) process(m method.TelegramMethod, result interface{}) error {
 	if err != nil {
 		return err
 	}
-	json.Unmarshal(response.Result, result)
-	return nil
+	return json.Unmarshal(response.Result, result)
 }
 
 // GetMe performs getMe telegram api method.

@@ -37,7 +37,7 @@ type ResponseParameters struct {
 }
 
 func (rp *ResponseParameters) String() string {
-	return fmt.Sprintf(string(rp.MigrateToChatID), " ", string(rp.RetryAfter))
+	return fmt.Sprintf("migrate_to_chat_id=%d retry_after=%d", rp.MigrateToChatID, rp.RetryAfter)
 }
 
 // Client represents a telegram api client.
@@ -64,6 +64,9 @@ func (c *Client) Token() string {
 // Call builds http request and performs its from passed telegram method.
 func (c *Client) Call(method method.TelegramMethod) (Response, error) {
 	req, err := c.buildRequest(method)
+	if err != nil {
+		return Response{}, err
+	}
 	res, err := c.httpClient.Do(req)
 	if err != nil {
 		return Response{}, err
@@ -91,7 +94,6 @@ func (c *Client) buildMultipartRequest(method method.TelegramMethod) (*http.Requ
 
 func (c *Client) buildJSONRequest(method method.TelegramMethod) (*http.Request, error) {
 	buffer, contentType, err := ToJSON(method)
-	fmt.Println(buffer)
 	if err != nil {
 		return nil, err
 	}

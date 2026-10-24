@@ -1,8 +1,8 @@
 package gogram
 
 import (
-	"fmt"
 	"sync"
+
 	"github.com/irisked/gogram/telegram"
 	"github.com/irisked/gogram/types"
 )
@@ -58,9 +58,6 @@ func (g *Gogram) startPolling() {
 }
 
 func (g *Gogram) handle(update types.Update) {
-	fmt.Println("raw update:")
-	fmt.Println(update.CallbackQuery)
-	fmt.Println(update.Path())
 	ctx := NewContext(*g.telegram, update)
 	g.dispatcher.Handle(ctx)
 }
