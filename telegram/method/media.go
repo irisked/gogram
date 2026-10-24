@@ -655,7 +655,7 @@ func (m *EditMessageMedia) IsMultipart() bool {
 }
 
 // NewEditMessageMedia creates EditMessageMedia.
-func NewEditMessageMedia(message *content.MessageID, media content.InputMediaConfig, opts ...Option[*EditMessageMedia]) *EditMessageMedia {
+func NewEditMessageMedia(message *content.MessageTarget, media content.InputMediaConfig, opts ...Option[*EditMessageMedia]) *EditMessageMedia {
 	method := new(EditMessageMedia)
 	method.ChatID = message.ChatID
 	method.MessageID = message.MessageID

@@ -69,7 +69,7 @@ func (t *Client) StopPoll(ctx context.Context, chatID int64, messageID int, opts
 // option.EditMessageLiveLocationReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#editmessagelivelocation
-func (t *Client) EditMessageLiveLocation(ctx context.Context, messageID *content.MessageID, location types.Location, opts ...method.Option[*method.EditMessageLiveLocation]) (*types.Message, error) {
+func (t *Client) EditMessageLiveLocation(ctx context.Context, messageID *content.MessageTarget, location types.Location, opts ...method.Option[*method.EditMessageLiveLocation]) (*types.Message, error) {
 	m := method.NewEditMessageLiveLocation(messageID, location, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)
@@ -83,7 +83,7 @@ func (t *Client) EditMessageLiveLocation(ctx context.Context, messageID *content
 // option.StopMessageLiveLocationReplyMarkup()
 //
 // Reference: https://core.telegram.org/bots/api#stopmessagelivelocation
-func (t *Client) StopMessageLiveLocation(ctx context.Context, messageID *content.MessageID, opts ...method.Option[*method.StopMessageLiveLocation]) (*types.Message, error) {
+func (t *Client) StopMessageLiveLocation(ctx context.Context, messageID *content.MessageTarget, opts ...method.Option[*method.StopMessageLiveLocation]) (*types.Message, error) {
 	m := method.NewStopMessageLiveLocation(messageID, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)

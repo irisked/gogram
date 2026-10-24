@@ -136,7 +136,7 @@ func (t *Client) SendMediaGroup(ctx context.Context, chatID int64, mediaGroup []
 // option.Keyboard(keyboard markup.Keyboard)
 //
 // Reference: https://core.telegram.org/bots/api#editmessagemedia
-func (t *Client) EditMessageMedia(ctx context.Context, messageID *content.MessageID, media content.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
+func (t *Client) EditMessageMedia(ctx context.Context, messageID *content.MessageTarget, media content.InputMediaConfig, opts ...method.Option[*method.EditMessageMedia]) (*types.Message, error) {
 	m := method.NewEditMessageMedia(messageID, media, opts...)
 	message := types.Message{}
 	err := t.process(ctx, m, &message)

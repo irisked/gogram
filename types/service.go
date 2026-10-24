@@ -142,7 +142,7 @@ func (cq *CallbackQuery) Path() string {
 }
 
 // MessageID returns id of message.
-func (cq *CallbackQuery) MessageID() *content.MessageID {
+func (cq *CallbackQuery) MessageID() *content.MessageTarget {
 	if cq.IsFromInlineMessage() {
 		return content.InlineMessageID(cq.InlineMessageID)
 	}

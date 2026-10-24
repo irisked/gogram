@@ -169,7 +169,7 @@ type EditMessageLiveLocation struct {
 }
 
 // NewEditMessageLiveLocation creates EditMessageLiveLocation.
-func NewEditMessageLiveLocation(message *content.MessageID, location types.Location, opts ...Option[*EditMessageLiveLocation]) *EditMessageLiveLocation {
+func NewEditMessageLiveLocation(message *content.MessageTarget, location types.Location, opts ...Option[*EditMessageLiveLocation]) *EditMessageLiveLocation {
 	m := &EditMessageLiveLocation{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,
@@ -203,7 +203,7 @@ type StopMessageLiveLocation struct {
 }
 
 // NewStopMessageLiveLocation creates StopMessageLiveLocation.
-func NewStopMessageLiveLocation(message *content.MessageID, opts ...Option[*StopMessageLiveLocation]) *StopMessageLiveLocation {
+func NewStopMessageLiveLocation(message *content.MessageTarget, opts ...Option[*StopMessageLiveLocation]) *StopMessageLiveLocation {
 	m := &StopMessageLiveLocation{
 		ChatID:          message.ChatID,
 		MessageID:       message.MessageID,

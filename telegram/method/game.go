@@ -15,7 +15,7 @@ type GetGameHighScores struct {
 }
 
 // NewGetGameHighScores creates GetGameHighScores.
-func NewGetGameHighScores(userID int, message content.MessageID) *GetGameHighScores {
+func NewGetGameHighScores(userID int, message content.MessageTarget) *GetGameHighScores {
 	method := new(GetGameHighScores)
 	method.UserID = userID
 	method.ChatID = message.ChatID
@@ -42,7 +42,7 @@ type SetGameScores struct {
 }
 
 // NewSetGameScores creates SetGameScores.
-func NewSetGameScores(userID, score int, message content.MessageID, fn ...func(*SetGameScores)) *SetGameScores {
+func NewSetGameScores(userID, score int, message content.MessageTarget, fn ...func(*SetGameScores)) *SetGameScores {
 	method := new(SetGameScores)
 	method.UserID = userID
 	method.Score = score
