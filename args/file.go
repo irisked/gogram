@@ -69,20 +69,12 @@ func (pc *PhotoConfig) MediaGroupConfig() (string, map[string]*os.File) {
 }
 
 // Photo photo.
-func Photo(file *File, options ...PhotoConfigOption) *PhotoConfig {
+func Photo(file *File) *PhotoConfig {
 	photo := new(PhotoConfig)
 	photo.Type = "photo"
 	photo.Local = file.Local
 	photo.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyPhotoConfigOption(photo)
-	}
 	return photo
-}
-
-// PhotoConfigOption its an functional parameters interface.
-type PhotoConfigOption interface {
-	ApplyPhotoConfigOption(*PhotoConfig)
 }
 
 // AudioConfig its an photo parameter.
@@ -110,20 +102,12 @@ func (ad *AudioConfig) InputMediaConfig() (string, map[string]*os.File) {
 }
 
 // Audio its an audio parameter setter.
-func Audio(file *File, options ...AudioConfigOption) *AudioConfig {
+func Audio(file *File) *AudioConfig {
 	audio := new(AudioConfig)
 	audio.Type = "audio"
 	audio.Local = file.Local
 	audio.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyAudioConfigOption(audio)
-	}
 	return audio
-}
-
-// AudioConfigOption its an functional parameters interface.
-type AudioConfigOption interface {
-	ApplyAudioConfigOption(*AudioConfig)
 }
 
 // DocumentConfig its an photo parameter.
@@ -148,20 +132,12 @@ func (dd *DocumentConfig) InputMediaConfig() (string, map[string]*os.File) {
 }
 
 // Document its an document parameter setter.
-func Document(file *File, options ...DocumentConfigOption) *DocumentConfig {
+func Document(file *File) *DocumentConfig {
 	doc := new(DocumentConfig)
 	doc.Type = "document"
 	doc.Local = file.Local
 	doc.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyDocumentConfigOption(doc)
-	}
 	return doc
-}
-
-// DocumentConfigOption its an functional parameters interface.
-type DocumentConfigOption interface {
-	ApplyDocumentConfigOption(*DocumentConfig)
 }
 
 // VideoConfig its an photo parameter.
@@ -200,20 +176,12 @@ func (vd *VideoConfig) MediaGroupConfig() (string, map[string]*os.File) {
 }
 
 // Video its an video parameter setter.
-func Video(file *File, options ...VideoConfigOption) *VideoConfig {
+func Video(file *File) *VideoConfig {
 	video := new(VideoConfig)
 	video.Type = "video"
 	video.Local = file.Local
 	video.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyVideoConfigOption(video)
-	}
 	return video
-}
-
-// VideoConfigOption its an functional parameters interface.
-type VideoConfigOption interface {
-	ApplyVideoConfigOption(*VideoConfig)
 }
 
 // AnimationConfig its an photo parameter.
@@ -240,20 +208,12 @@ func (ad *AnimationConfig) InputMediaConfig() (string, map[string]*os.File) {
 	return stringified, files
 }
 
-// AnimationConfigOption its an functional parameters interface.
-type AnimationConfigOption interface {
-	ApplyAnimationConfigOption(*AnimationConfig)
-}
-
 // Animation its an video parameter setter.
-func Animation(file *File, options ...AnimationConfigOption) *AnimationConfig {
+func Animation(file *File) *AnimationConfig {
 	animation := new(AnimationConfig)
 	animation.Type = "animation"
 	animation.Local = file.Local
 	animation.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyAnimationConfigOption(animation)
-	}
 	return animation
 }
 
@@ -268,19 +228,11 @@ type VoiceConfig struct {
 }
 
 // Voice its an audio parameter setter.
-func Voice(file *File, options ...VoiceConfigOption) *VoiceConfig {
+func Voice(file *File) *VoiceConfig {
 	voice := new(VoiceConfig)
 	voice.Local = file.Local
 	voice.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyVoiceConfigOption(voice)
-	}
 	return voice
-}
-
-// VoiceConfigOption its an functional parameters interface.
-type VoiceConfigOption interface {
-	ApplyVoiceConfigOption(*VoiceConfig)
 }
 
 // VideoNoteConfig its an photo parameter.
@@ -294,17 +246,9 @@ type VideoNoteConfig struct {
 }
 
 // VideoNote its an video parameter setter.
-func VideoNote(file *File, options ...VideoNoteConfigOption) *VideoNoteConfig {
+func VideoNote(file *File) *VideoNoteConfig {
 	videoNote := new(VideoNoteConfig)
 	videoNote.Local = file.Local
 	videoNote.Reference = file.Reference
-	for _, option := range options {
-		option.ApplyVideoNoteConfigOption(videoNote)
-	}
 	return videoNote
-}
-
-// VideoNoteConfigOption its an functional parameters interface.
-type VideoNoteConfigOption interface {
-	ApplyVideoNoteConfigOption(*VideoNoteConfig)
 }
